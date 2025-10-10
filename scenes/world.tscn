@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://dcnexdcn8xq20"]
+
+[ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
+[ext_resource type="PackedScene" uid="uid://cv0klkobsceiv" path="res://scenes/player.tscn" id="2_4wyf3"]
+[ext_resource type="Script" uid="uid://bc18dgy4sb3i" path="res://scripts/grid_map.gd" id="2_k0juu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4wyf3"]
+noise_type = 3
+seed = 49
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k0juu"]
+noise_type = 5
+frequency = 1.0
+fractal_type = 0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rwgxs"]
+sky_top_color = Color(0.38431373, 0.45490196, 1, 1)
+sky_horizon_color = Color(0.42765832, 0.6727371, 1, 1)
+ground_bottom_color = Color(0.0460363, 0.15494363, 0.4777054, 1)
+ground_horizon_color = Color(0.42745098, 0.6745098, 1, 1)
+ground_curve = 0.15455048
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_4wyf3"]
+sky_material = SubResource("ProceduralSkyMaterial_rwgxs")
+
+[sub_resource type="Environment" id="Environment_k0juu"]
+background_mode = 2
+sky = SubResource("Sky_4wyf3")
+ambient_light_color = Color(1, 1, 1, 1)
+reflected_light_source = 1
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 3.0
+ssil_enabled = true
+volumetric_fog_albedo = Color(0, 0, 1, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="Chunks" type="Node3D" parent="."]
+
+[node name="GridMap" type="GridMap" parent="."]
+visible = false
+mesh_library = ExtResource("1_rwgxs")
+collision_mask = 2
+script = ExtResource("2_k0juu")
+noise = SubResource("FastNoiseLite_4wyf3")
+rand_noise = SubResource("FastNoiseLite_k0juu")
+height = 26
+metadata/_editor_floor_ = Vector3(0, -2, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_4wyf3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k0juu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8660254, -0.50000006, 0, 0.4330127, 0.7500001, 0.50000006, -0.25, -0.43301275, 0.8660255, 0, 0, 0)
+shadow_enabled = true
+shadow_blur = 1.134
+directional_shadow_split_1 = 0.05
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.2
+directional_shadow_blend_splits = true

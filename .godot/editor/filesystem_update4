@@ -1,0 +1,4 @@
+res://scenes/game.tscn
+res://materials/dirt.tres
+res://resources/blocks.tres
+res://scripts/grid_map.gd

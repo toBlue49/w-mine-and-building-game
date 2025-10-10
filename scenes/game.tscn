@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://4c7l2min62xx"]
+
+[ext_resource type="Script" uid="uid://b2ndcm1u8rfsx" path="res://scripts/game.gd" id="1_uwrxv"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_uwrxv")
+
+[node name="GlobalControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Loading" type="ColorRect" parent="GlobalControl"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.26239687, 0.26239687, 0.26239687, 1)
+
+[node name="Label" type="Label" parent="GlobalControl/Loading"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 56
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="GlobalControl"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0.3c"
+
+[node name="date" type="Label" parent="GlobalControl"]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 47.0
+offset_bottom = 47.0
+text = "DATE"
+
+[node name="Scene" type="Node" parent="."]

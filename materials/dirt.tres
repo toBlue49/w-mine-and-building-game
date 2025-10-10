@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bdwr4klii6v0p"]
+
+[ext_resource type="Texture2D" uid="uid://s5nibcfe6mpc" path="res://textures/dirt.png" id="1_5hcu8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3jd7w"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[resource]
+albedo_texture = ExtResource("1_5hcu8")
+normal_texture = SubResource("CompressedTexture2D_3jd7w")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
