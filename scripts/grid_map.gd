@@ -48,12 +48,11 @@ func update_gridmap():
 	gotten_y.clear()
 
 func render_gridmap():
-	for i in get_used_cells():
+	@warning_ignore("integer_division")
+	for xpos in size/chunk_size:
 		@warning_ignore("integer_division")
-		var chunk = str("x", floor(i.x/chunk_size), "z", floor(i.z/chunk_size))
-		var chunk_node = chunks.get_node(chunk)
-		if get_cell_item(i + Vector3i(0, 1, 0)) == -1 or get_cell_item(i + Vector3i(0, -1, 0)) == -1 or get_cell_item(i + Vector3i(1, 0, 0)) == -1 or get_cell_item(i + Vector3i(-1, 0, 0)) == -1 or get_cell_item(i + Vector3i(0, 0, 1)) == -1 or get_cell_item(i + Vector3i(0, 0, -1)) == -1:
-			chunk_node.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
+		for zpos in size/chunk_size:
+			update_single_chunk(chunks.get_node("x" + str(xpos) + "z" + str(zpos)), xpos, zpos, Vector3i(0, 0, 0))
 
 func render_chunk(gridmap, x, z):
 	for y in 128:
@@ -61,6 +60,10 @@ func render_chunk(gridmap, x, z):
 			for lz in chunk_size:
 				var i = Vector3i(lx+chunk_size*x, y, lz+chunk_size*z)
 				if get_cell_item(i + Vector3i(0, 1, 0)) == -1 or get_cell_item(i + Vector3i(0, -1, 0)) == -1 or get_cell_item(i + Vector3i(1, 0, 0)) == -1 or get_cell_item(i + Vector3i(-1, 0, 0)) == -1 or get_cell_item(i + Vector3i(0, 0, 1)) == -1 or get_cell_item(i + Vector3i(0, 0, -1)) == -1:
+					#if air
+					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
+				elif get_cell_item(i + Vector3i(0, 1, 0)) == 3 or get_cell_item(i + Vector3i(0, -1, 0)) == 3 or get_cell_item(i + Vector3i(1, 0, 0)) == 3 or get_cell_item(i + Vector3i(-1, 0, 0)) == 3 or get_cell_item(i + Vector3i(0, 0, 1)) == 3 or get_cell_item(i + Vector3i(0, 0, -1)) == 3:
+					#if leaves
 					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
 
 func update_single_chunk(gridmap: GridMap, x , z, global_map_pos):
@@ -104,9 +107,27 @@ func generate_features():
 		for z in size:
 			if get_rand_noise(x, z) >= 975: #Trees
 				print("Generate Tree at" + str(x) + ";" + str(z))
-				set_cell_item(Vector3i(x, get_height(x, z) + y_offset+1, z), 1)
+				place_tree(x, get_height(x, z) + y_offset, z)
+
+func place_tree(x, y, z):
+	var tree_height:int
+	if get_rand_noise(x, z+100) >= 800:
+		tree_height = 4
+	else:
+		tree_height = 5
+	
+	for y_leaves in 3:
+		print("y level leaves: " + str(y_leaves))
+		for x_leaves in 3:
+			for z_leaves in 3:
+				set_cell_item(Vector3i(x+(x_leaves-1), y+y_leaves+tree_height-1, z+(z_leaves-1)), 4)
+
+	for i in tree_height:
+		set_cell_item(Vector3i(x, y+i+1, z), 3)
 
 func GENERATE():
+	#set rand_noise seed:
+	rand_noise.seed = noise.seed
 	
 	print("Generating Gridmap")
 	update_gridmap()

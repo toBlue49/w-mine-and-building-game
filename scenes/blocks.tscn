@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://mkxxfvmbvtbw"]
+[gd_scene load_steps=16 format=3 uid="uid://mkxxfvmbvtbw"]
 
 [ext_resource type="Material" uid="uid://cdurrvsyu72c4" path="res://materials/grass.tres" id="1_giubl"]
 [ext_resource type="Material" uid="uid://bpujx28qo8ikc" path="res://materials/stone.tres" id="2_3jd7w"]
 [ext_resource type="Material" uid="uid://bdwr4klii6v0p" path="res://materials/dirt.tres" id="3_3jd7w"]
+[ext_resource type="Texture2D" uid="uid://qla60ufdxl1n" path="res://textures/log.png" id="4_cntrl"]
+[ext_resource type="Texture2D" uid="uid://bo40iesw6exp6" path="res://textures/leaves.png" id="5_irvtj"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irvtj"]
 material = ExtResource("1_giubl")
@@ -17,6 +19,38 @@ size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_1mwmw"]
 material = ExtResource("3_3jd7w")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_irvtj"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ow8de"]
+albedo_texture = ExtResource("4_cntrl")
+normal_texture = SubResource("CompressedTexture2D_irvtj")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_wro84"]
+material = SubResource("StandardMaterial3D_ow8de")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cirlu"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mpxed"]
+transparency = 2
+alpha_scissor_threshold = 0.168
+alpha_antialiasing_mode = 0
+depth_draw_mode = 1
+albedo_texture = ExtResource("5_irvtj")
+normal_texture = SubResource("CompressedTexture2D_cirlu")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_nnip7"]
+material = SubResource("StandardMaterial3D_mpxed")
 size = Vector3(2, 2, 2)
 
 [node name="blocks" type="Node3D"]
@@ -45,4 +79,22 @@ mesh = SubResource("BoxMesh_1mwmw")
 [node name="StaticBody3D" type="StaticBody3D" parent="Dirt"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dirt/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="Log" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+mesh = SubResource("BoxMesh_wro84")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Log"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Log/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="Leaves" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+mesh = SubResource("BoxMesh_nnip7")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Leaves"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Leaves/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")
