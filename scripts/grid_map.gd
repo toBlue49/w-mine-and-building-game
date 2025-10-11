@@ -1,6 +1,6 @@
 extends GridMap
 
-const size := 128
+const size := 176
 const chunk_size := 8
 var gotten_y = []
 @onready var chunks: Node3D = $"../Chunks"
@@ -106,7 +106,6 @@ func generate_features():
 	for x in size:
 		for z in size:
 			if get_rand_noise(x, z) >= 975: #Trees
-				print("Generate Tree at" + str(x) + ";" + str(z))
 				place_tree(x, get_height(x, z) + y_offset, z)
 
 func place_tree(x, y, z):
@@ -117,7 +116,6 @@ func place_tree(x, y, z):
 		tree_height = 5
 	
 	for y_leaves in 3:
-		print("y level leaves: " + str(y_leaves))
 		for x_leaves in 3:
 			for z_leaves in 3:
 				set_cell_item(Vector3i(x+(x_leaves-1), y+y_leaves+tree_height-1, z+(z_leaves-1)), 4)

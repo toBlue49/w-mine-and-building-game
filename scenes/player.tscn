@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=7 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -64,18 +65,14 @@ grow_horizontal = 0
 text = "POSITION"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -80.0
-offset_top = 24.0
-offset_right = -4.0
-offset_bottom = 47.0
-grow_horizontal = 0
-text = "SELECTED_BLOCK"
-horizontal_alignment = 2
+[node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 1192.0
+offset_top = 632.0
+offset_right = 1272.0
+offset_bottom = 712.0
+texture = ExtResource("2_g2els")
 
 [node name="Menu" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1

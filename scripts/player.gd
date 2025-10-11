@@ -16,10 +16,12 @@ var selected_block = 0
 @onready var get_load_name: VBoxContainer = $CanvasLayer/Control/Menu/GetLoadName
 @onready var background: TextureRect = $CanvasLayer/Control/Menu/Background
 
-
-
 func _ready():
+	control.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	await get_tree().process_frame
+	await get_tree().process_frame
+	control.visible = true
 
 func _input(event: InputEvent) -> void:
 	#Mouse
@@ -105,7 +107,11 @@ func _physics_process(delta: float) -> void:
 		selected_block = 1
 	if Input.is_key_pressed(KEY_3):
 		selected_block = 2
-	control.get_node("Label2").text = (str("Selected Block: " , selected_block))
+	if Input.is_key_pressed(KEY_4):
+		selected_block = 3
+	if Input.is_key_pressed(KEY_5):
+		selected_block = 4
+	control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block) + ".png")
 	
 	#World changes by player
 	if raycast3d.is_colliding():
