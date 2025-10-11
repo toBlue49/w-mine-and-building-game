@@ -4,7 +4,6 @@ const player = preload("res://scenes/player.tscn")
 @onready var mainmenu: Control = $CanvasLayer/MainMenu
 @onready var grid_map: GridMap = $GridMap
 
-
 func add_player(id, pos: Vector3):
 	#id = 0
 	print_rich("[INFO] Add Player (non RPC): [b]", id)
@@ -27,25 +26,35 @@ func _process(_delta: float) -> void:
 	if mainmenu.button_pressed == "singleplayer":
 		mainmenu.visible = false
 		mainmenu.button_pressed = ""
+		global.change_title_extension("Singleplayer")
 		
-		#Init Singleplayer Game
+		#Singleplayer Game
 		global.is_multiplayer = false
 		grid_map.init_singleplayer()
-		
+	
 	if mainmenu.button_pressed == "mult_host":
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
+		
+		#Host Game
 		global.enet_peer.create_server(global.PORT)
 		multiplayer.multiplayer_peer = global.enet_peer
 		grid_map.init_host()
 		await get_tree().process_frame
 		upnp_start()
+		
+		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
 	
 	if mainmenu.button_pressed == "mult_join":
+		global.show_loading_screen(true)
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
+		
+		#Join Game
 		global.enet_peer.create_client(mainmenu.ip_address.text, global.PORT)
 		multiplayer.multiplayer_peer = global.enet_peer
+		
+		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
 
 func upnp_start():
 	var upnp = UPNP.new()

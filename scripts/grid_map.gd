@@ -187,6 +187,7 @@ func init_join(peer_id, level_array: Array):
 	array_to_level(level_array)
 	create_gridmap_chunks()
 	render_gridmap()
+	global.show_loading_screen(false)
 
 ##At Runtime:
 

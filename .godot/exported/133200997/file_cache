@@ -1,0 +1,13 @@
+res://materials/dirt.tres::c59632e567dae7ec347f746c81ca3467::1760167276::res://.godot/exported/133200997/export-9eb773ee1b56a5a5c495263dbaf9af62-dirt.res
+res://materials/grass.tres::fa18538c83b75fa893b324cbda7d692f::1760105111::res://.godot/exported/133200997/export-9b7d2d737aa0d5de96b413cb5be6c08f-grass.res
+res://materials/stone.tres::779869323d3d337a90ce656c941319bf::1760105111::res://.godot/exported/133200997/export-1e077a216c2cb87e640220ad1ec702d0-stone.res
+res://resources/blocks.tres::c712ddfa610af321ef7c13ab40970dc6::1760167276::res://.godot/exported/133200997/export-b254c5837ebdec41ab5774c8f7d9377e-blocks.res
+res://resources/cube.tres::85db10c7e78021b811a18efa4ae4c341::1760105111::res://.godot/exported/133200997/export-df88727b50ad4ee7bddb315b4c7ebd6d-cube.res
+res://scenes/blocks.tscn::53d52e0688f8cb3415c6f6c5dd1227d2::1760194838::res://.godot/exported/133200997/export-58e3e3ea28be796874e0bae76be0d851-blocks.scn
+res://scenes/empty.tscn::d72763e6a5331ac112578fc9ce52e7b6::1760105111::res://.godot/exported/133200997/export-d46d9ca14bb3b79150d604746b0eab88-empty.scn
+res://scenes/game.tscn::f2fc777e5f7de85587c762da5e2533c1::1760205995::res://.godot/exported/133200997/export-c2a7af834e91ff64325daddf58e45dc0-game.scn
+res://scenes/grid_map_render.tscn::21b91cfa6436d4dd040a60543a092a6d::1760109179::res://.godot/exported/133200997/export-2d03dbcde521bdbf68d7cca72b2ca537-grid_map_render.scn
+res://scenes/load_level_button.tscn::7211ba691db17e7395f06cd26f07dc3e::1760105111::res://.godot/exported/133200997/export-2c115498474853b7d2a83288c68a1818-load_level_button.scn
+res://scenes/player.tscn::aba8437d35fbfb75e58650cccc13ed80::1760200826::res://.godot/exported/133200997/export-234fb6894ec6226e856ab7f825500d3d-player.scn
+res://scenes/main_menu.tscn::6bbc6d37f01d43b1ace613bda9b1a14e::1760205966::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
+res://scenes/world.tscn::ecbfd0f19ca55a11d3cf01d0e5021251::1760197521::res://.godot/exported/133200997/export-6b9c1b1fd6ae6f795188dfdc89e222b0-world.scn

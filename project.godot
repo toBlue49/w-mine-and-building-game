@@ -14,7 +14,7 @@ config/name="W Mine and Building Game"
 run/main_scene="uid://fpxh2s3vl2n7"
 config/features=PackedStringArray("4.5", "Mobile")
 run/max_fps=300
-config/icon="res://icon.svg"
+config/icon="uid://cpxc8a6hmtlrl"
 
 [autoload]
 

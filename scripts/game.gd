@@ -1,6 +1,7 @@
 extends Node
 
 const PORT = 9555
+const MAIN_TITLE = "W Mine and Building Game"
 
 var player_name = "DEFAULTNAME"
 var enet_peer = ENetMultiplayerPeer.new()
@@ -39,3 +40,9 @@ func load_scene(scene_path: String):
 
 func show_loading_screen(state: bool):
 	$GlobalControl/Loading.visible = state
+
+func change_title_extension(title: String):
+	if title == "[none]":
+		DisplayServer.window_set_title("%s" % MAIN_TITLE)
+		return
+	DisplayServer.window_set_title("%s: %s" % [MAIN_TITLE, title])

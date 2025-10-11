@@ -1,9 +1,9 @@
+TextureRect
 MeshInstance3D
 Label3D
 MultiplayerSynchronizer
 MultiplayerSpawner
 CanvasLayer
-TextureRect
 LineEdit
 Button
 Label
@@ -12,4 +12,3 @@ MarginContainer
 ColorRect
 Control
 VSplitContainer
-FileDialog

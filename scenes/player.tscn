@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=9 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://chgt64dat8fey" path="res://textures/gui/crosshair.png" id="3_qhqgy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -164,6 +165,23 @@ theme_override_font_sizes/font_size = 32
 text = "Load Level"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+modulate = Color(1, 1, 1, 0.6666667)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_qhqgy")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_g2els")
