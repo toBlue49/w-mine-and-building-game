@@ -5,6 +5,7 @@ const chunk_size := 8
 var gotten_y = []
 @onready var chunks: Node3D = $"../Chunks"
 @onready var player: CharacterBody3D = $"../Player"
+@onready var world: Node3D = $".."
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -100,7 +101,7 @@ func move_player():
 	var pos = Vector3(half_size*2, 0, half_size*2)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print("Player Y Position: " + str(pos.y))
-	player.position = pos
+	world.add_player(0, pos)
 
 func generate_features():
 	for x in size:

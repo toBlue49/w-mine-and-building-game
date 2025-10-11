@@ -1,5 +1,6 @@
 extends Node
 
+var is_multiplayer = false
 var loaded_scene = ""
 var did_generate_level = false
 @onready var SceneContainer = $Scene
