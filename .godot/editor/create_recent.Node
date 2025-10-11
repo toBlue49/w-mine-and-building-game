@@ -1,3 +1,5 @@
+MeshInstance3D
+Label3D
 MultiplayerSynchronizer
 MultiplayerSpawner
 CanvasLayer
@@ -11,4 +13,3 @@ ColorRect
 Control
 VSplitContainer
 FileDialog
-RayCast3D

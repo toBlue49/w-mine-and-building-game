@@ -6,10 +6,11 @@ const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
 var sensitivity = 0.002
 var selected_block = 0
-@export var fly = true
+@export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
 @onready var grid_map: GridMap = $"../GridMap"
+@onready var label3d: Label3D = $Label3D
 ##UI
 @onready var control: Control = $CanvasLayer/Control
 @onready var get_save_name: VBoxContainer = $CanvasLayer/Control/Menu/GetSaveName
@@ -26,10 +27,14 @@ func _ready():
 	
 	control.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
 	await get_tree().process_frame
 	await get_tree().process_frame
+	
 	control.visible = true
 	camera_3d.current = true
+	
+	label3d.text = global.player_name
 
 func _input(event: InputEvent) -> void:
 	if global.is_multiplayer:
@@ -88,10 +93,10 @@ func _process(delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
 			control.hide()
-	
-	control = $CanvasLayer/Control
+
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
+	
 	control.get_node("Label").text = str(position)
 	set_multiplayer_authority(str(name).to_int())
 	camera_3d.current = true
@@ -161,7 +166,7 @@ func _get_load_name_pressed(button_text) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	global.show_loading_screen(true)
-	print(button_text)
+	print_rich("[INFO] Loading scene: [b]", button_text)
 	grid_map.load_level_from_file(button_text)
 	
 	background.visible = false

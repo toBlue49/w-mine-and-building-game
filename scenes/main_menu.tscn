@@ -61,6 +61,11 @@ vertical_alignment = 1
 layout_mode = 2
 text = "Singleplayer"
 
+[node name="NameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter your Player Name here"
+alignment = 1
+
 [node name="HostMultButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Multiplayer Host	"

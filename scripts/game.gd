@@ -2,6 +2,7 @@ extends Node
 
 const PORT = 9555
 
+var player_name = "DEFAULTNAME"
 var enet_peer = ENetMultiplayerPeer.new()
 var is_multiplayer = false
 var loaded_scene = ""
@@ -18,10 +19,10 @@ func _ready():
 	var dir: DirAccess = DirAccess.open("user://")
 	var dir_path = "user://levels"
 	if dir.dir_exists(dir_path):
-		print("Levels folder exists!")
+		print_rich("[INFO] [b]Levels folder exists!")
 	else:
 		dir.make_dir(dir_path)
-		print("Creating levels folder!")
+		print_rich("[INFO] [b]Creating levels folder!")
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):

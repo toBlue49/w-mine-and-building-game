@@ -1,11 +1,12 @@
 extends GridMap
 
-const size := 32
+const size := 32 #160 IST SWEETSPOT FÜR MULTIPLAYER
 const chunk_size := 8
 var gotten_y = []
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
+
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -31,7 +32,7 @@ func update_gridmap():
 	for x in size:
 		for z in size:
 			if gotten_y.find(str("x", x, "z", z)) >= 0:
-				print("tried to get noise twice: ", str("x", x, "z", z))
+				print_rich("[WARNING] [color=yellow]Tried to get height twice: [b][/color]", str("x", x, "z", z))
 				return
 			gotten_y.append(str("x", x, "z", z))
 			var y_level = get_height(x, z) + y_offset
@@ -103,7 +104,7 @@ func move_player(peer_id = 0):
 	var half_size = size/2
 	var pos = Vector3(half_size*2, 0, half_size*2)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
-	print("Player Y Position: " + str(pos.y))
+	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player(peer_id, pos)
 
 func generate_features():
@@ -131,13 +132,13 @@ func GENERATE():
 	#set rand_noise seed:
 	rand_noise.seed = noise.seed
 	
-	print("Generating Gridmap")
+	print_rich("[INFO] [b]Generating Gridmap")
 	update_gridmap()
 	generate_features()
 	create_gridmap_chunks()
 	render_gridmap()
 	await get_tree().process_frame
-	print("Done!")
+	print_rich("[SUCCESS] [color=green][b]Done!")
 
 func init_singleplayer():
 	if global.did_generate_level == false:
@@ -178,9 +179,9 @@ func init_join(peer_id, level_array: Array):
 	var pos = Vector3(half_size*2, 0, half_size*2)
 	
 	player = world.get_node(str(multiplayer.get_unique_id()))
-	prints("Init Join Peer ID:", peer_id)
+	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
-	print("Player Y Position: " + str(pos.y))
+	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	
 	#Get GridMap
 	array_to_level(level_array)
@@ -199,7 +200,7 @@ func destroy_block(world_coord):
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
-	print("Placed Block index: " + str(index))
+	print_rich("[INFO] Placed Block index: [b]" + str(index))
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
 	var chunk_node = chunks.get_node(chunk)
@@ -227,11 +228,11 @@ func save_level_to_file(path: String):
 	
 	scene.pack(save_player)
 	scene.pack(save_gridmap)
-	print(scene)
+	print_rich("[INFO] Saving following scene: [b]", scene)
 	var result = scene.pack(save_gridmap)
 	if result == OK:
 		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".tscn"))
-		print("Errorlevel Save Level: " + str(error))
+		print_rich("[WARNING] [color=yellow]Errorlevel Save Level: " + str(error))
 
 func load_level_from_file(file: String):
 	global.show_loading_screen(true)
