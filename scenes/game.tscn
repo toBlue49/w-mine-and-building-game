@@ -39,7 +39,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-text = "0.4a (Multiplayer Test)"
+text = "0.4b (Multiplayer Test)"
 
 [node name="date" type="Label" parent="GlobalControl"]
 layout_mode = 0

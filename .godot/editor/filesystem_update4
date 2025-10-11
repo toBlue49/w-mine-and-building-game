@@ -8,3 +8,5 @@ res://scenes/player.tscn
 res://scripts/player.gd
 res://scripts/world.gd
 res://scripts/game.gd
+res://scenes/main_menu.tscn
+res://scripts/main_menu.gd

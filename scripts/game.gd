@@ -1,5 +1,8 @@
 extends Node
 
+const PORT = 9555
+
+var enet_peer = ENetMultiplayerPeer.new()
 var is_multiplayer = false
 var loaded_scene = ""
 var did_generate_level = false

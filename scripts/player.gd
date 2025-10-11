@@ -6,7 +6,7 @@ const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
 var sensitivity = 0.002
 var selected_block = 0
-@export var fly = false
+@export var fly = true
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
 @onready var grid_map: GridMap = $"../GridMap"
@@ -16,14 +16,23 @@ var selected_block = 0
 @onready var get_load_name: VBoxContainer = $CanvasLayer/Control/Menu/GetLoadName
 @onready var background: TextureRect = $CanvasLayer/Control/Menu/Background
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(str(name).to_int())
+
 func _ready():
+	set_multiplayer_authority(str(name).to_int())
+	if not is_multiplayer_authority(): return
+	
 	control.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	await get_tree().process_frame
-	await get_tree().process_frame
+	await get_tree().process_frame	
 	control.visible = true
+	camera_3d.current = true
 
 func _input(event: InputEvent) -> void:
+	if not is_multiplayer_authority(): return
+	
 	#Mouse
 	if event is InputEventMouseMotion:
 		rotation.y = rotation.y - event.relative.x * sensitivity
@@ -74,9 +83,19 @@ func _input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		if get_node_or_null("CanvasLayer/Control") != null:
+			control.queue_free()
+	
+	if not is_multiplayer_authority(): return
 	control.get_node("Label").text = str(position)
+	set_multiplayer_authority(str(name).to_int())
+	camera_3d.current = true
+	
 
 func _physics_process(delta: float) -> void:
+	if not (str(multiplayer.get_unique_id()) == str(name)): return
+	
 	# Add the gravity.
 	if fly == false:
 		if not is_on_floor():
@@ -125,6 +144,7 @@ func _physics_process(delta: float) -> void:
 ##UI Control
 
 func _get_save_name_pressed() -> void:
+	if not is_multiplayer_authority(): return
 	var filename: String = get_save_name.get_node("LineEdit").text
 	grid_map.save_level_to_file(filename)
 	
@@ -133,6 +153,7 @@ func _get_save_name_pressed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _get_load_name_pressed(button_text) -> void:
+	if not is_multiplayer_authority(): return
 	global.show_loading_screen(true)
 	print(button_text)
 	grid_map.load_level_from_file(button_text)
