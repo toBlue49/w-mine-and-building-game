@@ -6,6 +6,8 @@ const player = preload("res://scenes/player.tscn")
 
 
 func add_player(id, pos: Vector3):
+	#id = 0
+	print("neuer player: ", id)
 	var player_node = player.instantiate()
 	player_node.name = str(id)
 	player_node.position = pos

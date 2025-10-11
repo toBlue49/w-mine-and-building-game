@@ -5,7 +5,7 @@ const chunk_size := 8
 var gotten_y = []
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
-@onready var player: CharacterBody3D = world.get_node(str(multiplayer.get_unique_id()))
+@onready var player: CharacterBody3D
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -144,10 +144,11 @@ func init_singleplayer():
 		global.show_loading_screen(true)
 		await get_tree().process_frame
 		GENERATE()
-		move_player()
+		world.add_player(0, Vector3i(10, 100, 10))
 		await get_tree().process_frame
 		global.show_loading_screen(false)
 		global.did_generate_level = true
+	player = world.get_node("0")
 
 func init_host():
 	if global.did_generate_level == false:
@@ -164,28 +165,31 @@ func init_host():
 	#Host Init
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
-			await get_tree().create_timer(1).timeout
-			var level_scene = level_to_packed_scene()
-			print(typeof(level_scene))
-			init_join.rpc(new_peer_id, level_scene)
-			world.add_player_multiplayer.rpc(new_peer_id, Vector3(10, 100, 10))
+			await get_tree().create_timer(0.75).timeout
+			world.add_player_multiplayer.rpc(new_peer_id, Vector3(size, 75, size))
+			init_join.rpc(new_peer_id, level_to_array())
+			await get_tree().create_timer(10.0)
 	)
 
-@rpc("unreliable")
-func init_join(peer_id, level_scene: PackedScene):
-	player = world.get_node(str(multiplayer.get_unique_id()))
-	prints(peer_id, level_scene)
+@rpc("reliable")
+func init_join(peer_id, level_array: Array):
 	@warning_ignore("integer_division")
 	var half_size = size/2
 	var pos = Vector3(half_size*2, 0, half_size*2)
+	
+	player = world.get_node(str(multiplayer.get_unique_id()))
+	prints("Init Join Peer ID:", peer_id)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print("Player Y Position: " + str(pos.y))
 	
 	#Get GridMap
-	packed_scene_to_level(level_scene)
+	array_to_level(level_array)
+	create_gridmap_chunks()
+	render_gridmap()
 
 ##At Runtime:
 
+@rpc("call_local", "any_peer")
 func destroy_block(world_coord):
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
@@ -193,6 +197,7 @@ func destroy_block(world_coord):
 	set_cell_item(map_pos, -1)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
+@rpc("call_local", "any_peer")
 func place_block(world_coord, index):
 	print("Placed Block index: " + str(index))
 	var map_pos = local_to_map(world_coord)
@@ -201,26 +206,19 @@ func place_block(world_coord, index):
 	set_cell_item(map_pos, index)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
-func level_to_packed_scene() -> PackedScene:
+func level_to_array() -> Array:
 	var save_gridmap: GridMap = self
-	var scene: PackedScene = PackedScene.new()
-	scene.pack(save_gridmap)
-	return scene
+	var return_array: Array
+	for i in save_gridmap.mesh_library.get_item_list():
+		return_array.append(save_gridmap.get_used_cells_by_item(i))
+	return return_array
 
-func packed_scene_to_level(scene: PackedScene):
-	global.show_loading_screen(true)
-	await get_tree().process_frame
-	
-	name = "GridMapOld"
-	var node = scene.instantiate()
-	world.add_child(node)
-	
-	await get_tree().process_frame
-	$"../GridMap".render_gridmap()
-	
-	await get_tree().process_frame
-	global.show_loading_screen(false)
-	queue_free()
+func array_to_level(array: Array):
+	var count_item = 0
+	for item in array:
+		for j in item:
+			set_cell_item(j, count_item)
+		count_item += 1
 
 func save_level_to_file(path: String):
 	var save_gridmap: GridMap = self

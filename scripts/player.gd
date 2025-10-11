@@ -21,17 +21,19 @@ func _enter_tree() -> void:
 
 func _ready():
 	set_multiplayer_authority(str(name).to_int())
-	if not is_multiplayer_authority(): return
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	
 	control.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	await get_tree().process_frame
-	await get_tree().process_frame	
+	await get_tree().process_frame
 	control.visible = true
 	camera_3d.current = true
 
 func _input(event: InputEvent) -> void:
-	if not is_multiplayer_authority(): return
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	
 	#Mouse
 	if event is InputEventMouseMotion:
@@ -83,18 +85,20 @@ func _input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
-			control.queue_free()
+			control.hide()
 	
-	if not is_multiplayer_authority(): return
+	control = $CanvasLayer/Control
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	control.get_node("Label").text = str(position)
 	set_multiplayer_authority(str(name).to_int())
 	camera_3d.current = true
-	
 
 func _physics_process(delta: float) -> void:
-	if not (str(multiplayer.get_unique_id()) == str(name)): return
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	
 	# Add the gravity.
 	if fly == false:
@@ -136,15 +140,16 @@ func _physics_process(delta: float) -> void:
 	if raycast3d.is_colliding():
 		if Input.is_action_just_pressed("world_destory"):
 			if raycast3d.get_collider().has_method("destroy_block"):
-				raycast3d.get_collider().destroy_block(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
+				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider().has_method("place_block"):
-				raycast3d.get_collider().place_block((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
+				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
 ##UI Control
 
 func _get_save_name_pressed() -> void:
-	if not is_multiplayer_authority(): return
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	var filename: String = get_save_name.get_node("LineEdit").text
 	grid_map.save_level_to_file(filename)
 	
@@ -153,7 +158,8 @@ func _get_save_name_pressed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _get_load_name_pressed(button_text) -> void:
-	if not is_multiplayer_authority(): return
+	if global.is_multiplayer:
+		if not is_multiplayer_authority(): return
 	global.show_loading_screen(true)
 	print(button_text)
 	grid_map.load_level_from_file(button_text)
