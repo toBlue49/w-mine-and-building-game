@@ -170,7 +170,12 @@ func init_host():
 			world.add_player_multiplayer.rpc(new_peer_id, Vector3(size, 75, size))
 			init_join.rpc(new_peer_id, level_to_array())
 	)
-	multiplayer.peer_disconnected.connect(remove_player)
+	multiplayer.peer_disconnected.connect(
+		func(leave_peer_id):
+			print(leave_peer_id)
+			if world.get_node_or_null(str(leave_peer_id)):
+				world.get_node_or_null(str(leave_peer_id)).queue_free()
+	)
 
 @rpc("reliable")
 func init_join(peer_id, level_array: Array):
@@ -252,8 +257,3 @@ func load_level_from_file(file: String):
 	await get_tree().process_frame
 	global.show_loading_screen(false)
 	queue_free()
-
-func remove_player(peer_id):
-	var player = get_node_or_null(str(peer_id))
-	if player:
-		player.queue_free()
