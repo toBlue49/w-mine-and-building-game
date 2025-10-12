@@ -10,7 +10,6 @@ func _singleplayer_pressed() -> void:
 	if global.player_name == "":
 		return
 	button_pressed = "singleplayer"
-	
 
 func _host_mult_pressed() -> void:
 	global.player_name = name_edit.text

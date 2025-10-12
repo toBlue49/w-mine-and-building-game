@@ -1,0 +1,33 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cmvvuk1i6nypw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4nwg"]
+bg_color = Color(0.15377831, 0.15377831, 0.15377831, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tekt2"]
+bg_color = Color(0.11304635, 0.11304635, 0.11304635, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[resource]
+Button/font_sizes/font_size = 24
+Button/styles/normal = SubResource("StyleBoxFlat_d4nwg")
+Label/font_sizes/font_size = 26
+LineEdit/font_sizes/font_size = 22
+Panel/styles/panel = SubResource("StyleBoxFlat_tekt2")
+RichTextLabel/font_sizes/bold_font_size = 24
+RichTextLabel/font_sizes/normal_font_size = 24
+VBoxContainer/constants/separation = 20

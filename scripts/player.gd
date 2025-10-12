@@ -89,10 +89,34 @@ func _input(event: InputEvent) -> void:
 		get_save_name.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+	#Change Selected Block
+		#Change selected Block
+	if Input.is_key_pressed(KEY_1):
+		selected_block = 0
+	if Input.is_key_pressed(KEY_2):
+		selected_block = 1
+	if Input.is_key_pressed(KEY_3):
+		selected_block = 2
+	if Input.is_key_pressed(KEY_4):
+		selected_block = 3
+	if Input.is_key_pressed(KEY_5):
+		selected_block = 4
+	if Input.is_key_pressed(KEY_6):
+		selected_block = 5
+	if Input.is_key_pressed(KEY_7):
+		selected_block = 6
+	if Input.is_key_pressed(KEY_8):
+		selected_block = 7
+	control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block) + ".png")
+
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
 			control.hide()
+
+	#Server closed
+	if global.enet_peer.get_connection_status() == 0:
+		global.show_popup("ServerError", "The multiplayer instance isn't currently active.")
 
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
@@ -127,19 +151,6 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
-	
-	#Change selected Block
-	if Input.is_key_pressed(KEY_1):
-		selected_block = 0
-	if Input.is_key_pressed(KEY_2):
-		selected_block = 1
-	if Input.is_key_pressed(KEY_3):
-		selected_block = 2
-	if Input.is_key_pressed(KEY_4):
-		selected_block = 3
-	if Input.is_key_pressed(KEY_5):
-		selected_block = 4
-	control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block) + ".png")
 	
 	#World changes by player
 	if raycast3d.is_colliding():

@@ -37,6 +37,7 @@ func load_scene(scene_path: String):
 	var new_scene = load(scene_path) as PackedScene
 	var scene_node = new_scene.instantiate()
 	SceneContainer.add_child(scene_node)
+	loaded_scene = scene_path
 
 func show_loading_screen(state: bool):
 	$GlobalControl/Loading.visible = state
@@ -46,3 +47,20 @@ func change_title_extension(title: String):
 		DisplayServer.window_set_title("%s" % MAIN_TITLE)
 		return
 	DisplayServer.window_set_title("%s: %s" % [MAIN_TITLE, title])
+
+func show_popup(node: String, message: String):
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	$PopupMessage.show()
+	var popup = $PopupMessage.get_node(node)
+	popup.show()
+	popup.get_node("Message").text = message
+	popup.get_node("Button").connect("pressed", reload_scene)
+
+func mainmenu_btn_pressed():
+	$PopupMessage.hide()
+	$PopupMessage/ServerError.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	reload_scene()
+
+func reload_scene():
+	load_scene(loaded_scene)

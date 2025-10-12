@@ -1,12 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dsy30kwg16tcw"]
 
+[ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://c1s6r2e4csnak" path="res://scripts/main_menu.gd" id="1_l6cm7"]
-
-[sub_resource type="Theme" id="Theme_vue75"]
-Button/font_sizes/font_size = 24
-Label/font_sizes/font_size = 26
-LineEdit/font_sizes/font_size = 22
-VBoxContainer/constants/separation = 20
 
 [sub_resource type="Gradient" id="Gradient_vue75"]
 colors = PackedColorArray(0.16, 0.16, 0.16, 1, 0.40495878, 0.295692, 0.39123702, 1)
@@ -22,7 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_vue75")
+theme = ExtResource("1_ekxnf")
 script = ExtResource("1_l6cm7")
 
 [node name="TextureRect" type="TextureRect" parent="."]

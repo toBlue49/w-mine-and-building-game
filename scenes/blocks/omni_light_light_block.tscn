@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bj5bpla0lskdj"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0638213, 0)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011023879, 1.1394088)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011023879, -1.1744974)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1098804, 0.011023879, -0.035637617)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0847269, 0.011023879, -0.035637617)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.037586212, -1.1231123, -0.035637617)
+light_color = Color(1, 0.89603376, 0.66441286, 1)
+light_energy = 3.0
+light_indirect_energy = 4.0
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.134
+omni_range = 12.0

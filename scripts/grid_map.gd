@@ -3,21 +3,22 @@ extends GridMap
 const size := 32 #160 IST SWEETSPOT FÜR MULTIPLAYER
 const chunk_size := 8
 var gotten_y = []
+var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
+@onready var objects: Node3D = $"../Objects"
 
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
 		resolution = new_resolution
-		update_gridmap()
 @export var noise: FastNoiseLite
 @export var rand_noise: FastNoiseLite
 @export_range(1.0, 128.0, 1.0) var height = 64:
 	set(new_hight):
 		height = new_hight
-@export var y_offset = 32
+@export var y_offset: int = 32
 
 ##Generation:
 
@@ -201,6 +202,13 @@ func destroy_block(world_coord):
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
 	var chunk_node = chunks.get_node(chunk)
+
+	#Handle Block Objects
+	if get_cell_item(map_pos) == 7:
+		var object: Node3D = objects.get_node_or_null(str(map_pos))
+		if object:
+			object.queue_free()
+	
 	set_cell_item(map_pos, -1)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
@@ -212,6 +220,13 @@ func place_block(world_coord, index):
 	var chunk_node = chunks.get_node(chunk)
 	set_cell_item(map_pos, index)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
+
+	#Handle Block Objects
+	if index == 7:
+		var omnilight: Node3D = block_nodes[0].instantiate()
+		omnilight.position = map_to_local(map_pos)
+		omnilight.name = str(map_pos)
+		objects.add_child(omnilight)
 
 func level_to_array() -> Array:
 	var save_gridmap: GridMap = self
