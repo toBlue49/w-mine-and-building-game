@@ -92,7 +92,7 @@ size = Vector3(2, 2, 2)
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x152s"]
 load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xl1gl"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rgft6"]
 depth_draw_mode = 1
 albedo_texture = ExtResource("8_rgft6")
 normal_texture = SubResource("CompressedTexture2D_x152s")
@@ -101,7 +101,7 @@ texture_filter = 0
 texture_repeat = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_5x58u"]
-material = SubResource("StandardMaterial3D_xl1gl")
+material = SubResource("StandardMaterial3D_rgft6")
 size = Vector3(2, 2, 2)
 
 [node name="blocks" type="Node3D"]

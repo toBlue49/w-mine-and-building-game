@@ -1,6 +1,6 @@
 extends GridMap
 
-const size := 32 #160 IST SWEETSPOT FÜR MULTIPLAYER
+const size := 128 #160 IST SWEETSPOT FÜR MULTIPLAYER
 const chunk_size := 8
 var gotten_y = []
 var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
@@ -99,7 +99,7 @@ func create_gridmap_chunks():
 
 func move_player(peer_id = 0):
 	for i in world.get_children():
-		if i is CharacterBody3D:
+		if i is CharacterBody3D and peer_id == 0:
 			i.queue_free()
 	@warning_ignore("integer_division")
 	var half_size = size/2
@@ -146,7 +146,7 @@ func init_singleplayer():
 		global.show_loading_screen(true)
 		await get_tree().process_frame
 		GENERATE()
-		world.add_player(0, Vector3i(10, 100, 10))
+		move_player()
 		await get_tree().process_frame
 		global.show_loading_screen(false)
 		global.did_generate_level = true
@@ -168,7 +168,6 @@ func init_host():
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
 			await get_tree().create_timer(0.75).timeout
-			world.add_player_multiplayer.rpc(new_peer_id, Vector3(size, 75, size))
 			init_join.rpc(new_peer_id, level_to_array())
 	)
 	multiplayer.peer_disconnected.connect(
@@ -183,12 +182,13 @@ func init_join(peer_id, level_array: Array):
 	@warning_ignore("integer_division")
 	var half_size = size/2
 	var pos = Vector3(half_size*2, 0, half_size*2)
-	
-	player = world.get_node(str(multiplayer.get_unique_id()))
 	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
-	
+	world.add_player_multiplayer.rpc(peer_id, Vector3(size, pos.y, size))
+
+	player = world.get_node(str(multiplayer.get_unique_id()))
+
 	#Get GridMap
 	array_to_level(level_array)
 	create_gridmap_chunks()

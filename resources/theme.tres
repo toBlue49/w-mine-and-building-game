@@ -30,4 +30,4 @@ LineEdit/font_sizes/font_size = 22
 Panel/styles/panel = SubResource("StyleBoxFlat_tekt2")
 RichTextLabel/font_sizes/bold_font_size = 24
 RichTextLabel/font_sizes/normal_font_size = 24
-VBoxContainer/constants/separation = 20
+VBoxContainer/constants/separation = 15

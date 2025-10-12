@@ -10,3 +10,5 @@ res://scenes/world.tscn
 res://resources/theme.tres
 res://scripts/game.gd
 res://scripts/main_menu.gd
+res://scenes/player.tscn
+res://scripts/world.gd

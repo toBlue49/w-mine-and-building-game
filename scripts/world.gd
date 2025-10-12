@@ -13,7 +13,7 @@ func add_player(id, pos: Vector3):
 	add_child(player_node)
 	return get_node("%s" % str(id))
 
-@rpc("call_local")
+@rpc("call_local", "any_peer")
 func add_player_multiplayer(id, pos: Vector3):
 	print_rich("[INFO] Add Player (RPC) [b]: ", id)
 	var player_node = player.instantiate()
@@ -27,6 +27,7 @@ func _process(_delta: float) -> void:
 		mainmenu.visible = false
 		mainmenu.button_pressed = ""
 		global.change_title_extension("Singleplayer")
+		global.hide_popup()
 		
 		#Singleplayer Game
 		global.is_multiplayer = false

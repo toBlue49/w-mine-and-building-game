@@ -39,6 +39,17 @@ func _ready():
 func _input(event: InputEvent) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
+		
+	#Esc to hide UI
+	if Input.is_action_just_pressed("ui_cancel"):
+		background.visible = false
+		get_load_name.visible = false
+		get_save_name.visible = false
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		global.do_not_allow_input = false
+	
+	if global.do_not_allow_input: return
+	
 	
 	#Mouse
 	if event is InputEventMouseMotion:
@@ -60,11 +71,13 @@ func _input(event: InputEvent) -> void:
 		get_load_name.visible = false
 		background.visible = true
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		global.do_not_allow_input = true
 	if Input.is_action_just_pressed("level_load"):
 		background.visible = true
 		get_load_name.visible = true
 		get_save_name.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		global.do_not_allow_input = true
 		
 		var dir: DirAccess = DirAccess.open("user://levels/")
 		
@@ -81,16 +94,13 @@ func _input(event: InputEvent) -> void:
 				Callable(_get_load_name_pressed).bind(node.text)
 			)
 			get_load_name.add_child(node)
-	
-	#Esc to hide UI
-	if Input.is_action_just_pressed("ui_cancel"):
-		background.visible = false
-		get_load_name.visible = false
-		get_save_name.visible = false
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		var folderbutton = Button.new()
+		folderbutton.text = "Open Folder"
+		folderbutton.connect("pressed", open_level_folder)
+		get_load_name.add_child(folderbutton)
+		
 
-	#Change Selected Block
-		#Change selected Block
+	#Change selected Block
 	if Input.is_key_pressed(KEY_1):
 		selected_block = 0
 	if Input.is_key_pressed(KEY_2):
@@ -115,7 +125,7 @@ func _process(delta: float) -> void:
 			control.hide()
 
 	#Server closed
-	if global.enet_peer.get_connection_status() == 0:
+	if global.enet_peer.get_connection_status() == 0 and global.is_multiplayer:
 		global.show_popup("ServerError", "The multiplayer instance isn't currently active.")
 
 	if global.is_multiplayer:
@@ -134,14 +144,16 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 		# Handle jump.
-		if Input.is_action_pressed("move_jump") and is_on_floor(): velocity.y = JUMP_VELOCITY
+		if Input.is_action_pressed("move_jump") and is_on_floor() and global.do_not_allow_input == false: velocity.y = JUMP_VELOCITY
 	elif fly == true:
 		if Input.is_action_pressed("move_fly_down"): velocity.y =- JUMP_VELOCITY
-		elif Input.is_action_pressed("move_jump"): velocity.y =+ JUMP_VELOCITY
+		elif Input.is_action_pressed("move_jump") and global.do_not_allow_input == false: velocity.y =+ JUMP_VELOCITY
 		else: velocity.y = 0
 
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var input_dir := Vector2.ZERO
+	if global.do_not_allow_input == false:
+		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -153,7 +165,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	#World changes by player
-	if raycast3d.is_colliding():
+	if raycast3d.is_colliding() and global.do_not_allow_input == false:
 		if Input.is_action_just_pressed("world_destory"):
 			if raycast3d.get_collider().has_method("destroy_block"):
 				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
@@ -161,7 +173,7 @@ func _physics_process(delta: float) -> void:
 			if raycast3d.get_collider().has_method("place_block"):
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
-##UI Control
+##UI Control4
 
 func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:
@@ -172,6 +184,7 @@ func _get_save_name_pressed() -> void:
 	background.visible = false
 	get_save_name.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	global.do_not_allow_input = false
 
 func _get_load_name_pressed(button_text) -> void:
 	if global.is_multiplayer:
@@ -186,6 +199,10 @@ func _get_load_name_pressed(button_text) -> void:
 	
 	#get grid_map back
 	for i in 4:
+		global.do_not_allow_input = false
 		await get_tree().process_frame
 	grid_map = $"../GridMap"
 	global.show_loading_screen(false)
+
+func open_level_folder():
+	OS.shell_open(ProjectSettings.globalize_path("user://levels/"))

@@ -1,7 +1,7 @@
+Button
 ColorRect
 TextureRect
 TextEdit
-Button
 Label
 Panel
 Control
@@ -12,4 +12,3 @@ PopupPanel
 Popup
 SpotLight3D
 Node3D
-OmniLight3D

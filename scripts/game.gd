@@ -3,6 +3,7 @@ extends Node
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 
+var do_not_allow_input = false
 var player_name = "DEFAULTNAME"
 var enet_peer = ENetMultiplayerPeer.new()
 var is_multiplayer = false
@@ -48,6 +49,8 @@ func change_title_extension(title: String):
 		return
 	DisplayServer.window_set_title("%s: %s" % [MAIN_TITLE, title])
 
+##Popup:
+
 func show_popup(node: String, message: String):
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$PopupMessage.show()
@@ -56,10 +59,14 @@ func show_popup(node: String, message: String):
 	popup.get_node("Message").text = message
 	popup.get_node("Button").connect("pressed", reload_scene)
 
+func hide_popup():
+	$PopupMessage.visible = false
+	$PopupMessage/ServerError.visible = false
+
 func mainmenu_btn_pressed():
-	$PopupMessage.hide()
-	$PopupMessage/ServerError.hide()
+	hide_popup()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	await get_tree().process_frame
 	reload_scene()
 
 func reload_scene():
