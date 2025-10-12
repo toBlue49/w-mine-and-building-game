@@ -50,6 +50,9 @@ func _input(event: InputEvent) -> void:
 	
 	if global.do_not_allow_input: return
 	
+	#Toggle flight
+	if !global.is_multiplayer and Input.is_action_just_pressed("move_toggle_fly"):
+		fly = !fly
 	
 	#Mouse
 	if event is InputEventMouseMotion:
@@ -66,13 +69,13 @@ func _input(event: InputEvent) -> void:
 		camera_3d.fov = 75
 	
 	#Save/Load Level
-	if Input.is_action_just_pressed("level_save"):
+	if Input.is_action_just_pressed("level_save") and (!global.is_multiplayer or multiplayer.is_server()):
 		get_save_name.visible = true
 		get_load_name.visible = false
 		background.visible = true
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		global.do_not_allow_input = true
-	if Input.is_action_just_pressed("level_load"):
+	if Input.is_action_just_pressed("level_load") and !global.is_multiplayer:
 		background.visible = true
 		get_load_name.visible = true
 		get_save_name.visible = false
@@ -93,7 +96,8 @@ func _input(event: InputEvent) -> void:
 			node.pressed.connect(
 				Callable(_get_load_name_pressed).bind(node.text)
 			)
-			get_load_name.add_child(node)
+			if not file.containsn(".objects.tscn"):
+				get_load_name.add_child(node)
 		var folderbutton = Button.new()
 		folderbutton.text = "Open Folder"
 		folderbutton.connect("pressed", open_level_folder)
@@ -173,7 +177,7 @@ func _physics_process(delta: float) -> void:
 			if raycast3d.get_collider().has_method("place_block"):
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
-##UI Control4
+##UI Control
 
 func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:

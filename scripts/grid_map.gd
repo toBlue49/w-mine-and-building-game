@@ -243,31 +243,65 @@ func array_to_level(array: Array):
 		count_item += 1
 
 func save_level_to_file(path: String):
-	var save_gridmap: GridMap = self
-	var save_player = player
+	var save_gridmap = GridMap.new()
+	var save_objects = Node3D.new()
+	save_gridmap = self
+	save_objects = world.get_node("Objects")
+	
 	var scene = PackedScene.new()
 	
-	scene.pack(save_player)
+	#set owner
+	for i in objects.get_children():
+		i.owner = objects
+	
+	#Pack gridmap node
 	scene.pack(save_gridmap)
 	print_rich("[INFO] Saving following scene: [b]", scene)
 	var result = scene.pack(save_gridmap)
 	if result == OK:
 		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".tscn"))
-		print_rich("[WARNING] [color=yellow]Errorlevel Save Level: " + str(error))
-
+		print_rich("[WARNING] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
+	
+	#Pack Objects Node
+	scene.pack(save_gridmap)
+	print_rich("[INFO] Saving following scene: [b]", scene)
+	var result_obj = scene.pack(save_objects)
+	if result_obj == OK:
+		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".objects.tscn"))
+		print_rich("[WARNING] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
+	
 func load_level_from_file(file: String):
 	global.show_loading_screen(true)
 	await get_tree().process_frame
-	name = "GridMapOld"
-	var scene = load("user://levels/" + file)
-	var node = scene.instantiate()
+	var scene_gridmap = load("user://levels/" + file)
+	var scene_objects = load("user://levels/" + file.trim_suffix(".tscn") + ".objects.tscn")
+	var node_gridmap: GridMap = scene_gridmap.instantiate()
+	var node_objects: Node3D
+	if FileAccess.file_exists("user://levels/" + file.trim_suffix(".tscn") + ".objects.tscn"):
+		node_objects = scene_objects.instantiate()
+	else:
+		print_rich("[WARNING] [color=yellow] No .object.tscn found. Loading default instead.<")
+		node_objects = Node3D.new()
+	node_objects.name = "Objects"
+	node_gridmap.name = "GridMap"
+
 	
-	#very goofy code idk why but it works.
-	$"..".add_child(node)
+	#remove old
+	name = "GridMapOld"
+	world.get_node("Objects").queue_free()
+	world.get_node("0").queue_free()
+	
+	#add nodes
 	await get_tree().process_frame
-	#$"../GridMap".create_gridmap_chunks()
-	$"../GridMap".render_gridmap()
-	$"../GridMap".move_player()
+	world.add_child(node_gridmap)
+	if node_objects:
+		world.add_child(node_objects)
+	
+	await get_tree().process_frame
+	world.get_node("GridMap").move_player()
+	world.get_node("GridMap").create_gridmap_chunks()
+	world.get_node("GridMap").render_gridmap()
+	world.get_node("GridMap").objects = world.get_node("Objects")
 	
 	await get_tree().process_frame
 	global.show_loading_screen(false)
