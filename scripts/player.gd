@@ -6,6 +6,8 @@ const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
 var sensitivity = 0.002
 var selected_block = 0
+var selected_hotbar_item = 0
+var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 7, -1, -1]
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
@@ -16,6 +18,10 @@ var selected_block = 0
 @onready var get_save_name: VBoxContainer = $CanvasLayer/Control/Menu/GetSaveName
 @onready var get_load_name: VBoxContainer = $CanvasLayer/Control/Menu/GetLoadName
 @onready var background: TextureRect = $CanvasLayer/Control/Menu/Background
+@onready var hotbar_selection: TextureRect = $CanvasLayer/Control/Hotbar/Selection
+@onready var hotbar_node_items: Control = $CanvasLayer/Control/Hotbar/Items
+@onready var block_menu: Control = $CanvasLayer/Control/BlockMenu
+
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
@@ -33,8 +39,14 @@ func _ready():
 	
 	control.visible = true
 	camera_3d.current = true
-	
 	label3d.text = global.player_name
+	update_hotbar()
+	
+	#Connect BlockMenu Buttons
+	for i in block_menu.get_node("GridContainer").get_children():
+		i.connect(
+			"pressed", Callable(_blockmenu_button_pressed).bind(i.name)
+		)
 
 func _input(event: InputEvent) -> void:
 	if global.is_multiplayer:
@@ -102,27 +114,25 @@ func _input(event: InputEvent) -> void:
 		folderbutton.text = "Open Folder"
 		folderbutton.connect("pressed", open_level_folder)
 		get_load_name.add_child(folderbutton)
-		
-
-	#Change selected Block
-	if Input.is_key_pressed(KEY_1):
-		selected_block = 0
-	if Input.is_key_pressed(KEY_2):
-		selected_block = 1
-	if Input.is_key_pressed(KEY_3):
-		selected_block = 2
-	if Input.is_key_pressed(KEY_4):
-		selected_block = 3
-	if Input.is_key_pressed(KEY_5):
-		selected_block = 4
-	if Input.is_key_pressed(KEY_6):
-		selected_block = 5
-	if Input.is_key_pressed(KEY_7):
-		selected_block = 6
-	if Input.is_key_pressed(KEY_8):
-		selected_block = 7
+	
+	#Mouse Hotbar and Update Block Selection
+	if Input.is_action_just_released("hotbar_down"):
+		selected_hotbar_item += 1
+		if selected_hotbar_item > 9: selected_hotbar_item = 0
+	elif Input.is_action_just_released("hotbar_up"):
+		selected_hotbar_item += -1
+		if selected_hotbar_item < 0: selected_hotbar_item = 9
+	hotbar_selection.position.x = selected_hotbar_item * 56
+	selected_block = hotbar_items[selected_hotbar_item]
+	
 	control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block) + ".png")
-
+	
+	#Block Menu
+	if Input.is_action_just_released("hotbar_block_menu"):
+		block_menu.show()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		global.do_not_allow_input = true
+	
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
@@ -179,6 +189,10 @@ func _physics_process(delta: float) -> void:
 
 ##UI Control
 
+func update_hotbar():
+	for i in hotbar_items.size():
+		hotbar_node_items.get_node(str(i)).texture = load("res://textures/icon/" + str(hotbar_items[i]) + ".png")
+
 func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
@@ -194,8 +208,11 @@ func _get_load_name_pressed(button_text) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	global.show_loading_screen(true)
+	control.visible = false
 	print_rich("[INFO] Loading scene: [b]", button_text)
 	grid_map.load_level_from_file(button_text)
+	
+	await get_tree().process_frame
 	
 	background.visible = false
 	get_load_name.visible = false
@@ -207,6 +224,15 @@ func _get_load_name_pressed(button_text) -> void:
 		await get_tree().process_frame
 	grid_map = $"../GridMap"
 	global.show_loading_screen(false)
+	control.visible = true
 
 func open_level_folder():
 	OS.shell_open(ProjectSettings.globalize_path("user://levels/"))
+
+func _blockmenu_button_pressed(name_args: String) -> void:
+	print(name_args)
+	global.do_not_allow_input = false
+	block_menu.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	hotbar_items[selected_hotbar_item] = name_args.to_int()
+	update_hotbar()

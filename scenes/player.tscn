@@ -1,9 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=19 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://chgt64dat8fey" path="res://textures/gui/crosshair.png" id="3_qhqgy"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://j4uglu2w8jpi" path="res://textures/gui/hotbar.png" id="5_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://c14iidkoauie5" path="res://textures/gui/selection.png" id="6_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="7_jej6c"]
+[ext_resource type="Texture2D" uid="uid://ck61hs5eqedq2" path="res://textures/icon/2.png" id="8_f1ej7"]
+[ext_resource type="Texture2D" uid="uid://5bkwwurww76p" path="res://textures/icon/3.png" id="9_oprun"]
+[ext_resource type="Texture2D" uid="uid://b3fa2qu1hqcv8" path="res://textures/icon/4.png" id="10_a8ls1"]
+[ext_resource type="Texture2D" uid="uid://ce63fu8d5k114" path="res://textures/icon/5.png" id="11_qfm1y"]
+[ext_resource type="Texture2D" uid="uid://qoqlfp5c86tq" path="res://textures/icon/6.png" id="12_fulsm"]
+[ext_resource type="Texture2D" uid="uid://63wmde66i18x" path="res://textures/icon/7.png" id="13_4r5pv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -59,7 +68,7 @@ mesh = SubResource("BoxMesh_3vyb7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.497413, 0)
 pixel_size = 0.0075
 billboard = 2
-text = "Name Test"
+text = "LOADING..."
 font_size = 64
 outline_size = 32
 
@@ -110,6 +119,142 @@ offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_qhqgy")
+
+[node name="Hotbar" type="Control" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchor_left = 0.0125
+anchor_top = 0.8888889
+anchor_right = 0.45625
+anchor_bottom = 0.9777778
+metadata/_edit_use_anchors_ = true
+
+[node name="HotbarTexture" type="TextureRect" parent="CanvasLayer/Control/Hotbar"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_qlg0r")
+stretch_mode = 4
+
+[node name="Selection" type="TextureRect" parent="CanvasLayer/Control/Hotbar"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.112676054
+anchor_bottom = 1.0
+texture = ExtResource("6_tuyoq")
+metadata/_edit_use_anchors_ = true
+
+[node name="Items" type="Control" parent="CanvasLayer/Control/Hotbar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="0" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028169014
+anchor_top = 0.25
+anchor_right = 0.08450704
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="1" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12676056
+anchor_top = 0.25
+anchor_right = 0.18309858
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="2" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.22535211
+anchor_top = 0.25
+anchor_right = 0.28169015
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="3" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32394367
+anchor_top = 0.25
+anchor_right = 0.3802817
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="4" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4225352
+anchor_top = 0.25
+anchor_right = 0.47887325
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="5" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.52112675
+anchor_top = 0.25
+anchor_right = 0.57746476
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="6" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6197183
+anchor_top = 0.25
+anchor_right = 0.67605627
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="7" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7183099
+anchor_top = 0.25
+anchor_right = 0.77464783
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="8" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8169014
+anchor_top = 0.25
+anchor_right = 0.8732394
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
+
+[node name="9" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.91549295
+anchor_top = 0.25
+anchor_right = 0.97183096
+anchor_bottom = 0.75
+metadata/_edit_use_anchors_ = true
 
 [node name="Menu" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -184,6 +329,112 @@ theme_override_font_sizes/font_size = 32
 text = "Load Level"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BlockMenu" type="Control" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -216.0
+offset_right = 320.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/Control/BlockMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_g2els")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/BlockMenu"]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 36.0
+text = "Block Menu"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/BlockMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -296.0
+offset_top = -176.0
+offset_right = 296.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 7
+
+[node name="0" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_g2els")
+stretch_mode = 0
+
+[node name="1" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("7_jej6c")
+stretch_mode = 0
+
+[node name="2" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("8_f1ej7")
+stretch_mode = 0
+
+[node name="3" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("9_oprun")
+stretch_mode = 0
+
+[node name="4" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("10_a8ls1")
+stretch_mode = 0
+
+[node name="5" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("11_qfm1y")
+stretch_mode = 0
+
+[node name="6" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("12_fulsm")
+stretch_mode = 0
+
+[node name="7" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("13_4r5pv")
+stretch_mode = 0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_g2els")
