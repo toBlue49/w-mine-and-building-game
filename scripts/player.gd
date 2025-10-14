@@ -188,9 +188,11 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider().has_method("place_block"):
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
+				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
-				prints(distancex, distancez)
-				if distancex == 0 and distancez == 0: return
+				prints(distancex, distancey, distancez)
+				if distancey < 2.5:
+					if distancex == 0 and distancez == 0: return
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
 ##UI Control

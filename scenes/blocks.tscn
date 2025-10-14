@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b7c81djr11aqg" path="res://textures/concrete_white.png" id="9_mpxed"]
 [ext_resource type="Texture2D" uid="uid://crjjk5mr80t5a" path="res://textures/concrete_gray.png" id="10_nnip7"]
 [ext_resource type="Texture2D" uid="uid://cltx5igqvx2tl" path="res://textures/concrete_yellow.png" id="11_6nsvg"]
+[ext_resource type="Texture2D" uid="uid://cvfk4t85tsphb" path="res://textures/concrete_orange.png" id="11_s0i7d"]
 [ext_resource type="Texture2D" uid="uid://bc8lu87o3dhxv" path="res://textures/concrete_green_yellow.png" id="12_nnip7"]
 [ext_resource type="Texture2D" uid="uid://b2o4rfmc45vw0" path="res://textures/concrete_lime_green.png" id="13_xl1gl"]
 [ext_resource type="Texture2D" uid="uid://bglmmm15pe0u" path="res://textures/concrete_cyan.png" id="14_5x58u"]
@@ -144,15 +145,12 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_s0i7d")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m64mq"]
-load_path = "res://.godot/imported/concrete_orange.png-55329b659e686cde105382f1f4351931.s3tc.ctex"
-
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_03jfd"]
 load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrnuw"]
 depth_draw_mode = 1
-albedo_texture = SubResource("CompressedTexture2D_m64mq")
+albedo_texture = ExtResource("11_s0i7d")
 normal_texture = SubResource("CompressedTexture2D_03jfd")
 uv2_world_triplanar = true
 texture_filter = 0
