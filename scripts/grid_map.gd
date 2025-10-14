@@ -1,6 +1,6 @@
 extends GridMap
 
-const size := 128 #160 IST SWEETSPOT FÜR MULTIPLAYER
+const size := 112 #TEMP 128
 const chunk_size := 8
 var gotten_y = []
 var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]

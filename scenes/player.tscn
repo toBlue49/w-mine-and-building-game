@@ -15,8 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://63wmde66i18x" path="res://textures/icon/7.png" id="13_4r5pv"]
 [ext_resource type="Texture2D" uid="uid://sbsb4rc4mjl5" path="res://textures/icon/8.png" id="14_l71n6"]
 [ext_resource type="Texture2D" uid="uid://gwvqn5cnga7r" path="res://textures/icon/9.png" id="15_ke2ow"]
-[ext_resource type="Texture2D" uid="uid://b12vkrphvfltg" path="res://textures/icon/10.png" id="16_ujl30"]
-[ext_resource type="Texture2D" uid="uid://3fwap5uka7lb" path="res://textures/icon/11.png" id="17_31cv2"]
+[ext_resource type="Texture2D" uid="uid://b12vkrphvfltg" path="res://textures/icon/11.png" id="16_ujl30"]
+[ext_resource type="Texture2D" uid="uid://3fwap5uka7lb" path="res://textures/icon/10.png" id="17_31cv2"]
 [ext_resource type="Texture2D" uid="uid://r20kk2h05v0e" path="res://textures/icon/12.png" id="18_pf23h"]
 [ext_resource type="Texture2D" uid="uid://p3l6bcgqvtlm" path="res://textures/icon/13.png" id="19_dt7fs"]
 [ext_resource type="Texture2D" uid="uid://vxj62vj8fj6i" path="res://textures/icon/14.png" id="20_wqfne"]
@@ -461,14 +461,14 @@ layout_mode = 2
 texture_normal = ExtResource("15_ke2ow")
 stretch_mode = 0
 
-[node name="10" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="11" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("16_ujl30")
 stretch_mode = 0
 
-[node name="11" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="10" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2

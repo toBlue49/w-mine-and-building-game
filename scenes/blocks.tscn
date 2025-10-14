@@ -25,7 +25,7 @@ material = ExtResource("1_giubl")
 size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_irvtj"]
-size = Vector3(2, 1.949707, 2)
+size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ow8de"]
 material = ExtResource("2_3jd7w")
@@ -145,21 +145,6 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_s0i7d")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_03jfd"]
-load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrnuw"]
-depth_draw_mode = 1
-albedo_texture = ExtResource("11_s0i7d")
-normal_texture = SubResource("CompressedTexture2D_03jfd")
-uv2_world_triplanar = true
-texture_filter = 0
-texture_repeat = false
-
-[sub_resource type="BoxMesh" id="BoxMesh_gl5s0"]
-material = SubResource("StandardMaterial3D_wrnuw")
-size = Vector3(2, 2, 2)
-
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s5mrl"]
 load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
 
@@ -173,6 +158,21 @@ texture_repeat = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_cny3s"]
 material = SubResource("StandardMaterial3D_fcfn4")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s0i7d"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfapm"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("11_s0i7d")
+normal_texture = SubResource("CompressedTexture2D_s0i7d")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_m64mq"]
+material = SubResource("StandardMaterial3D_yfapm")
 size = Vector3(2, 2, 2)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6nsvg"]
@@ -371,15 +371,6 @@ mesh = SubResource("BoxMesh_yfapm")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGray/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteOrange" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
-mesh = SubResource("BoxMesh_gl5s0")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteOrange"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteOrange/StaticBody3D"]
-shape = SubResource("BoxShape3D_irvtj")
-
 [node name="ConcreteYellow" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 0)
 mesh = SubResource("BoxMesh_cny3s")
@@ -387,6 +378,15 @@ mesh = SubResource("BoxMesh_cny3s")
 [node name="StaticBody3D" type="StaticBody3D" parent="ConcreteYellow"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteYellow/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteOrange" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+mesh = SubResource("BoxMesh_m64mq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteOrange"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteOrange/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")
 
 [node name="ConcreteGreenYellow" type="MeshInstance3D" parent="."]
