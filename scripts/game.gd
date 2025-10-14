@@ -3,6 +3,7 @@ extends Node
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 
+var config = ConfigFile.new()
 var do_not_allow_input = false
 var player_name = "DEFAULTNAME"
 var enet_peer = ENetMultiplayerPeer.new()

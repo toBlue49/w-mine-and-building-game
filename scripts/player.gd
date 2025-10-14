@@ -7,7 +7,7 @@ const JUMP_VELOCITY = 11
 var sensitivity = 0.002
 var selected_block = 0
 var selected_hotbar_item = 0
-var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 7, -1, -1]
+var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, -1, -1]
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
@@ -51,12 +51,13 @@ func _ready():
 func _input(event: InputEvent) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
-		
+	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
 		background.visible = false
 		get_load_name.visible = false
 		get_save_name.visible = false
+		block_menu.visible = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		global.do_not_allow_input = false
 	
@@ -180,11 +181,16 @@ func _physics_process(delta: float) -> void:
 	
 	#World changes by player
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
+		
 		if Input.is_action_just_pressed("world_destory"):
 			if raycast3d.get_collider().has_method("destroy_block"):
 				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider().has_method("place_block"):
+				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
+				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
+				prints(distancex, distancez)
+				if distancex == 0 and distancez == 0: return
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
 ##UI Control

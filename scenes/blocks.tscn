@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://mkxxfvmbvtbw"]
+[gd_scene load_steps=72 format=3 uid="uid://mkxxfvmbvtbw"]
 
 [ext_resource type="Material" uid="uid://cdurrvsyu72c4" path="res://materials/grass.tres" id="1_giubl"]
 [ext_resource type="Material" uid="uid://bpujx28qo8ikc" path="res://materials/stone.tres" id="2_3jd7w"]
@@ -8,6 +8,16 @@
 [ext_resource type="Texture2D" uid="uid://bs0mbcfvbyn61" path="res://textures/planks.png" id="6_ow8de"]
 [ext_resource type="Texture2D" uid="uid://ddl2hpcenws2o" path="res://textures/glass.png" id="7_wro84"]
 [ext_resource type="Texture2D" uid="uid://ciei4oqx0xcfe" path="res://textures/light.png" id="8_rgft6"]
+[ext_resource type="Texture2D" uid="uid://b7c81djr11aqg" path="res://textures/concrete_white.png" id="9_mpxed"]
+[ext_resource type="Texture2D" uid="uid://crjjk5mr80t5a" path="res://textures/concrete_gray.png" id="10_nnip7"]
+[ext_resource type="Texture2D" uid="uid://cltx5igqvx2tl" path="res://textures/concrete_yellow.png" id="11_6nsvg"]
+[ext_resource type="Texture2D" uid="uid://bc8lu87o3dhxv" path="res://textures/concrete_green_yellow.png" id="12_nnip7"]
+[ext_resource type="Texture2D" uid="uid://b2o4rfmc45vw0" path="res://textures/concrete_lime_green.png" id="13_xl1gl"]
+[ext_resource type="Texture2D" uid="uid://bglmmm15pe0u" path="res://textures/concrete_cyan.png" id="14_5x58u"]
+[ext_resource type="Texture2D" uid="uid://ck6tltf5srggd" path="res://textures/concrete_palatinate_blue.png" id="15_w60hs"]
+[ext_resource type="Texture2D" uid="uid://2rs13rvc7ncg" path="res://textures/concrete_electric_violet.png" id="16_5x58u"]
+[ext_resource type="Texture2D" uid="uid://blx4ahw1c0qfb" path="res://textures/concrete_magenta.png" id="17_w60hs"]
+[ext_resource type="Texture2D" uid="uid://caiq3ju7etplv" path="res://textures/concrete_deep_pink.png" id="18_ic3an"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irvtj"]
 material = ExtResource("1_giubl")
@@ -104,6 +114,174 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_rgft6")
 size = Vector3(2, 2, 2)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xl1gl"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5x58u"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("9_mpxed")
+normal_texture = SubResource("CompressedTexture2D_xl1gl")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_w60hs"]
+material = SubResource("StandardMaterial3D_5x58u")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ic3an"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0i7d"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("10_nnip7")
+normal_texture = SubResource("CompressedTexture2D_ic3an")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_yfapm"]
+material = SubResource("StandardMaterial3D_s0i7d")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m64mq"]
+load_path = "res://.godot/imported/concrete_orange.png-55329b659e686cde105382f1f4351931.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_03jfd"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrnuw"]
+depth_draw_mode = 1
+albedo_texture = SubResource("CompressedTexture2D_m64mq")
+normal_texture = SubResource("CompressedTexture2D_03jfd")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_gl5s0"]
+material = SubResource("StandardMaterial3D_wrnuw")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s5mrl"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fcfn4"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("11_6nsvg")
+normal_texture = SubResource("CompressedTexture2D_s5mrl")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_cny3s"]
+material = SubResource("StandardMaterial3D_fcfn4")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6nsvg"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x152s"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("12_nnip7")
+normal_texture = SubResource("CompressedTexture2D_6nsvg")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_xl1gl"]
+material = SubResource("StandardMaterial3D_x152s")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w60hs"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ic3an"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("13_xl1gl")
+normal_texture = SubResource("CompressedTexture2D_w60hs")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_s0i7d"]
+material = SubResource("StandardMaterial3D_ic3an")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wrnuw"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gl5s0"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("14_5x58u")
+normal_texture = SubResource("CompressedTexture2D_wrnuw")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_s5mrl"]
+material = SubResource("StandardMaterial3D_gl5s0")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cny3s"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4134y"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("15_w60hs")
+normal_texture = SubResource("CompressedTexture2D_cny3s")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_keoep"]
+material = SubResource("StandardMaterial3D_4134y")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wc0x4"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2h4m"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("16_5x58u")
+normal_texture = SubResource("CompressedTexture2D_wc0x4")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_a6x4e"]
+material = SubResource("StandardMaterial3D_p2h4m")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j2u7o"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ja0aw"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("17_w60hs")
+normal_texture = SubResource("CompressedTexture2D_j2u7o")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_34qpj"]
+material = SubResource("StandardMaterial3D_ja0aw")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_p8xbs"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2d5a1"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("18_ic3an")
+normal_texture = SubResource("CompressedTexture2D_p8xbs")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_83fgn"]
+material = SubResource("StandardMaterial3D_2d5a1")
+size = Vector3(2, 2, 2)
+
 [node name="blocks" type="Node3D"]
 
 [node name="Grass" type="MeshInstance3D" parent="."]
@@ -175,4 +353,103 @@ mesh = SubResource("BoxMesh_5x58u")
 [node name="StaticBody3D" type="StaticBody3D" parent="Light"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Light/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteWhite" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+mesh = SubResource("BoxMesh_w60hs")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteWhite"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteWhite/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteGray" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0)
+mesh = SubResource("BoxMesh_yfapm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGray"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGray/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteOrange" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
+mesh = SubResource("BoxMesh_gl5s0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteOrange"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteOrange/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteYellow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 0)
+mesh = SubResource("BoxMesh_cny3s")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteYellow"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteYellow/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteGreenYellow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 0)
+mesh = SubResource("BoxMesh_xl1gl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGreenYellow"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGreenYellow/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteLimeGreen" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 0)
+mesh = SubResource("BoxMesh_s0i7d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteLimeGreen"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteLimeGreen/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteCyan" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56, 0, 0)
+mesh = SubResource("BoxMesh_s5mrl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteCyan"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteCyan/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcretePalatinateBlue" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 0)
+mesh = SubResource("BoxMesh_keoep")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePalatinateBlue"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePalatinateBlue/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteElectricViolet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 0)
+mesh = SubResource("BoxMesh_a6x4e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteElectricViolet"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteElectricViolet/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteMagenta" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68, 0, 0)
+mesh = SubResource("BoxMesh_34qpj")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteMagenta"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteMagenta/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ConcreteDeepPink" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, 0)
+mesh = SubResource("BoxMesh_83fgn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteDeepPink"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteDeepPink/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")

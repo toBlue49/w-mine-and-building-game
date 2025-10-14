@@ -58,6 +58,9 @@ func render_gridmap():
 			update_single_chunk(chunks.get_node("x" + str(xpos) + "z" + str(zpos)), xpos, zpos, Vector3i(0, 0, 0))
 
 func render_chunk(gridmap, x, z):
+	@warning_ignore("integer_division")
+	if x > size/chunk_size or z > size/chunk_size or x < 0 or z < 0:
+		return
 	for y in 128:
 		for lx in chunk_size:
 			for lz in chunk_size:
