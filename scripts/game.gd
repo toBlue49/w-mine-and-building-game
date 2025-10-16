@@ -38,7 +38,9 @@ func load_scene(scene_path: String):
 	
 	var new_scene = load(scene_path) as PackedScene
 	var scene_node = new_scene.instantiate()
+	print(scene_node.name)
 	SceneContainer.add_child(scene_node)
+	
 	loaded_scene = scene_path
 
 func show_loading_screen(state: bool):
@@ -68,6 +70,7 @@ func mainmenu_btn_pressed():
 	hide_popup()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await get_tree().process_frame
+	global.did_generate_level = false
 	reload_scene()
 
 func reload_scene():

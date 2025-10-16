@@ -1,12 +1,11 @@
-res://scenes/blocks.tscn
+res://scenes/player.tscn
 res://resources/theme.tres
 res://materials/dirt.tres
 res://resources/blocks.tres
-res://scripts/player.gd
-res://scenes/world.tscn
-res://scenes/player.tscn
 res://scripts/game.gd
-res://scripts/main_menu.gd
+res://scenes/world.tscn
+res://scripts/player.gd
 res://scenes/game.tscn
-res://scenes/main_menu.tscn
 res://scripts/grid_map.gd
+res://scenes/blocks.tscn
+res://scenes/main_menu.tscn

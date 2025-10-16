@@ -1,3 +1,4 @@
+Button
 TextureButton
 GridContainer
 ItemList
@@ -5,11 +6,9 @@ Label
 Control
 TextureRect
 MeshInstance3D
-Button
 ColorRect
 TextEdit
 Panel
 MarginContainer
 VBoxContainer
 RichTextLabel
-PopupPanel

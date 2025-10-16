@@ -7,7 +7,6 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4wyf3"]
 noise_type = 3
-seed = 49
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_k0juu"]
 noise_type = 5

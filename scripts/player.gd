@@ -21,6 +21,7 @@ var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, -1, -1]
 @onready var hotbar_selection: TextureRect = $CanvasLayer/Control/Hotbar/Selection
 @onready var hotbar_node_items: Control = $CanvasLayer/Control/Hotbar/Items
 @onready var block_menu: Control = $CanvasLayer/Control/BlockMenu
+@onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
 
 
 func _enter_tree() -> void:
@@ -54,12 +55,18 @@ func _input(event: InputEvent) -> void:
 	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
-		background.visible = false
 		get_load_name.visible = false
 		get_save_name.visible = false
 		block_menu.visible = false
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		global.do_not_allow_input = false
+		pause_menu.visible = not pause_menu.visible
+		if pause_menu.visible:
+			background.visible = true
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			global.do_not_allow_input = true
+		else:
+			background.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			global.do_not_allow_input = false
 	
 	if global.do_not_allow_input: return
 	
@@ -80,41 +87,6 @@ func _input(event: InputEvent) -> void:
 	else:
 		SPEED = WALK_SPEED
 		camera_3d.fov = 75
-	
-	#Save/Load Level
-	if Input.is_action_just_pressed("level_save") and (!global.is_multiplayer or multiplayer.is_server()):
-		get_save_name.visible = true
-		get_load_name.visible = false
-		background.visible = true
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		global.do_not_allow_input = true
-	if Input.is_action_just_pressed("level_load") and !global.is_multiplayer:
-		background.visible = true
-		get_load_name.visible = true
-		get_save_name.visible = false
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		global.do_not_allow_input = true
-		
-		var dir: DirAccess = DirAccess.open("user://levels/")
-		
-		for i in get_load_name.get_child_count():
-			if get_load_name.get_child(i) is Button:
-				get_load_name.get_child(i).queue_free()
-		
-		dir.list_dir_begin()
-		for file: String in dir.get_files():
-			var scene = load("res://scenes/load_level_button.tscn")
-			var node: Node = scene.instantiate()
-			node.text = file
-			node.pressed.connect(
-				Callable(_get_load_name_pressed).bind(node.text)
-			)
-			if not file.containsn(".objects.tscn"):
-				get_load_name.add_child(node)
-		var folderbutton = Button.new()
-		folderbutton.text = "Open Folder"
-		folderbutton.connect("pressed", open_level_folder)
-		get_load_name.add_child(folderbutton)
 	
 	#Mouse Hotbar and Update Block Selection
 	if Input.is_action_just_released("hotbar_down"):
@@ -176,12 +148,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	
 	move_and_slide()
 	
 	#World changes by player
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
-		
 		if Input.is_action_just_pressed("world_destory"):
 			if raycast3d.get_collider().has_method("destroy_block"):
 				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
@@ -191,7 +162,7 @@ func _physics_process(delta: float) -> void:
 				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
 				prints(distancex, distancey, distancez)
-				if distancey < 2.5:
+				if distancey == 1:
 					if distancex == 0 and distancez == 0: return
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
 
@@ -244,3 +215,49 @@ func _blockmenu_button_pressed(name_args: String) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	hotbar_items[selected_hotbar_item] = name_args.to_int()
 	update_hotbar()
+
+func _on_pause_save_button() -> void:
+	if global.is_multiplayer or !multiplayer.is_server():
+		return
+	get_save_name.visible = true
+	get_load_name.visible = false
+	background.visible = true
+	pause_menu.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	global.do_not_allow_input = true
+
+func _on_pause_load_button() -> void:
+	if global.is_multiplayer:
+		return
+	background.visible = true
+	get_load_name.visible = true
+	get_save_name.visible = false
+	pause_menu.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	global.do_not_allow_input = true
+	
+	var dir: DirAccess = DirAccess.open("user://levels/")
+	
+	for i in get_load_name.get_child_count():
+		if get_load_name.get_child(i) is Button:
+			get_load_name.get_child(i).queue_free()
+	
+	dir.list_dir_begin()
+	for file: String in dir.get_files():
+		var scene = load("res://scenes/load_level_button.tscn")
+		var node: Node = scene.instantiate()
+		node.text = file
+		node.pressed.connect(
+			Callable(_get_load_name_pressed).bind(node.text)
+		)
+		if not file.containsn(".objects.tscn"):
+			get_load_name.add_child(node)
+	var folderbutton = Button.new()
+	folderbutton.text = "Open Folder"
+	folderbutton.connect("pressed", open_level_folder)
+	get_load_name.add_child(folderbutton)
+
+func _on_pause_mainmenu_button() -> void:
+	global.reload_scene()
+	global.did_generate_level = false
+	global.do_not_allow_input = false

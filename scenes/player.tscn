@@ -341,6 +341,42 @@ text = "Load Level"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.275
+anchor_right = 0.725
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/PauseMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Pause Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Save" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Save Level"
+
+[node name="Load" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Load Level"
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Back to Main Menu"
+
 [node name="BlockMenu" type="Control" parent="CanvasLayer/Control"]
 visible = false
 layout_mode = 1
@@ -528,3 +564,6 @@ stretch_mode = 0
 replication_config = SubResource("SceneReplicationConfig_g2els")
 
 [connection signal="pressed" from="CanvasLayer/Control/Menu/GetSaveName/Button" to="." method="_get_save_name_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Save" to="." method="_on_pause_save_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Load" to="." method="_on_pause_load_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]

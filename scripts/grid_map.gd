@@ -1,6 +1,6 @@
 extends GridMap
 
-const size := 112 #TEMP 128
+var size := 120 #184q
 const chunk_size := 8
 var gotten_y = []
 var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
@@ -8,7 +8,6 @@ var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
 @onready var objects: Node3D = $"../Objects"
-
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -106,8 +105,8 @@ func move_player(peer_id = 0):
 			i.queue_free()
 	@warning_ignore("integer_division")
 	var half_size = size/2
-	var pos = Vector3(half_size*2, 0, half_size*2)
-	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
+	var pos = Vector3(size, 0, size)
+	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +2
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player(peer_id, pos)
 
@@ -146,17 +145,18 @@ func GENERATE():
 
 func init_singleplayer():
 	if global.did_generate_level == false:
+		noise.set_seed(randi_range(-2147483646, 2147483646))
 		global.show_loading_screen(true)
 		await get_tree().process_frame
 		GENERATE()
 		move_player()
-		await get_tree().process_frame
 		global.show_loading_screen(false)
 		global.did_generate_level = true
 	player = world.get_node("0")
 
 func init_host():
 	if global.did_generate_level == false:
+		noise.set_seed(randi_range(-2147483646, 2147483646))
 		global.show_loading_screen(true)
 		await get_tree().process_frame
 		GENERATE()
@@ -287,7 +287,6 @@ func load_level_from_file(file: String):
 		node_objects = Node3D.new()
 	node_objects.name = "Objects"
 	node_gridmap.name = "GridMap"
-
 	
 	#remove old
 	name = "GridMapOld"
