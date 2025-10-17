@@ -26,6 +26,7 @@ func _process(_delta: float) -> void:
 	if mainmenu.button_pressed == "singleplayer":
 		mainmenu.visible = false
 		mainmenu.button_pressed = ""
+		grid_map.size = mainmenu.size_box.value
 		global.change_title_extension("Singleplayer")
 		global.hide_popup()
 		
@@ -36,6 +37,7 @@ func _process(_delta: float) -> void:
 	if mainmenu.button_pressed == "mult_host":
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
+		grid_map.size = mainmenu.size_box.value
 		
 		#Host Game
 		global.enet_peer.create_server(global.PORT)

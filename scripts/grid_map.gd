@@ -1,6 +1,6 @@
 extends GridMap
 
-var size := 120 #184q
+var size := -1
 const chunk_size := 8
 var gotten_y = []
 var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
@@ -88,7 +88,11 @@ func update_single_chunk(gridmap: GridMap, x , z, global_map_pos):
 	if map_pos.z == chunk_size-1 and z < size/chunk_size-1:
 		render_chunk(chunks.get_node(str("x", x, "z", z+1)), x, z+1)
 
-func create_gridmap_chunks():
+func create_gridmap_chunks(do_delete = false):
+	if do_delete:
+		for i in chunks.get_children():
+			i.free()
+		
 	@warning_ignore("integer_division")
 	for i in size/chunk_size:
 		@warning_ignore("integer_division")
@@ -171,20 +175,22 @@ func init_host():
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
 			await get_tree().create_timer(0.75).timeout
-			init_join.rpc(new_peer_id, level_to_array())
+			init_join.rpc(new_peer_id, level_to_array(), size)
 	)
 	multiplayer.peer_disconnected.connect(
 		func(leave_peer_id):
-			print(leave_peer_id)
+			print_rich("[INFO] Peer Disconnected. ID: [b]" + leave_peer_id)
 			if world.get_node_or_null(str(leave_peer_id)):
 				world.get_node_or_null(str(leave_peer_id)).queue_free()
 	)
 
 @rpc("reliable")
-func init_join(peer_id, level_array: Array):
+func init_join(peer_id, level_array: Array, gridmap_size: int):
+	size = gridmap_size
 	@warning_ignore("integer_division")
 	var half_size = size/2
 	var pos = Vector3(half_size*2, 0, half_size*2)
+
 	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
@@ -257,6 +263,9 @@ func save_level_to_file(path: String):
 	for i in objects.get_children():
 		i.owner = objects
 	
+	#set_name
+	save_gridmap.name = "GridMap_" + str(size)
+	
 	#Pack gridmap node
 	scene.pack(save_gridmap)
 	print_rich("[INFO] Saving following scene: [b]", scene)
@@ -285,6 +294,11 @@ func load_level_from_file(file: String):
 	else:
 		print_rich("[WARNING] [color=yellow] No .object.tscn found. Loading default instead.<")
 		node_objects = Node3D.new()
+	
+	#get Saved GridMap Size
+	var temp_size: int = node_gridmap.name.trim_prefix("GridMap_").to_int()
+	print_rich("[INFO] Loaded GridMap temp_size: [b]" + str(temp_size))
+	
 	node_objects.name = "Objects"
 	node_gridmap.name = "GridMap"
 	
@@ -300,8 +314,9 @@ func load_level_from_file(file: String):
 		world.add_child(node_objects)
 	
 	await get_tree().process_frame
+	world.get_node("GridMap").size = temp_size 
 	world.get_node("GridMap").move_player()
-	world.get_node("GridMap").create_gridmap_chunks()
+	world.get_node("GridMap").create_gridmap_chunks(true)
 	world.get_node("GridMap").render_gridmap()
 	world.get_node("GridMap").objects = world.get_node("Objects")
 	

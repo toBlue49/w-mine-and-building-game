@@ -2,6 +2,8 @@ extends Control
 
 @onready var ip_address: LineEdit = $MarginContainer/VBoxContainer/LineEdit
 @onready var name_edit: LineEdit = $MarginContainer/VBoxContainer/NameLineEdit
+@onready var size_box: SpinBox = $MarginContainer/VBoxContainer/Singleplayer/SizeBox
+
 
 var button_pressed: String
 

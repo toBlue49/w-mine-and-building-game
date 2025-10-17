@@ -38,7 +38,7 @@ func load_scene(scene_path: String):
 	
 	var new_scene = load(scene_path) as PackedScene
 	var scene_node = new_scene.instantiate()
-	print(scene_node.name)
+	print_rich("[INFO] Loading Scene with name [b]'" + scene_node.name + "'[/b]")
 	SceneContainer.add_child(scene_node)
 	
 	loaded_scene = scene_path

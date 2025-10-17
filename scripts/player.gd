@@ -209,7 +209,7 @@ func open_level_folder():
 	OS.shell_open(ProjectSettings.globalize_path("user://levels/"))
 
 func _blockmenu_button_pressed(name_args: String) -> void:
-	print(name_args)
+	print_rich("[INFO] Selected Block in blockmenu: [b]" + name_args)
 	global.do_not_allow_input = false
 	block_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -217,7 +217,7 @@ func _blockmenu_button_pressed(name_args: String) -> void:
 	update_hotbar()
 
 func _on_pause_save_button() -> void:
-	if global.is_multiplayer or !multiplayer.is_server():
+	if global.is_multiplayer and !multiplayer.is_server():
 		return
 	get_save_name.visible = true
 	get_load_name.visible = false
