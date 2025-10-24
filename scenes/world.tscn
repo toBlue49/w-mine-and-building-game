@@ -1,9 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://dcnexdcn8xq20"]
+[gd_scene load_steps=26 format=3 uid="uid://dcnexdcn8xq20"]
 
 [ext_resource type="Script" uid="uid://djdywkxej8iic" path="res://scripts/world.gd" id="1_k0juu"]
 [ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://bc18dgy4sb3i" path="res://scripts/grid_map.gd" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://dsy30kwg16tcw" path="res://scenes/main_menu.tscn" id="4_k0juu"]
+[ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://bcxl1ld54pd27" path="res://scenes/chat.tscn" id="5_i7141"]
+[ext_resource type="Texture2D" uid="uid://p3l6bcgqvtlm" path="res://textures/icon/13.png" id="6_qfnet"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4wyf3"]
 noise_type = 3
@@ -36,6 +39,62 @@ ssao_intensity = 3.0
 ssil_enabled = true
 volumetric_fog_albedo = Color(0, 0, 1, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k0juu"]
+albedo_color = Color(0.45926803, 0.45926803, 0.45926803, 1)
+albedo_texture = ExtResource("5_71j4m")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_71j4m"]
+material = SubResource("StandardMaterial3D_k0juu")
+size = Vector3(512, 2, 512)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_k0juu"]
+data = PackedVector3Array(-256, 1, 256, 256, 1, 256, -256, -1, 256, 256, 1, 256, 256, -1, 256, -256, -1, 256, 256, 1, -256, -256, 1, -256, 256, -1, -256, -256, 1, -256, -256, -1, -256, 256, -1, -256, 256, 1, 256, 256, 1, -256, 256, -1, 256, 256, 1, -256, 256, -1, -256, 256, -1, 256, -256, 1, -256, -256, 1, 256, -256, -1, -256, -256, 1, 256, -256, -1, 256, -256, -1, -256, 256, 1, 256, -256, 1, 256, 256, 1, -256, -256, 1, 256, -256, 1, -256, 256, 1, -256, -256, -1, 256, 256, -1, 256, -256, -1, -256, 256, -1, 256, 256, -1, -256, -256, -1, -256)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qfnet"]
+load_path = "res://.godot/imported/13.png-01a5032c452e12a2fc9480b28a71fb28.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4gi"]
+albedo_texture = SubResource("CompressedTexture2D_qfnet")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_w7kh3"]
+material = SubResource("StandardMaterial3D_7r4gi")
+size = Vector3(1024, 64, 512)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qfnet"]
+data = PackedVector3Array(-512, 32, 256, 512, 32, 256, -512, -32, 256, 512, 32, 256, 512, -32, 256, -512, -32, 256, 512, 32, -256, -512, 32, -256, 512, -32, -256, -512, 32, -256, -512, -32, -256, 512, -32, -256, 512, 32, 256, 512, 32, -256, 512, -32, 256, 512, 32, -256, 512, -32, -256, 512, -32, 256, -512, 32, -256, -512, 32, 256, -512, -32, -256, -512, 32, 256, -512, -32, 256, -512, -32, -256, 512, 32, 256, -512, 32, 256, 512, 32, -256, -512, 32, 256, -512, 32, -256, 512, 32, -256, -512, -32, 256, 512, -32, 256, -512, -32, -256, 512, -32, 256, 512, -32, -256, -512, -32, -256)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i7141"]
+load_path = "res://.godot/imported/13.png-01a5032c452e12a2fc9480b28a71fb28.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mrxx"]
+albedo_texture = SubResource("CompressedTexture2D_i7141")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_7r4gi"]
+material = SubResource("StandardMaterial3D_4mrxx")
+size = Vector3(512, 64, 1024)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_i7141"]
+data = PackedVector3Array(-256, 32, 512, 256, 32, 512, -256, -32, 512, 256, 32, 512, 256, -32, 512, -256, -32, 512, 256, 32, -512, -256, 32, -512, 256, -32, -512, -256, 32, -512, -256, -32, -512, 256, -32, -512, 256, 32, 512, 256, 32, -512, 256, -32, 512, 256, 32, -512, 256, -32, -512, 256, -32, 512, -256, 32, -512, -256, 32, 512, -256, -32, -512, -256, 32, 512, -256, -32, 512, -256, -32, -512, 256, 32, 512, -256, 32, 512, 256, 32, -512, -256, 32, 512, -256, 32, -512, 256, 32, -512, -256, -32, 512, 256, -32, 512, -256, -32, -512, 256, -32, 512, 256, -32, -512, -256, -32, -512)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7141"]
+albedo_texture = ExtResource("6_qfnet")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4mrxx"]
+material = SubResource("StandardMaterial3D_i7141")
+size = Vector3(128, 64, 512)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_k0juu")
 
@@ -61,6 +120,7 @@ environment = SubResource("Environment_k0juu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.9396926, -0.21984632, 0.26200265, 0, 0.76604456, 0.64278764, -0.34202012, -0.6040228, 0.71984637, 0, 0, 0)
+light_bake_mode = 0
 shadow_enabled = true
 shadow_blur = 1.134
 directional_shadow_split_1 = 0.05
@@ -72,6 +132,115 @@ directional_shadow_blend_splits = true
 
 [node name="MainMenu" parent="CanvasLayer" instance=ExtResource("4_k0juu")]
 
+[node name="Chat" parent="CanvasLayer" instance=ExtResource("5_i7141")]
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cv0klkobsceiv")
 spawn_path = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256, 1, 256)
+mesh = SubResource("BoxMesh_71j4m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_k0juu")
+
+[node name="Border" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Border"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, -256)
+layers = 4
+mesh = SubResource("BoxMesh_w7kh3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D"]
+collision_layer = 4
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_qfnet")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -256, 31.999, 512)
+layers = 4
+mesh = SubResource("BoxMesh_7r4gi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D2"]
+collision_layer = 4
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_i7141")
+
+[node name="MeshInstance3Dmovable2" type="MeshInstance3D" parent="Border"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 768, 31.999, 0)
+layers = 4
+mesh = SubResource("BoxMesh_7r4gi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3Dmovable2"]
+collision_layer = 4
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3Dmovable2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_i7141")
+
+[node name="movable" type="StaticBody3D" parent="Border"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 512, 32, 768)
+collision_layer = 4
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/movable"]
+shape = SubResource("ConcavePolygonShape3D_qfnet")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -448, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -192, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Border/movable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 448, 0, 0)
+layers = 4
+mesh = SubResource("BoxMesh_4mrxx")
+skeleton = NodePath("../..")

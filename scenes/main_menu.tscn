@@ -12,6 +12,7 @@ gradient = SubResource("Gradient_vue75")
 fill_from = Vector2(0, 1)
 
 [node name="MainMenu" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,12 +61,12 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="SingleplayerButton" type="Button" parent="MarginContainer/VBoxContainer/Singleplayer"]
-custom_minimum_size = Vector2(648, 0)
+custom_minimum_size = Vector2(603, 0)
 layout_mode = 2
 text = "New Singleplayer World"
 
 [node name="SizeBox" type="SpinBox" parent="MarginContainer/VBoxContainer/Singleplayer"]
-custom_minimum_size = Vector2(110, 0)
+custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
 min_value = 32.0
 max_value = 256.0
@@ -76,11 +77,13 @@ alignment = 3
 prefix = "Size"
 
 [node name="NameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 placeholder_text = "Enter your Player Name here"
 alignment = 1
 
 [node name="HostMultButton" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(603, 0)
 layout_mode = 2
 text = "Multiplayer Host	"
 
@@ -92,6 +95,14 @@ text = "Multiplayer Join"
 layout_mode = 2
 placeholder_text = "Enter IP Adress to join"
 alignment = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 695.0
+offset_right = 252.0
+offset_bottom = 717.0
+theme_override_font_sizes/font_size = 16
+text = "Font: SMW Font by wye"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Singleplayer/SingleplayerButton" to="." method="_singleplayer_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HostMultButton" to="." method="_host_mult_pressed"]

@@ -22,6 +22,7 @@ var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, -1, -1]
 @onready var hotbar_node_items: Control = $CanvasLayer/Control/Hotbar/Items
 @onready var block_menu: Control = $CanvasLayer/Control/BlockMenu
 @onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
+@onready var chat: Control = $"../CanvasLayer/Chat"
 
 
 func _enter_tree() -> void:
@@ -55,9 +56,18 @@ func _input(event: InputEvent) -> void:
 	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
+		if block_menu.visible:
+			block_menu.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			global.do_not_allow_input = false
+			return
+		if chat.get_node("LineEdit").visible:
+			chat.get_node("LineEdit").visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			global.do_not_allow_input = false
+			return
 		get_load_name.visible = false
 		get_save_name.visible = false
-		block_menu.visible = false
 		pause_menu.visible = not pause_menu.visible
 		if pause_menu.visible:
 			background.visible = true
@@ -105,7 +115,7 @@ func _input(event: InputEvent) -> void:
 		block_menu.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		global.do_not_allow_input = true
-	
+
 func _process(delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
@@ -161,7 +171,6 @@ func _physics_process(delta: float) -> void:
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
 				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
-				prints(distancex, distancey, distancez)
 				if distancey == 1:
 					if distancex == 0 and distancez == 0: return
 				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
@@ -186,7 +195,7 @@ func _get_save_name_pressed() -> void:
 func _get_load_name_pressed(button_text) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
-	global.show_loading_screen(true)
+	global.show_loading_screen(true, "Loading Map...")
 	control.visible = false
 	print_rich("[INFO] Loading scene: [b]", button_text)
 	grid_map.load_level_from_file(button_text)
@@ -261,3 +270,5 @@ func _on_pause_mainmenu_button() -> void:
 	global.reload_scene()
 	global.did_generate_level = false
 	global.do_not_allow_input = false
+	global.is_multiplayer = false
+	global.change_title_extension("[none]")

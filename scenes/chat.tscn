@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcxl1ld54pd27"]
+
+[ext_resource type="Script" uid="uid://e2nse7c2pbk3" path="res://scripts/chat.gd" id="1_4o336"]
+[ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_paia3"]
+
+[node name="Chat" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_paia3")
+script = ExtResource("1_4o336")
+
+[node name="Messages" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 624.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="LineEdit" type="LineEdit" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 680.0
+offset_right = 1280.0
+offset_bottom = 719.0
+placeholder_text = "Enter your Message here!"
+context_menu_enabled = false
+
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_text_submitted"]

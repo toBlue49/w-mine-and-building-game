@@ -49,7 +49,7 @@ func _process(_delta: float) -> void:
 		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
 	
 	if mainmenu.button_pressed == "mult_join":
-		global.show_loading_screen(true)
+		global.show_loading_screen(true, "Joining Server...")
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
 		

@@ -8,6 +8,8 @@ var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
 @onready var objects: Node3D = $"../Objects"
+@onready var border: Node3D = $"../Border"
+@onready var chat: Control = $"../CanvasLayer/Chat"
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -58,7 +60,7 @@ func render_gridmap():
 
 func render_chunk(gridmap, x, z):
 	@warning_ignore("integer_division")
-	if x > size/chunk_size or z > size/chunk_size or x < 0 or z < 0:
+	if x >= size/chunk_size or z >= size/chunk_size or x < 0 or z < 0:
 		return
 	for y in 128:
 		for lx in chunk_size:
@@ -135,6 +137,10 @@ func place_tree(x, y, z):
 	for i in tree_height:
 		set_cell_item(Vector3i(x, y+i+1, z), 3)
 
+func match_border_to_size():
+	border.get_node("movable").position.z = size*2+256
+	border.get_node("MeshInstance3Dmovable2").position.x = size*2+256
+
 func GENERATE():
 	#set rand_noise seed:
 	rand_noise.seed = noise.seed
@@ -144,13 +150,14 @@ func GENERATE():
 	generate_features()
 	create_gridmap_chunks()
 	render_gridmap()
+	match_border_to_size()
 	await get_tree().process_frame
 	print_rich("[SUCCESS] [color=green][b]Done!")
 
 func init_singleplayer():
 	if global.did_generate_level == false:
 		noise.set_seed(randi_range(-2147483646, 2147483646))
-		global.show_loading_screen(true)
+		global.show_loading_screen(true, "Generating Map...")
 		await get_tree().process_frame
 		GENERATE()
 		move_player()
@@ -161,7 +168,7 @@ func init_singleplayer():
 func init_host():
 	if global.did_generate_level == false:
 		noise.set_seed(randi_range(-2147483646, 2147483646))
-		global.show_loading_screen(true)
+		global.show_loading_screen(true, "Generating World...")
 		await get_tree().process_frame
 		GENERATE()
 		move_player(multiplayer.get_unique_id())
@@ -179,7 +186,7 @@ func init_host():
 	)
 	multiplayer.peer_disconnected.connect(
 		func(leave_peer_id):
-			print_rich("[INFO] Peer Disconnected. ID: [b]" + leave_peer_id)
+			print_rich("[INFO] Peer Disconnected. ID: [b]" + str(leave_peer_id))
 			if world.get_node_or_null(str(leave_peer_id)):
 				world.get_node_or_null(str(leave_peer_id)).queue_free()
 	)
@@ -195,13 +202,18 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player_multiplayer.rpc(peer_id, Vector3(size, pos.y, size))
-
 	player = world.get_node(str(multiplayer.get_unique_id()))
-
+	
+	#Chat
+	chat.add_message.rpc("serverplayer", "%s connected." % global.player_name)
+	
 	#Get GridMap
 	array_to_level(level_array)
 	create_gridmap_chunks()
 	render_gridmap()
+	
+	#Border
+	match_border_to_size()
 	global.show_loading_screen(false)
 
 ##At Runtime:
@@ -283,7 +295,7 @@ func save_level_to_file(path: String):
 		print_rich("[WARNING] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
 	
 func load_level_from_file(file: String):
-	global.show_loading_screen(true)
+	global.show_loading_screen(true, "Loading Map...")
 	await get_tree().process_frame
 	var scene_gridmap = load("user://levels/" + file)
 	var scene_objects = load("user://levels/" + file.trim_suffix(".tscn") + ".objects.tscn")

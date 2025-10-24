@@ -7,12 +7,14 @@
 script = ExtResource("1_uwrxv")
 
 [node name="GlobalControl" type="Control" parent="."]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_yqjtg")
 
 [node name="Loading" type="ColorRect" parent="GlobalControl"]
 visible = false
@@ -38,19 +40,24 @@ vertical_alignment = 1
 
 [node name="Label" type="Label" parent="GlobalControl"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "0.7b"
+offset_left = 8.0
+offset_right = 66.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "0.8a"
 
-[node name="date" type="Label" parent="GlobalControl"]
+[node name="frames" type="Label" parent="GlobalControl"]
 layout_mode = 0
+offset_left = 8.0
 offset_top = 24.0
-offset_right = 47.0
-offset_bottom = 47.0
-text = "DATE"
+offset_right = 76.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 24
+text = "FPS"
 
 [node name="PopupMessage" type="Control" parent="."]
 visible = false
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

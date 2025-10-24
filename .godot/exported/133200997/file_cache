@@ -9,7 +9,7 @@ res://scenes/game.tscn::414fdfea1f673837e32855ff95949df7::1760712353::res://.god
 res://scenes/grid_map_render.tscn::21b91cfa6436d4dd040a60543a092a6d::1760109179::res://.godot/exported/133200997/export-2d03dbcde521bdbf68d7cca72b2ca537-grid_map_render.scn
 res://scenes/load_level_button.tscn::7211ba691db17e7395f06cd26f07dc3e::1760105111::res://.godot/exported/133200997/export-2c115498474853b7d2a83288c68a1818-load_level_button.scn
 res://scenes/player.tscn::0db3299617d5f6a491b6b0d23a52de2a::1760703823::res://.godot/exported/133200997/export-234fb6894ec6226e856ab7f825500d3d-player.scn
-res://scenes/main_menu.tscn::bceb18cc1bc5435d7fbe3a053a95a342::1760712799::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
+res://scenes/main_menu.tscn::bceb18cc1bc5435d7fbe3a053a95a342::1760713399::res://.godot/exported/133200997/export-ea5c6ad4629af728dc514cefde332394-main_menu.scn
 res://scenes/world.tscn::23587ea5e5f0de8023e6ba796c094a35::1760632406::res://.godot/exported/133200997/export-6b9c1b1fd6ae6f795188dfdc89e222b0-world.scn
 res://resources/theme.tres::c64e4669646115f21291935c8f615a94::1760702887::res://.godot/exported/133200997/export-9e5eb96a3682a5a73ca96f46724b4e89-theme.res
 res://scenes/blocks/omni_light_light_block.tscn::df95f9f566d4c7eac3bb502565f4dd7b::1760257669::res://.godot/exported/133200997/export-26e4feef37c0a8267646316b6446bd3a-omni_light_light_block.scn

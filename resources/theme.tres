@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://cmvvuk1i6nypw"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cmvvuk1i6nypw"]
+
+[ext_resource type="FontFile" uid="uid://da2ru6hfdqeos" path="res://resources/SMW.otf" id="1_d4nwg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ct1h"]
 bg_color = Color(0.20129895, 0.20129895, 0.20129895, 1)
@@ -35,11 +37,17 @@ corner_radius_bottom_left = 7
 
 [resource]
 Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_d4nwg")
 Button/styles/hover = SubResource("StyleBoxFlat_7ct1h")
 Button/styles/normal = SubResource("StyleBoxFlat_d4nwg")
+CheckBox/font_sizes/font_size = 22
+CheckBox/fonts/font = ExtResource("1_d4nwg")
 Label/font_sizes/font_size = 26
+Label/fonts/font = ExtResource("1_d4nwg")
 LineEdit/font_sizes/font_size = 22
+LineEdit/fonts/font = ExtResource("1_d4nwg")
 Panel/styles/panel = SubResource("StyleBoxFlat_tekt2")
 RichTextLabel/font_sizes/bold_font_size = 24
 RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/normal_font = ExtResource("1_d4nwg")
 VBoxContainer/constants/separation = 15

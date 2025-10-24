@@ -57,6 +57,7 @@ properties/2/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_3vyb7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -86,12 +87,14 @@ outline_size = 32
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="CanvasLayer"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_dqkch")
 
 [node name="Label" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -102,6 +105,7 @@ offset_left = -80.0
 offset_right = -4.0
 offset_bottom = 23.0
 grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
 text = "POSITION"
 horizontal_alignment = 2
 

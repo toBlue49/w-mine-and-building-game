@@ -16,7 +16,6 @@ var did_generate_level = false
 func _ready():
 	await get_tree().process_frame
 	load_scene("res://scenes/world.tscn")
-	GlobalControl.get_node("date").text = ("%02d.%02d.%02d" % [Time.get_date_dict_from_system().get("day"), Time.get_date_dict_from_system().get("month"), Time.get_date_dict_from_system().get("year")])
 
 	#Create Folder
 	var dir: DirAccess = DirAccess.open("user://")
@@ -27,12 +26,25 @@ func _ready():
 		dir.make_dir(dir_path)
 		print_rich("[INFO] [b]Creating levels folder!")
 
+func _physics_process(_delta: float) -> void:
+	GlobalControl.get_node("frames").text = "%s FPS" % int(Engine.get_frames_per_second())
+
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
+		if global.is_multiplayer:
+			if loaded_scene == "res://scenes/world.tscn":
+				$"Scene/World/CanvasLayer/Chat".add_message.rpc("serverplayer", "%s disconnected." % player_name)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		get_tree().quit()
+	if event.is_action_pressed("ui_fullscreen"):
+		var mode := DisplayServer.window_get_mode()
+		var is_window: bool = mode != DisplayServer.WINDOW_MODE_FULLSCREEN
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if is_window else DisplayServer.WINDOW_MODE_WINDOWED)
+		#set resolution if windowed
+		if !is_window:
+			DisplayServer.window_set_size(Vector2i(1280, 720))
 
-func load_scene(scene_path: String):
+func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
 		SceneContainer.get_child(i).queue_free()
 	
@@ -43,8 +55,9 @@ func load_scene(scene_path: String):
 	
 	loaded_scene = scene_path
 
-func show_loading_screen(state: bool):
+func show_loading_screen(state: bool, text: String = "Loading..."):
 	$GlobalControl/Loading.visible = state
+	if state: $GlobalControl/Loading/Label.text = text
 
 func change_title_extension(title: String):
 	if title == "[none]":
