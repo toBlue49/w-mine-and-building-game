@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmc55pj1q6maf"]
+
+[ext_resource type="Script" uid="uid://colra6w3pfblx" path="res://scripts/blocks/sand.gd" id="1_oy4p8"]
+
+[node name="sand_object" type="Node3D"]
+script = ExtResource("1_oy4p8")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true

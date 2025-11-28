@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=31 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://djfh36yiidanf" path="res://textures/icon/16.png" id="22_gl8cc"]
 [ext_resource type="Texture2D" uid="uid://ccjjtub6o1ovh" path="res://textures/icon/17.png" id="23_487ah"]
 [ext_resource type="Texture2D" uid="uid://dcpv2tf62dwnr" path="res://textures/icon/18.png" id="24_md1ol"]
+[ext_resource type="Texture2D" uid="uid://b4poleu3u0xap" path="res://textures/icon/19.png" id="25_ke2ow"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -562,6 +563,13 @@ texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("24_md1ol")
+stretch_mode = 0
+
+[node name="19" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("25_ke2ow")
 stretch_mode = 0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

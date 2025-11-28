@@ -3,7 +3,10 @@ extends GridMap
 var size := -1
 const chunk_size := 8
 var gotten_y = []
-var block_nodes = [preload("res://scenes/blocks/omni_light_light_block.tscn")]
+var block_nodes = [
+	preload("res://scenes/blocks/omni_light_light_block.tscn"),
+	preload("res://scenes/blocks/sand_object.tscn")
+]
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
@@ -225,7 +228,7 @@ func destroy_block(world_coord):
 	var chunk_node = chunks.get_node(chunk)
 
 	#Handle Block Objects
-	if get_cell_item(map_pos) == 7:
+	if get_cell_item(map_pos) == 7 or get_cell_item(map_pos) == 19:
 		var object: Node3D = objects.get_node_or_null(str(map_pos))
 		if object:
 			object.queue_free()
@@ -248,6 +251,12 @@ func place_block(world_coord, index):
 		omnilight.position = map_to_local(map_pos)
 		omnilight.name = str(map_pos)
 		objects.add_child(omnilight)
+	if index == 19:
+		var sand_object: Node3D = block_nodes[1].instantiate()
+		sand_object.position = map_to_local(map_pos)
+		sand_object.name = str(map_pos)
+		sand_object.init(map_pos, self)
+		objects.add_child(sand_object)
 
 func level_to_array() -> Array:
 	var save_gridmap: GridMap = self

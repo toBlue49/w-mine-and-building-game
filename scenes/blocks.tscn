@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://mkxxfvmbvtbw"]
+[gd_scene load_steps=76 format=3 uid="uid://mkxxfvmbvtbw"]
 
 [ext_resource type="Material" uid="uid://cdurrvsyu72c4" path="res://materials/grass.tres" id="1_giubl"]
 [ext_resource type="Material" uid="uid://bpujx28qo8ikc" path="res://materials/stone.tres" id="2_3jd7w"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://2rs13rvc7ncg" path="res://textures/concrete_electric_violet.png" id="16_5x58u"]
 [ext_resource type="Texture2D" uid="uid://blx4ahw1c0qfb" path="res://textures/concrete_magenta.png" id="17_w60hs"]
 [ext_resource type="Texture2D" uid="uid://caiq3ju7etplv" path="res://textures/concrete_deep_pink.png" id="18_ic3an"]
+[ext_resource type="Texture2D" uid="uid://dengea2204xdb" path="res://textures/sand.png" id="20_yfapm"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irvtj"]
 material = ExtResource("1_giubl")
@@ -280,6 +281,21 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_2d5a1")
 size = Vector3(2, 2, 2)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m64mq"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03jfd"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("20_yfapm")
+normal_texture = SubResource("CompressedTexture2D_m64mq")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_wrnuw"]
+material = SubResource("StandardMaterial3D_03jfd")
+size = Vector3(2, 2, 2)
+
 [node name="blocks" type="Node3D"]
 
 [node name="Grass" type="MeshInstance3D" parent="."]
@@ -450,4 +466,13 @@ mesh = SubResource("BoxMesh_83fgn")
 [node name="StaticBody3D" type="StaticBody3D" parent="ConcreteDeepPink"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteDeepPink/StaticBody3D"]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="Sand" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76, 0, 0)
+mesh = SubResource("BoxMesh_wrnuw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Sand"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sand/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")

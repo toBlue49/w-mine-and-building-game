@@ -1,0 +1,12 @@
+res://scenes/blocks.tscn
+res://resources/theme.tres
+res://materials/dirt.tres
+res://resources/blocks.tres
+res://scenes/player.tscn
+res://sand_object.tscn
+res://scripts/grid_map.gd
+res://scenes/blocks/omni_light_light_block.tscn
+res://scenes/game.tscn
+res://scenes/blocks/sand_object.tscn
+res://scripts/blocks/sand.gd
+res://scripts/player.gd
