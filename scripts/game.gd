@@ -12,11 +12,22 @@ var loaded_scene = ""
 var did_generate_level = false
 @onready var SceneContainer = $Scene
 @onready var GlobalControl = $GlobalControl
+var settings: Dictionary = {
+	"graphics": {
+		"max_fps": 0,
+		"vsync": false,
+		"fullscreen": false
+	},
+	"input": {
+		#put input list here
+	}
+}
 
 func _ready():
 	await get_tree().process_frame
+	load_settings()
 	load_scene("res://scenes/world.tscn")
-
+	
 	#Create Folder
 	var dir: DirAccess = DirAccess.open("user://")
 	var dir_path = "user://levels"
@@ -25,6 +36,37 @@ func _ready():
 	else:
 		dir.make_dir(dir_path)
 		print_rich("[INFO] [b]Creating levels folder!")
+
+func load_settings():
+	config.load("user://data.cfg")
+	print_rich("[INFO] Loading settings")
+	
+	settings.graphics.max_fps = config.get_value("settings", "graphics.max_fps", 300)
+	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", false)
+	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", false)
+
+	#apply settings
+	Engine.max_fps = settings.graphics.max_fps
+	if settings.graphics.vsync:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	print(settings.graphics.fullscreen)
+	if settings.graphics.fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(Vector2i(1280, 720))
+
+func update_save_settings():
+	print_rich("[INFO] Updating saved settings")
+	config.set_value("settings", "graphics.max_fps", settings.graphics.max_fps)
+	config.set_value("settings", "graphics.vsync", settings.graphics.vsync)
+	config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
+	
+	config.save("user://data.cfg")
+	
+	load_settings()
 
 func _physics_process(_delta: float) -> void:
 	GlobalControl.get_node("frames").text = "%s FPS" % int(Engine.get_frames_per_second())
@@ -43,7 +85,13 @@ func _input(event: InputEvent) -> void:
 		#set resolution if windowed
 		if !is_window:
 			DisplayServer.window_set_size(Vector2i(1280, 720))
-
+		#save fullscreen mode
+		settings.graphics.fullscreen = is_window
+		config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
+		config.save("user://data.cfg")
+		print("[INFO] External Setting Save: graphics.fullscreen")
+		print(settings.graphics.fullscreen)
+		
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
 		SceneContainer.get_child(i).queue_free()

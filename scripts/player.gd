@@ -22,6 +22,7 @@ var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, 19, -1]
 @onready var hotbar_node_items: Control = $CanvasLayer/Control/Hotbar/Items
 @onready var block_menu: Control = $CanvasLayer/Control/BlockMenu
 @onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
+@onready var settings: Control = $CanvasLayer/Control/Menu/Settings
 @onready var chat: Control = $"../CanvasLayer/Chat"
 
 
@@ -56,6 +57,9 @@ func _input(event: InputEvent) -> void:
 	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
+		if settings.visible:
+			settings.visible = false
+			return
 		if block_menu.visible:
 			block_menu.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -272,3 +276,7 @@ func _on_pause_mainmenu_button() -> void:
 	global.do_not_allow_input = false
 	global.is_multiplayer = false
 	global.change_title_extension("[none]")
+
+func _on_pause_settings_button() -> void:
+	settings.visible = true
+	settings._ready()

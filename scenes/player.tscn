@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=32 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://j4uglu2w8jpi" path="res://textures/gui/hotbar.png" id="5_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://c14iidkoauie5" path="res://textures/gui/selection.png" id="6_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="7_jej6c"]
+[ext_resource type="PackedScene" uid="uid://3ng3do7pi2ci" path="res://settings.tscn" id="7_ujl30"]
 [ext_resource type="Texture2D" uid="uid://ck61hs5eqedq2" path="res://textures/icon/2.png" id="8_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://5bkwwurww76p" path="res://textures/icon/3.png" id="9_oprun"]
 [ext_resource type="Texture2D" uid="uid://b3fa2qu1hqcv8" path="res://textures/icon/4.png" id="10_a8ls1"]
@@ -382,6 +383,15 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
 
+[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Back to Main Menu"
+
+[node name="Settings" parent="CanvasLayer/Control/Menu" instance=ExtResource("7_ujl30")]
+visible = false
+layout_mode = 1
+
 [node name="BlockMenu" type="Control" parent="CanvasLayer/Control"]
 visible = false
 layout_mode = 1
@@ -579,3 +589,4 @@ replication_config = SubResource("SceneReplicationConfig_g2els")
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Save" to="." method="_on_pause_save_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Load" to="." method="_on_pause_load_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Settings" to="." method="_on_pause_settings_button"]
