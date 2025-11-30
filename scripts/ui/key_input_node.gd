@@ -54,7 +54,7 @@ func _ready() -> void:
 			vbox.get_node(str("M", i+1)).connect("pressed", func():
 				mouse_selected(vbox.get_node(str("M", i+1)), str("M", i+1)))
 
-	#NOTE: This loads the setting from the config. Normally in game.gd, but here for simpler coding.
+	#NOTE: This part was written with absolute pain.
 	#Load Inputs
 	if event is InputEventKey:
 		var input_event = InputEventKey.new()
