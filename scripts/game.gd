@@ -17,9 +17,6 @@ var settings: Dictionary = {
 		"max_fps": 0,
 		"vsync": false,
 		"fullscreen": false
-	},
-	"input": {
-		#put input list here
 	}
 }
 
@@ -45,27 +42,37 @@ func load_settings():
 	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", false)
 	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", false)
 
+	#NOTE: Input Actions are set by the key_input_node script
+
 	#apply settings
 	Engine.max_fps = settings.graphics.max_fps
 	if settings.graphics.vsync:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	print(settings.graphics.fullscreen)
 	if settings.graphics.fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(1280, 720))
+	
 
 func update_save_settings():
 	print_rich("[INFO] Updating saved settings")
 	config.set_value("settings", "graphics.max_fps", settings.graphics.max_fps)
 	config.set_value("settings", "graphics.vsync", settings.graphics.vsync)
 	config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
+	config.set_value("settings", "input.move_forward", InputMap.action_get_events("move_forward")[0].get_physical_keycode())
+	config.set_value("settings", "input.move_backward", InputMap.action_get_events("move_backward")[0].get_physical_keycode())
+	config.set_value("settings", "input.move_left", InputMap.action_get_events("move_left")[0].get_physical_keycode())
+	config.set_value("settings", "input.move_right", InputMap.action_get_events("move_right")[0].get_physical_keycode())
+	config.set_value("settings", "input.world_place", InputMap.action_get_events("world_place")[0].get_button_index())
+	config.set_value("settings", "input.world_destroy", InputMap.action_get_events("world_destroy")[0].get_button_index())
+	config.set_value("settings", "input.move_fly_down", InputMap.action_get_events("move_fly_down")[0].get_physical_keycode())
+	config.set_value("settings", "input.hotbar_up", InputMap.action_get_events("hotbar_up")[0].get_button_index())
+	config.set_value("settings", "input.hotbar_down", InputMap.action_get_events("hotbar_down")[0].get_button_index())
 	
 	config.save("user://data.cfg")
-	
 	load_settings()
 
 func _physics_process(_delta: float) -> void:
@@ -91,7 +98,7 @@ func _input(event: InputEvent) -> void:
 		config.save("user://data.cfg")
 		print("[INFO] External Setting Save: graphics.fullscreen")
 		print(settings.graphics.fullscreen)
-		
+
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
 		SceneContainer.get_child(i).queue_free()

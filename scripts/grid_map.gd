@@ -37,7 +37,7 @@ func update_gridmap():
 	for x in size:
 		for z in size:
 			if gotten_y.find(str("x", x, "z", z)) >= 0:
-				print_rich("[WARNING] [color=yellow]Tried to get height twice: [b][/color]", str("x", x, "z", z))
+				print_rich("[color=yellow][WARNING] Tried to get height twice: [b][/color]", str("x", x, "z", z))
 				return
 			gotten_y.append(str("x", x, "z", z))
 			var y_level = get_height(x, z) + y_offset
@@ -155,12 +155,12 @@ func GENERATE():
 	render_gridmap()
 	match_border_to_size()
 	await get_tree().process_frame
-	print_rich("[SUCCESS] [color=green][b]Done!")
+	print_rich("[color=green][SUCCESS] [b]Done!")
 
 func init_singleplayer():
 	if global.did_generate_level == false:
 		noise.set_seed(randi_range(-2147483646, 2147483646))
-		global.show_loading_screen(true, "Generating Map...")
+		global.show_loading_screen(true, "Generating Level...")
 		await get_tree().process_frame
 		GENERATE()
 		move_player()
@@ -170,14 +170,19 @@ func init_singleplayer():
 
 func init_host():
 	if global.did_generate_level == false:
-		noise.set_seed(randi_range(-2147483646, 2147483646))
-		global.show_loading_screen(true, "Generating World...")
-		await get_tree().process_frame
-		GENERATE()
-		move_player(multiplayer.get_unique_id())
-		await get_tree().process_frame
-		global.show_loading_screen(false)
-		global.did_generate_level = true
+		if FileAccess.file_exists("user://levels/server.tscn"):
+			print_rich("[INFO] server.tscn level found! Loading.")
+			load_level_from_file("server.tscn")
+		else:
+			print_rich("[color=yellow][WARNING] server.tscn level NOT found! Generating new level.")
+			noise.set_seed(randi_range(-2147483646, 2147483646))
+			global.show_loading_screen(true, "Generating Level...")
+			await get_tree().process_frame
+			GENERATE()
+			move_player(multiplayer.get_unique_id())
+			await get_tree().process_frame
+			global.show_loading_screen(false)
+			global.did_generate_level = true
 		
 	player = world.get_node(str(multiplayer.get_unique_id()))
 	
@@ -293,7 +298,7 @@ func save_level_to_file(path: String):
 	var result = scene.pack(save_gridmap)
 	if result == OK:
 		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".tscn"))
-		print_rich("[WARNING] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
+		print_rich("[INFO] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
 	
 	#Pack Objects Node
 	scene.pack(save_gridmap)
@@ -301,7 +306,7 @@ func save_level_to_file(path: String):
 	var result_obj = scene.pack(save_objects)
 	if result_obj == OK:
 		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".objects.tscn"))
-		print_rich("[WARNING] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
+		print_rich("[INFO] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
 	
 func load_level_from_file(file: String):
 	global.show_loading_screen(true, "Loading Map...")
@@ -313,7 +318,7 @@ func load_level_from_file(file: String):
 	if FileAccess.file_exists("user://levels/" + file.trim_suffix(".tscn") + ".objects.tscn"):
 		node_objects = scene_objects.instantiate()
 	else:
-		print_rich("[WARNING] [color=yellow] No .object.tscn found. Loading default instead.<")
+		print_rich("[WARNING] [color=yellow] No .object.tscn found. Loading default instead.")
 		node_objects = Node3D.new()
 	
 	#get Saved GridMap Size
@@ -326,7 +331,8 @@ func load_level_from_file(file: String):
 	#remove old
 	name = "GridMapOld"
 	world.get_node("Objects").queue_free()
-	world.get_node("0").queue_free()
+	if world.get_node_or_null("0"):
+		world.get_node_or_null("0").queue_free()
 	
 	#add nodes
 	await get_tree().process_frame
@@ -336,10 +342,14 @@ func load_level_from_file(file: String):
 	
 	await get_tree().process_frame
 	world.get_node("GridMap").size = temp_size 
-	world.get_node("GridMap").move_player()
+	if global.is_multiplayer:
+		world.get_node("GridMap").move_player(1)
+	else:
+		world.get_node("GridMap").move_player()
 	world.get_node("GridMap").create_gridmap_chunks(true)
 	world.get_node("GridMap").render_gridmap()
 	world.get_node("GridMap").objects = world.get_node("Objects")
+	world.get_node("GridMap").match_border_to_size()
 	
 	await get_tree().process_frame
 	global.show_loading_screen(false)

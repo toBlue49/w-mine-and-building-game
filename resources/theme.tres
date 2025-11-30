@@ -50,4 +50,6 @@ Panel/styles/panel = SubResource("StyleBoxFlat_tekt2")
 RichTextLabel/font_sizes/bold_font_size = 24
 RichTextLabel/font_sizes/normal_font_size = 24
 RichTextLabel/fonts/normal_font = ExtResource("1_d4nwg")
+TabContainer/font_sizes/font_size = 20
+TabContainer/fonts/font = ExtResource("1_d4nwg")
 VBoxContainer/constants/separation = 15

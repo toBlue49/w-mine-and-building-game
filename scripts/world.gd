@@ -3,6 +3,8 @@ extends Node3D
 const player = preload("res://scenes/player.tscn")
 @onready var mainmenu: Control = $CanvasLayer/MainMenu
 @onready var grid_map: GridMap = $GridMap
+@onready var chat: Control = $CanvasLayer/Chat
+
 
 func add_player(id, pos: Vector3):
 	#id = 0
@@ -71,4 +73,6 @@ func upnp_start():
 	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
 	"UPNP Port Mapping Failed! Error %s" % map_result)
 	
-	print_rich("[SUCCESS] [color=green]UPNP SETUP SUCCESS![/color] IP Address: [b]%s" % upnp.query_external_address())
+	print_rich("[color=green][SUCCESS] UPNP SETUP SUCCESS![/color] IP Address: [b]%s" % upnp.query_external_address())
+	
+	chat.add_message("serverplayer", "Use this IP to join to your server: %s" % upnp.query_external_address())

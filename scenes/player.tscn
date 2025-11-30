@@ -378,12 +378,12 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Load Level"
 
-[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Back to Main Menu"
+text = "Settings"
 
-[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
@@ -588,5 +588,5 @@ replication_config = SubResource("SceneReplicationConfig_g2els")
 [connection signal="pressed" from="CanvasLayer/Control/Menu/GetSaveName/Button" to="." method="_get_save_name_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Save" to="." method="_on_pause_save_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Load" to="." method="_on_pause_load_button"]
-[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Settings" to="." method="_on_pause_settings_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]

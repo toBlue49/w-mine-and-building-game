@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://3ng3do7pi2ci"]
+[gd_scene load_steps=6 format=3 uid="uid://3ng3do7pi2ci"]
 
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_nkug2"]
 [ext_resource type="Script" uid="uid://bpf37yjdebl7v" path="res://scripts/ui/settings.gd" id="2_nkug2"]
+[ext_resource type="PackedScene" uid="uid://b3apetfwihyut" path="res://scenes/ui/key_input_node.tscn" id="3_3ykye"]
 
 [sub_resource type="Gradient" id="Gradient_vue75"]
 colors = PackedColorArray(0.16, 0.16, 0.16, 1, 0.40495878, 0.295692, 0.39123702, 1)
@@ -11,6 +12,7 @@ gradient = SubResource("Gradient_vue75")
 fill_from = Vector2(0, 1)
 
 [node name="Settings" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,18 +47,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -384.0
+offset_left = -552.0
 offset_top = -232.0
-offset_right = 384.0
+offset_right = 552.0
 offset_bottom = 232.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Graphics" type="TabBar" parent="MarginContainer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -125,8 +128,71 @@ toggle_mode = true
 text = "Off"
 
 [node name="Input" type="TabBar" parent="MarginContainer/TabContainer"]
-visible = false
 layout_mode = 2
+theme = ExtResource("1_nkug2")
 metadata/_tab_index = 1
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Input"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -333.0
+offset_top = -160.5
+offset_right = 333.0
+offset_bottom = 160.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="Forward" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Forward"
+input = "move_forward"
+
+[node name="Backward" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Backward"
+input = "move_backward"
+
+[node name="Left" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Left"
+input = "move_left"
+
+[node name="Right" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Right"
+input = "move_right"
+
+[node name="Place" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Place"
+input = "world_place"
+
+[node name="Break" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Break"
+input = "world_destroy"
+
+[node name="Fly Down" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Fly Down"
+input = "move_fly_down"
+
+[node name="Hotbar Up" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Hotbar Up"
+input = "hotbar_up"
+
+[node name="Hotbar Down" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Hotbar Down"
+input = "hotbar_down"
 
 [connection signal="pressed" from="SaveButton" to="." method="_save"]
