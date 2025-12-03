@@ -45,6 +45,9 @@ To join your server you need to enter your IP, there is no port needed (The game
 
 Currently, if an player leaves to the main menu, they still apear in game. They only disapear when closing the game completly. This is an bug, that will hopefully be fixed soon.
 
+### Connection to Server Lost
+If the GridMap (the blocks of the world) is to big, it takes to long to send the data to the players. You know this happend if you get the error "The mutliplayer instance isn't currently active." after joining. You just have to make the world smaller until I may find and 10/10 fix for this problem.
+
 ### Saving and Loading
 Only the host of the server is allowed to save the current level. If you want to load an specific level on your server you have to name it "server". The game will look in your levels folder for an level called "server" and load it, when starting up. This was done because loading while the server in on had some problems, while testing.
 
