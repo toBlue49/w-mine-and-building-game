@@ -181,6 +181,9 @@ func _physics_process(delta: float) -> void:
 
 ##UI Control
 
+func update_chunk_updates(count: int):
+	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
+
 func update_hotbar():
 	for i in hotbar_items.size():
 		hotbar_node_items.get_node(str(i)).texture = load("res://textures/icon/" + str(hotbar_items[i]) + ".png")

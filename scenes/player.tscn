@@ -137,6 +137,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_qhqgy")
 
+[node name="chunk_updates" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 281.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 24
+
 [node name="Hotbar" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchor_left = 0.0125

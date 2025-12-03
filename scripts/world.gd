@@ -4,6 +4,7 @@ const player = preload("res://scenes/player.tscn")
 @onready var mainmenu: Control = $CanvasLayer/MainMenu
 @onready var grid_map: GridMap = $GridMap
 @onready var chat: Control = $CanvasLayer/Chat
+@onready var sound: Node3D = $Sounds
 
 
 func add_player(id, pos: Vector3):

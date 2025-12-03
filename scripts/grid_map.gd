@@ -2,6 +2,7 @@ extends GridMap
 
 var size := -1
 const chunk_size := 8
+var chunk_updates: int = 0
 var gotten_y = []
 var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
@@ -92,6 +93,8 @@ func update_single_chunk(gridmap: GridMap, x , z, global_map_pos):
 	@warning_ignore("integer_division")
 	if map_pos.z == chunk_size-1 and z < size/chunk_size-1:
 		render_chunk(chunks.get_node(str("x", x, "z", z+1)), x, z+1)
+	
+	chunk_updates += 1
 
 func create_gridmap_chunks(do_delete = false):
 	if do_delete:
@@ -224,7 +227,17 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	match_border_to_size()
 	global.show_loading_screen(false)
 
+func _ready():
+	second_routine()
+
 ##At Runtime:
+
+func second_routine():
+	await get_tree().create_timer(1.0).timeout
+	if player:
+		player.update_chunk_updates(chunk_updates)
+	chunk_updates = 0
+	second_routine()
 
 @rpc("call_local", "any_peer")
 func destroy_block(world_coord):
@@ -234,12 +247,15 @@ func destroy_block(world_coord):
 
 	#Handle Block Objects
 	if get_cell_item(map_pos) == 7 or get_cell_item(map_pos) == 19:
-		var object: Node3D = objects.get_node_or_null(str(map_pos))
+		var object: Node3D = objects.get_node_or_null(str(map_pos) + "b" + str(get_cell_item(map_pos)))
 		if object:
 			object.queue_free()
 	
 	set_cell_item(map_pos, -1)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
+
+	#Play Sound
+	world.sound.play.rpc("block.break.default", world_coord, -2.0)
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
@@ -254,14 +270,17 @@ func place_block(world_coord, index):
 	if index == 7:
 		var omnilight: Node3D = block_nodes[0].instantiate()
 		omnilight.position = map_to_local(map_pos)
-		omnilight.name = str(map_pos)
+		omnilight.name = str(map_pos) + "b7"
 		objects.add_child(omnilight)
 	if index == 19:
 		var sand_object: Node3D = block_nodes[1].instantiate()
 		sand_object.position = map_to_local(map_pos)
-		sand_object.name = str(map_pos)
+		sand_object.name = str(map_pos) + "b19"
 		sand_object.init(map_pos, self)
 		objects.add_child(sand_object)
+
+	#Play Sound
+	world.sound.play.rpc("block.place.default", world_coord, -2.0)
 
 func level_to_array() -> Array:
 	var save_gridmap: GridMap = self
@@ -351,6 +370,28 @@ func load_level_from_file(file: String):
 	world.get_node("GridMap").objects = world.get_node("Objects")
 	world.get_node("GridMap").match_border_to_size()
 	
+	#Sand Block Fix 5000
+	for node in world.get_node("GridMap").objects.get_children():
+		if node.name.contains("b19"): #If is Sand
+			var sand_pos = string_to_vector3(node.name.rstrip("b19"))
+			node.free()
+			
+			#place new sand node
+			var sand_object: Node3D = block_nodes[1].instantiate()
+			sand_object.position = map_to_local(sand_pos)
+			sand_object.name = str(sand_pos) + "b19"
+			sand_object.init(sand_pos, world.get_node("GridMap"))
+			world.get_node("GridMap").objects.add_child(sand_object)
+	
 	await get_tree().process_frame
 	global.show_loading_screen(false)
 	queue_free()
+	
+static func string_to_vector3(string := "") -> Vector3: #fun i found on the internet
+	if string:
+		var new_string: String = string
+		new_string = new_string.erase(0, 1)
+		new_string = new_string.erase(new_string.length() - 1, 1)
+		var array: Array = new_string.split(", ")
+		prints(array, string)
+	return Vector3.ZERO
