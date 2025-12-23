@@ -29,7 +29,7 @@ func add_message(player_name: String, message: String):
 		text = "[color=yellow]%s: [/color]%s" % [player_name, message]
 	var id = create_node(text)
 	
-	await get_tree().create_timer(4.0).timeout
+	await get_tree().create_timer(8.0).timeout
 	print_rich("[INFO] Removing Chat Message: [b]" + id)
 	for i in 30:
 		messages.get_node(str(id)).modulate.a = lerp(1.0, 0.0, i/30.0)

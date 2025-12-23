@@ -195,7 +195,7 @@ func init_host():
 			await get_tree().create_timer(0.75).timeout
 			init_join.rpc(new_peer_id, level_to_array(), size)
 	)
-	multiplayer.peer_disconnected.connect(
+	multiplayer.peer_disconnected.connect( #TODO: Disconnect with lag fix
 		func(leave_peer_id):
 			print_rich("[INFO] Peer Disconnected. ID: [b]" + str(leave_peer_id))
 			if world.get_node_or_null(str(leave_peer_id)):
@@ -244,9 +244,10 @@ func destroy_block(world_coord):
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
 	var chunk_node = chunks.get_node(chunk)
+	var block_id = get_cell_item(map_pos)
 
 	#Handle Block Objects
-	if get_cell_item(map_pos) == 7 or get_cell_item(map_pos) == 19:
+	if block_id == 7 or block_id == 19:
 		var object: Node3D = objects.get_node_or_null(str(map_pos) + "b" + str(get_cell_item(map_pos)))
 		if object:
 			object.queue_free()
@@ -255,7 +256,10 @@ func destroy_block(world_coord):
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
 	#Play Sound
-	world.sound.play.rpc("block.break.default", world_coord, -2.0)
+	if block_id == 0 or block_id == 4 or block_id == 19: #Grass
+		world.sound.play.rpc("block.break.grass", world_coord, -2.0)
+	else:
+		world.sound.play.rpc("block.break.default", world_coord, -2.0)
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
@@ -280,7 +284,10 @@ func place_block(world_coord, index):
 		objects.add_child(sand_object)
 
 	#Play Sound
-	world.sound.play.rpc("block.place.default", world_coord, -2.0)
+	if get_cell_item(map_pos) == 0 or get_cell_item(map_pos) == 4 or get_cell_item(map_pos) == 19: 
+		world.sound.play.rpc("block.place.grass", world_coord, -2.0) #Grass
+	else:
+		world.sound.play.rpc("block.place.default", world_coord, -2.0)
 
 func level_to_array() -> Array:
 	var save_gridmap: GridMap = self

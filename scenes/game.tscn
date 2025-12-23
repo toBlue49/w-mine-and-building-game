@@ -44,7 +44,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.9a"
+text = "0.9c"
 
 [node name="frames" type="Label" parent="GlobalControl"]
 layout_mode = 0
@@ -97,7 +97,7 @@ anchor_top = 0.05
 anchor_right = 1.0
 anchor_bottom = 0.225
 theme_override_colors/font_color = Color(1, 0.2478047, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 26
 text = "Connection to Server Lost"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -109,6 +109,7 @@ anchors_preset = -1
 anchor_top = 0.225
 anchor_right = 1.0
 anchor_bottom = 0.775
+theme_override_font_sizes/font_size = 20
 text = "ERRORMESSAGE"
 horizontal_alignment = 1
 vertical_alignment = 1
