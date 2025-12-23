@@ -3,6 +3,8 @@ extends GridMap
 var size := -1
 const chunk_size := 8
 var chunk_updates: int = 0
+var get_level_array = []
+var get_level_array_slice = 0
 var gotten_y = []
 var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
@@ -193,9 +195,9 @@ func init_host():
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
 			await get_tree().create_timer(0.75).timeout
-			init_join.rpc(new_peer_id, level_to_array(), size)
+			init_join.rpc(new_peer_id, [], size)
 	)
-	multiplayer.peer_disconnected.connect( #TODO: Disconnect with lag fix
+	multiplayer.peer_disconnected.connect(
 		func(leave_peer_id):
 			print_rich("[INFO] Peer Disconnected. ID: [b]" + str(leave_peer_id))
 			if world.get_node_or_null(str(leave_peer_id)):
@@ -209,19 +211,32 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	var half_size = size/2
 	var pos = Vector3(half_size*2, 0, half_size*2)
 
-	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
-	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
-	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
-	world.add_player_multiplayer.rpc(peer_id, Vector3(size, pos.y, size))
-	player = world.get_node(str(multiplayer.get_unique_id()))
+	#Get GridMap
+	for i in size:
+		get_chunk.rpc(multiplayer.get_unique_id(), i)
+		await get_tree().process_frame
+		global.show_loading_screen(true, "Requesting Slice %s" % i)
+		while get_level_array_slice != i:
+			await get_tree().create_timer(0.01).timeout
+	
+	global.show_loading_screen(true, "Loading Level..")
+	await get_tree().process_frame
+	array_to_level(get_level_array)
+	create_gridmap_chunks()
+	render_gridmap()
 	
 	#Chat
 	chat.add_message.rpc("serverplayer", "%s connected." % global.player_name)
 	
-	#Get GridMap
-	array_to_level(level_array)
-	create_gridmap_chunks()
-	render_gridmap()
+	#Create Player
+	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
+	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
+	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
+	world.add_player_multiplayer.rpc(peer_id, Vector3(0, 4, 0))
+	player = world.get_node(str(multiplayer.get_unique_id()))
+	
+	#Set Player Position
+	player.position = pos
 	
 	#Border
 	match_border_to_size()
@@ -231,6 +246,20 @@ func _ready():
 	second_routine()
 
 ##At Runtime:
+
+@rpc("any_peer", "call_remote")
+func arrive_chunk(peer_get:int, result: Array, slice: int):
+	if multiplayer.get_unique_id() == peer_get:
+		for i in result:
+			get_level_array.append(i)
+		get_level_array_slice = slice
+
+@rpc("any_peer", "call_remote")
+func get_chunk(peer_get: int, slice: int):
+	if multiplayer.get_unique_id() == 1:
+		await get_tree().process_frame
+		var result: Array = level_to_array(slice)
+		arrive_chunk.rpc(peer_get, result, slice)
 
 func second_routine():
 	await get_tree().create_timer(1.0).timeout
@@ -256,10 +285,7 @@ func destroy_block(world_coord):
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
 	#Play Sound
-	if block_id == 0 or block_id == 4 or block_id == 19: #Grass
-		world.sound.play.rpc("block.break.grass", world_coord, -2.0)
-	else:
-		world.sound.play.rpc("block.break.default", world_coord, -2.0)
+	world.sound.play.rpc("block.break.default", world_coord, -2.0)
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
@@ -284,24 +310,18 @@ func place_block(world_coord, index):
 		objects.add_child(sand_object)
 
 	#Play Sound
-	if get_cell_item(map_pos) == 0 or get_cell_item(map_pos) == 4 or get_cell_item(map_pos) == 19: 
-		world.sound.play.rpc("block.place.grass", world_coord, -2.0) #Grass
-	else:
-		world.sound.play.rpc("block.place.default", world_coord, -2.0)
+	world.sound.play.rpc("block.place.default", world_coord, -2.0)
 
-func level_to_array() -> Array:
+func level_to_array(slice: int) -> Array:
 	var save_gridmap: GridMap = self
 	var return_array: Array
-	for i in save_gridmap.mesh_library.get_item_list():
-		return_array.append(save_gridmap.get_used_cells_by_item(i))
+	for i in save_gridmap.get_used_cells():
+		if i.x == slice: return_array.append([i, get_cell_item(i)])
 	return return_array
 
 func array_to_level(array: Array):
-	var count_item = 0
-	for item in array:
-		for j in item:
-			set_cell_item(j, count_item)
-		count_item += 1
+	for cell in array:
+		set_cell_item(cell[0], cell[1])
 
 func save_level_to_file(path: String):
 	var save_gridmap = GridMap.new()
@@ -333,7 +353,7 @@ func save_level_to_file(path: String):
 	if result_obj == OK:
 		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".objects.tscn"))
 		print_rich("[INFO] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
-	
+
 func load_level_from_file(file: String):
 	global.show_loading_screen(true, "Loading Map...")
 	await get_tree().process_frame
@@ -393,7 +413,7 @@ func load_level_from_file(file: String):
 	await get_tree().process_frame
 	global.show_loading_screen(false)
 	queue_free()
-	
+
 static func string_to_vector3(string := "") -> Vector3: #fun i found on the internet
 	if string:
 		var new_string: String = string

@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://b2ndcm1u8rfsx" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="2_yqjtg"]
 
-[node name="Node" type="Node"]
+[node name="game" type="Node"]
 script = ExtResource("1_uwrxv")
+
+[node name="Scene" type="Node" parent="."]
 
 [node name="GlobalControl" type="Control" parent="."]
 texture_filter = 1
@@ -44,7 +46,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.9c"
+text = "0.9d"
 
 [node name="frames" type="Label" parent="GlobalControl"]
 layout_mode = 0
@@ -123,5 +125,3 @@ offset_top = 256.0
 offset_right = 448.0
 offset_bottom = 312.0
 text = "Back to Main Menu"
-
-[node name="Scene" type="Node" parent="."]

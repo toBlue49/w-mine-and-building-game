@@ -274,6 +274,10 @@ func _on_pause_load_button() -> void:
 	get_load_name.add_child(folderbutton)
 
 func _on_pause_mainmenu_button() -> void:
+	##Multiplayer
+	if global.is_multiplayer:
+		multiplayer.multiplayer_peer.close()
+	
 	global.reload_scene()
 	global.did_generate_level = false
 	global.do_not_allow_input = false

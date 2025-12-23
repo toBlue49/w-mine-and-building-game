@@ -42,7 +42,7 @@ func load_settings():
 	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", false)
 	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", false)
 
-	#NOTE: Input Actions are set by the key_input_node script
+	#NOTE: Input Actions are set by the key_input_node script. Loaded on player ready.
 
 	#apply settings
 	Engine.max_fps = settings.graphics.max_fps
@@ -101,8 +101,9 @@ func _input(event: InputEvent) -> void:
 
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
-		SceneContainer.get_child(i).queue_free()
+		SceneContainer.get_child(i).free()
 	
+	await get_tree().process_frame
 	var new_scene = load(scene_path) as PackedScene
 	var scene_node = new_scene.instantiate()
 	print_rich("[INFO] Loading Scene with name [b]'" + scene_node.name + "'[/b]")
@@ -120,6 +121,9 @@ func change_title_extension(title: String):
 		return
 	DisplayServer.window_set_title("%s: %s" % [MAIN_TITLE, title])
 
+func reload_scene():
+	load_scene(loaded_scene)
+
 ##Popup:
 
 func show_popup(node: String, message: String):
@@ -128,7 +132,7 @@ func show_popup(node: String, message: String):
 	var popup = $PopupMessage.get_node(node)
 	popup.show()
 	popup.get_node("Message").text = message
-	popup.get_node("Button").connect("pressed", reload_scene)
+	popup.get_node("Button").connect("pressed", mainmenu_btn_pressed)
 
 func hide_popup():
 	$PopupMessage.visible = false
@@ -139,7 +143,5 @@ func mainmenu_btn_pressed():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await get_tree().process_frame
 	global.did_generate_level = false
+	global.is_multiplayer = false
 	reload_scene()
-
-func reload_scene():
-	load_scene(loaded_scene)
