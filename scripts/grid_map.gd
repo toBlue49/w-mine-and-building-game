@@ -6,6 +6,7 @@ var chunk_updates: int = 0
 var get_level_array = []
 var get_level_array_slice = 0
 var gotten_y = []
+var protocol_version_diff = -32676
 var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
 	preload("res://scenes/blocks/sand_object.tscn")
@@ -66,8 +67,8 @@ func render_gridmap():
 
 func render_chunk(gridmap, x, z):
 	@warning_ignore("integer_division")
-	if x >= size/chunk_size or z >= size/chunk_size or x < 0 or z < 0:
-		return
+	if x >= size/chunk_size or z >= size/chunk_size or x < 0 or z < 0: return
+	if gridmap == null: return
 	for y in 128:
 		for lx in chunk_size:
 			for lz in chunk_size:
@@ -178,6 +179,7 @@ func init_host():
 		if FileAccess.file_exists("user://levels/server.tscn"):
 			print_rich("[INFO] server.tscn level found! Loading.")
 			load_level_from_file("server.tscn")
+			global.did_generate_level = true
 		else:
 			print_rich("[color=yellow][WARNING] server.tscn level NOT found! Generating new level.")
 			noise.set_seed(randi_range(-2147483646, 2147483646))
@@ -206,6 +208,16 @@ func init_host():
 
 @rpc("reliable")
 func init_join(peer_id, level_array: Array, gridmap_size: int):
+	#Protocol Version Check
+	global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "protocol_version_diff", ["compare_protocol", global.PROTOCOL_VERSION])
+	while protocol_version_diff == -32676:
+		await get_tree().create_timer(0.1).timeout
+	print_rich("[INFO] Protocol Difference: [b]%s" % protocol_version_diff)
+	if protocol_version_diff != 0:
+		global.show_popup("ServerError", "Wrong Protocol Version.")
+		return
+	
+	
 	size = gridmap_size
 	@warning_ignore("integer_division")
 	var half_size = size/2
@@ -213,14 +225,17 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 
 	#Get GridMap
 	for i in size:
-		get_chunk.rpc(multiplayer.get_unique_id(), i)
+		global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "get_level_array", ["get_chunk", i])
 		await get_tree().process_frame
 		global.show_loading_screen(true, "Requesting Slice %s" % i)
 		while get_level_array_slice != i:
 			await get_tree().create_timer(0.01).timeout
 	
+	
 	global.show_loading_screen(true, "Loading Level..")
 	await get_tree().process_frame
+	
+	#Render GridMap
 	array_to_level(get_level_array)
 	create_gridmap_chunks()
 	render_gridmap()
@@ -246,20 +261,6 @@ func _ready():
 	second_routine()
 
 ##At Runtime:
-
-@rpc("any_peer", "call_remote")
-func arrive_chunk(peer_get:int, result: Array, slice: int):
-	if multiplayer.get_unique_id() == peer_get:
-		for i in result:
-			get_level_array.append(i)
-		get_level_array_slice = slice
-
-@rpc("any_peer", "call_remote")
-func get_chunk(peer_get: int, slice: int):
-	if multiplayer.get_unique_id() == 1:
-		await get_tree().process_frame
-		var result: Array = level_to_array(slice)
-		arrive_chunk.rpc(peer_get, result, slice)
 
 func second_routine():
 	await get_tree().create_timer(1.0).timeout
@@ -289,14 +290,19 @@ func destroy_block(world_coord):
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
-	print_rich("[INFO] Placed Block index: [b]" + str(index))
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
 	var chunk_node = chunks.get_node(chunk)
 	set_cell_item(map_pos, index)
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
-
+	
 	#Handle Block Objects
+	place_block_object(map_pos, index)
+	
+	#Play Sound
+	world.sound.play.rpc("block.place.default", world_coord, -2.0)
+
+func place_block_object(map_pos, index):
 	if index == 7:
 		var omnilight: Node3D = block_nodes[0].instantiate()
 		omnilight.position = map_to_local(map_pos)
@@ -309,19 +315,26 @@ func place_block(world_coord, index):
 		sand_object.init(map_pos, self)
 		objects.add_child(sand_object)
 
-	#Play Sound
-	world.sound.play.rpc("block.place.default", world_coord, -2.0)
-
 func level_to_array(slice: int) -> Array:
 	var save_gridmap: GridMap = self
 	var return_array: Array
 	for i in save_gridmap.get_used_cells():
-		if i.x == slice: return_array.append([i, get_cell_item(i)])
+		if i.x == slice:
+			return_array.append([i, get_cell_item(i)])
+			
+			#Handle Objects
+			if get_cell_item(i) == 7 or get_cell_item(i) == 19:
+				return_array.append(["OBJECT", i , get_cell_item(i)])
+				print(["OBJECT", i , get_cell_item(i)])
+	
 	return return_array
 
 func array_to_level(array: Array):
 	for cell in array:
-		set_cell_item(cell[0], cell[1])
+		if cell[0] is String: #Objects
+			place_block_object(cell[1], cell[2])
+		else: #Cells
+			set_cell_item(cell[0], cell[1])
 
 func save_level_to_file(path: String):
 	var save_gridmap = GridMap.new()
@@ -420,5 +433,8 @@ static func string_to_vector3(string := "") -> Vector3: #fun i found on the inte
 		new_string = new_string.erase(0, 1)
 		new_string = new_string.erase(new_string.length() - 1, 1)
 		var array: Array = new_string.split(", ")
-		prints(array, string)
-	return Vector3.ZERO
+		var vector: Vector3 = Vector3(int(array[0]), int(array[1]), int(array[2]))
+
+		return vector
+	else:
+		return Vector3.ZERO

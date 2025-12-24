@@ -1,7 +1,6 @@
 extends AudioStreamPlayer3D
 
 func play_sound(sound: String, rng_pitch:int = 0, pos: Vector3 = Vector3(0,0,0), vol: float = 0.0, despawn: bool = true):
-	
 	if despawn:
 		connect("finished", remove)
 	

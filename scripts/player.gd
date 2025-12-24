@@ -276,6 +276,8 @@ func _on_pause_load_button() -> void:
 func _on_pause_mainmenu_button() -> void:
 	##Multiplayer
 	if global.is_multiplayer:
+		global.get_node("Scene/World/CanvasLayer/Chat").add_message.rpc("serverplayer", "%s disconnected." % global.player_name)
+		await get_tree().process_frame
 		multiplayer.multiplayer_peer.close()
 	
 	global.reload_scene()

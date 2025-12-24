@@ -6,7 +6,6 @@ const player = preload("res://scenes/player.tscn")
 @onready var chat: Control = $CanvasLayer/Chat
 @onready var sound: Node3D = $Sounds
 
-
 func add_player(id, pos: Vector3):
 	#id = 0
 	print_rich("[INFO] Add Player (non RPC): [b]", id)
@@ -55,6 +54,7 @@ func _process(_delta: float) -> void:
 		global.show_loading_screen(true, "Joining Server...")
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
+
 		
 		#Join Game
 		global.enet_peer.create_client(mainmenu.ip_address.text, global.PORT)

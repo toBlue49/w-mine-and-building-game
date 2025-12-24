@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://4c7l2min62xx"]
+[gd_scene load_steps=4 format=3 uid="uid://4c7l2min62xx"]
 
 [ext_resource type="Script" uid="uid://b2ndcm1u8rfsx" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://c5r5fwl55e71e" path="res://scripts/global_request.gd" id="3_lnu2h"]
 
 [node name="game" type="Node"]
 script = ExtResource("1_uwrxv")
@@ -46,7 +47,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.9d"
+text = "0.9e"
 
 [node name="frames" type="Label" parent="GlobalControl"]
 layout_mode = 0
@@ -125,3 +126,6 @@ offset_top = 256.0
 offset_right = 448.0
 offset_bottom = 312.0
 text = "Back to Main Menu"
+
+[node name="request" type="Node" parent="."]
+script = ExtResource("3_lnu2h")

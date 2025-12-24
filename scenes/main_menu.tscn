@@ -68,7 +68,7 @@ text = "New Singleplayer World"
 [node name="SizeBox" type="SpinBox" parent="MarginContainer/VBoxContainer/Singleplayer"]
 custom_minimum_size = Vector2(155, 0)
 layout_mode = 2
-min_value = 32.0
+min_value = 8.0
 max_value = 256.0
 step = 8.0
 value = 128.0

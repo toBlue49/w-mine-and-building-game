@@ -2,6 +2,7 @@ extends Node
 
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
+const PROTOCOL_VERSION = 1
 
 var config = ConfigFile.new()
 var do_not_allow_input = false
@@ -12,6 +13,8 @@ var loaded_scene = ""
 var did_generate_level = false
 @onready var SceneContainer = $Scene
 @onready var GlobalControl = $GlobalControl
+@onready var request: Node = $request
+
 var settings: Dictionary = {
 	"graphics": {
 		"max_fps": 0,
