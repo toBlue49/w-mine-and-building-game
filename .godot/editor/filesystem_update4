@@ -5,3 +5,7 @@ res://resources/blocks.tres
 res://scripts/grid_map.gd
 res://scenes/world.tscn
 res://scenes/main_menu.tscn
+res://scripts/game.gd
+res://scripts/global_request.gd
+res://scripts/player.gd
+res://scripts/world.gd
