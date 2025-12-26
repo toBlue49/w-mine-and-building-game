@@ -18,8 +18,8 @@ script = ExtResource("1_4o336")
 [node name="Messages" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 0
-offset_right = 500.0
-offset_bottom = 624.0
+offset_right = 536.0
+offset_bottom = 576.0
 theme_override_constants/separation = 0
 alignment = 2
 

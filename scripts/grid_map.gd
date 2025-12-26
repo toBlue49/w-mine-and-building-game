@@ -11,6 +11,7 @@ var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
 	preload("res://scenes/blocks/sand_object.tscn")
 ]
+
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
@@ -197,6 +198,7 @@ func init_host():
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
 			await get_tree().create_timer(0.75).timeout
+			print("GOOOOONEENENENENq")
 			init_join.rpc(new_peer_id, [], size)
 	)
 	multiplayer.peer_disconnected.connect(

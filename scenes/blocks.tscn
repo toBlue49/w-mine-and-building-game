@@ -459,13 +459,13 @@ mesh = SubResource("BoxMesh_34qpj")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteMagenta/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteDeepPink" type="MeshInstance3D" parent="."]
+[node name="ConcretePink" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, 0)
 mesh = SubResource("BoxMesh_83fgn")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteDeepPink"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePink"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteDeepPink/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePink/StaticBody3D"]
 shape = SubResource("BoxShape3D_irvtj")
 
 [node name="Sand" type="MeshInstance3D" parent="."]

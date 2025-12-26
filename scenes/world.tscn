@@ -4,7 +4,7 @@
 [ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://bc18dgy4sb3i" path="res://scripts/grid_map.gd" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://bnh00ujufy7hi" path="res://scripts/sounds_controller_3d.gd" id="4_4mrxx"]
-[ext_resource type="PackedScene" uid="uid://dsy30kwg16tcw" path="res://scenes/main_menu.tscn" id="4_k0juu"]
+[ext_resource type="PackedScene" uid="uid://vbj6etoyfr5n" path="res://scenes/main_menu.tscn" id="4_k0juu"]
 [ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://bcxl1ld54pd27" path="res://scenes/chat.tscn" id="5_i7141"]
 [ext_resource type="Texture2D" uid="uid://p3l6bcgqvtlm" path="res://textures/icon/13.png" id="6_qfnet"]
@@ -132,12 +132,6 @@ directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.2
 directional_shadow_blend_splits = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("4_k0juu")]
-
-[node name="Chat" parent="CanvasLayer" instance=ExtResource("5_i7141")]
-
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cv0klkobsceiv")
 spawn_path = NodePath("..")
@@ -248,3 +242,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 448, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("4_k0juu")]
+
+[node name="Chat" parent="CanvasLayer" instance=ExtResource("5_i7141")]

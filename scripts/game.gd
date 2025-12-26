@@ -4,6 +4,7 @@ const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 1
 
+var gamemode = SURVIVAL
 var config = ConfigFile.new()
 var do_not_allow_input = false
 var player_name = "DEFAULTNAME"
@@ -21,6 +22,11 @@ var settings: Dictionary = {
 		"vsync": false,
 		"fullscreen": false
 	}
+}
+
+enum {
+	CREATIVE,
+	SURVIVAL
 }
 
 func _ready():

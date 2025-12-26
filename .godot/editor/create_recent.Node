@@ -1,3 +1,5 @@
+Label
+ProgressBar
 Node
 Timer
 Node3D
@@ -11,5 +13,3 @@ ScrollContainer
 HScrollBar
 Panel
 MenuButton
-OptionButton
-HSlider

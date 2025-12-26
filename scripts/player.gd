@@ -8,6 +8,8 @@ var sensitivity = 0.002
 var selected_block = 0
 var selected_hotbar_item = 0
 var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, 19, -1]
+var health = 100
+var fall_timer = 0
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
@@ -22,9 +24,11 @@ var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, 19, -1]
 @onready var hotbar_node_items: Control = $CanvasLayer/Control/Hotbar/Items
 @onready var block_menu: Control = $CanvasLayer/Control/BlockMenu
 @onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
+@onready var game_over_menu: VBoxContainer = $CanvasLayer/Control/Menu/GameOver
 @onready var settings: Control = $CanvasLayer/Control/Menu/Settings
 @onready var chat: Control = $"../CanvasLayer/Chat"
-
+@onready var healthbar: ProgressBar = $CanvasLayer/Control/HealthBar
+@onready var healthbar_label: Label = $CanvasLayer/Control/HealthBar/Label
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
@@ -50,6 +54,10 @@ func _ready():
 		i.connect(
 			"pressed", Callable(_blockmenu_button_pressed).bind(i.name)
 		)
+	
+	#Survival/Creative Mode
+	if global.gamemode == global.CREATIVE:
+		healthbar.visible = false
 
 func _input(event: InputEvent) -> void:
 	if global.is_multiplayer:
@@ -132,13 +140,35 @@ func _process(delta: float) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
-	control.get_node("Label").text = str(position)
+	control.get_node("Label").text = "%s" % [((round(fall_timer*100))/100)]
 	set_multiplayer_authority(str(name).to_int())
 	camera_3d.current = true
-
+	
+	#Health
+	if global.gamemode == global.SURVIVAL:
+		healthbar.value = health
+		healthbar_label.text = "%s/100" % roundi(health)
+		healthbar_label.size.x = clamp(health*5.64, 78, 564)
+	
+	#Death
+	if health <= 0:
+		health = 0
+		global.do_not_allow_input = true
+		game_over_menu.visible = true
+		background.visible = true
+		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
+	
 func _physics_process(delta: float) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
+	
+	#Fall Damage
+	if is_on_floor() and fall_timer != 0:
+		if fall_timer > 0.75: #Give Damage
+			health -= round((pow(fall_timer+0.25, 2))*75)/10
+		fall_timer = 0
+	elif velocity.y < 0:
+		fall_timer += 1*delta
 	
 	# Add the gravity.
 	if fly == false:

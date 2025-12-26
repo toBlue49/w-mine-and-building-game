@@ -53,7 +53,6 @@ func _ready() -> void:
 			
 			vbox.get_node(str("M", i+1)).connect("pressed", func():
 				mouse_selected(vbox.get_node(str("M", i+1)), str("M", i+1)))
-
 	#NOTE: This part was written with absolute pain.
 	#Load Inputs
 	if event is InputEventKey:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene load_steps=34 format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
@@ -33,6 +33,12 @@ height = 3.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_3vyb7"]
 size = Vector3(1.4, 3.8, 1.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pf23h"]
+bg_color = Color(0.49, 0, 0, 0.54901963)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt7fs"]
+bg_color = Color(0.7715464, 0.18788382, 0.18788382, 1)
 
 [sub_resource type="Gradient" id="Gradient_3vyb7"]
 interpolation_color_space = 2
@@ -108,7 +114,7 @@ offset_right = -4.0
 offset_bottom = 23.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 16
-text = "POSITION"
+text = "DBGLABEL"
 horizontal_alignment = 2
 
 [node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control"]
@@ -144,6 +150,27 @@ offset_top = 48.0
 offset_right = 281.0
 offset_bottom = 88.0
 theme_override_font_sizes/font_size = 24
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 599.0
+offset_right = 584.0
+offset_bottom = 632.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 0)
+theme_override_styles/background = SubResource("StyleBoxFlat_pf23h")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dt7fs")
+value = 50.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/HealthBar"]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 82.0
+offset_bottom = 33.0
+theme_override_font_sizes/font_size = 20
+text = "0/100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Hotbar" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1
@@ -396,6 +423,32 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
 
+[node name="GameOver" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.275
+anchor_right = 0.725
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GameOver"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Game Over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/GameOver"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Back to Main Menu"
+
 [node name="Settings" parent="CanvasLayer/Control/Menu" instance=ExtResource("7_ujl30")]
 visible = false
 layout_mode = 1
@@ -598,3 +651,4 @@ replication_config = SubResource("SceneReplicationConfig_g2els")
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Load" to="." method="_on_pause_load_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Settings" to="." method="_on_pause_settings_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/GameOver/MainMenu" to="." method="_on_pause_mainmenu_button"]
