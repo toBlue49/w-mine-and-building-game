@@ -116,6 +116,8 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="Objects" type="Node3D" parent="."]
 
+[node name="Entites" type="Node3D" parent="."]
+
 [node name="Sounds" type="Node3D" parent="."]
 script = ExtResource("4_4mrxx")
 

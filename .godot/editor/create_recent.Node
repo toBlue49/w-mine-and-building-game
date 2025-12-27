@@ -1,15 +1,14 @@
+CollisionShape3D
+RigidBody3D
+Area3D
+StaticBody3D
+Sprite3D
+Node3D
 Label
 ProgressBar
 Node
 Timer
-Node3D
 AudioStreamPlayer3D      - Matches the "sound" keyword.
 VisibleOnScreenNotifier2D
 GridContainer
 MarginContainer
-Button
-VBoxContainer
-ScrollContainer
-HScrollBar
-Panel
-MenuButton

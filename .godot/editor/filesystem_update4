@@ -1,4 +1,12 @@
-res://scenes/chat.tscn
+res://scenes/player.tscn
 res://resources/theme.tres
 res://materials/dirt.tres
 res://resources/blocks.tres
+res://scripts/player.gd
+res://scenes/chat.tscn
+res://scenes/world.tscn
+res://scenes/entity/dropped_item.tscn
+res://scripts/entity/chat.gd
+res://scripts/entity/dropped_item.gd
+res://scripts/grid_map.gd
+res://scenes/game.tscn

@@ -11,13 +11,16 @@ var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
 	preload("res://scenes/blocks/sand_object.tscn")
 ]
-
+enum itmType{
+	BLOCK, ITEM
+}
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
 @onready var objects: Node3D = $"../Objects"
 @onready var border: Node3D = $"../Border"
 @onready var chat: Control = $"../CanvasLayer/Chat"
+@onready var entites: Node3D = $"../Entites"
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -272,7 +275,7 @@ func second_routine():
 	second_routine()
 
 @rpc("call_local", "any_peer")
-func destroy_block(world_coord):
+func destroy_block(world_coord, drop: bool):
 	var map_pos = local_to_map(world_coord)
 	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
 	var chunk_node = chunks.get_node(chunk)
@@ -289,6 +292,14 @@ func destroy_block(world_coord):
 
 	#Play Sound
 	world.sound.play.rpc("block.break.default", world_coord, -2.0)
+	
+	#Drop Item
+	if drop:
+		var dropped_item = load("res://scenes/entity/dropped_item.tscn").instantiate()
+		dropped_item.position = map_to_local(map_pos)
+		dropped_item.name = str(map_pos) #NOTE: May be temporary
+		entites.add_child(dropped_item)
+		dropped_item.set_item([block_id, itmType.BLOCK])
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):

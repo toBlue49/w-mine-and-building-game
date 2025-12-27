@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddoewb2ro358i"]
+
+[ext_resource type="Texture2D" uid="uid://b4poleu3u0xap" path="res://textures/icon/19.png" id="1_5m600"]
+[ext_resource type="Script" uid="uid://bcm0itgjc8toj" path="res://scripts/entity/dropped_item.gd" id="1_ps0j0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ps0j0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5m600"]
+radius = 2.0
+
+[node name="RigidBody3D" type="RigidBody3D"]
+collision_layer = 8
+script = ExtResource("1_ps0j0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ps0j0")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+pixel_size = 0.04
+billboard = 1
+texture_filter = 0
+texture = ExtResource("1_5m600")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_5m600")
+debug_color = Color(1, 0, 0.6252098, 0.41960785)

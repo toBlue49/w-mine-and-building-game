@@ -5,11 +5,14 @@ const WALK_SPEED = 7.0
 const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
 var sensitivity = 0.002
-var selected_block = 0
+var selected_block = [0, itmType.BLOCK]
 var selected_hotbar_item = 0
-var hotbar_items = [0, 1, 2, 3, 4, 5, 6, 8, 19, -1]
+var hotbar_items = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [], [], [], [], [], [], []]
 var health = 100
 var fall_timer = 0
+enum itmType{
+	BLOCK, ITEM
+}
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
@@ -118,9 +121,11 @@ func _input(event: InputEvent) -> void:
 		selected_hotbar_item += -1
 		if selected_hotbar_item < 0: selected_hotbar_item = 9
 	hotbar_selection.position.x = selected_hotbar_item * 56
-	selected_block = hotbar_items[selected_hotbar_item]
+	selected_block[0] = hotbar_items[selected_hotbar_item][0]
+	selected_block[1] = itmType.BLOCK #temporary
 	
-	control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block) + ".png")
+	if selected_block[1] == itmType.BLOCK: #NOTE: Add Item Type
+		control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block[0]) + ".png")
 	
 	#Block Menu
 	if Input.is_action_just_released("hotbar_block_menu"):
@@ -164,7 +169,7 @@ func _physics_process(delta: float) -> void:
 	
 	#Fall Damage
 	if is_on_floor() and fall_timer != 0:
-		if fall_timer > 0.75: #Give Damage
+		if fall_timer > 0.75 and global.gamemode == global.SURVIVAL: #Give Damage
 			health -= round((pow(fall_timer+0.25, 2))*75)/10
 		fall_timer = 0
 	elif velocity.y < 0:
@@ -199,7 +204,7 @@ func _physics_process(delta: float) -> void:
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
 		if Input.is_action_just_pressed("world_destroy"):
 			if raycast3d.get_collider().has_method("destroy_block"):
-				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
+				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider().has_method("place_block"):
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
@@ -207,7 +212,27 @@ func _physics_process(delta: float) -> void:
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
 				if distancey == 1:
 					if distancex == 0 and distancez == 0: return
-				raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block)
+				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
+					raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
+					hotbar_items[selected_hotbar_item][2] -= 1
+					update_hotbar()
+
+func collect_item(new_item):
+	for item_count in hotbar_items.size():
+		var item = hotbar_items[item_count]
+		if item[0] == new_item[0] and item[1] == new_item[1]:
+			#Add to stack
+			hotbar_items[item_count][2] += 1
+			update_hotbar()
+			return
+	#Add new item
+	for item in hotbar_items:
+		if item[0] == -1:
+			item[0] = new_item[0]
+			item[1] = new_item[1]
+			item[2] = 1
+			update_hotbar()
+			return
 
 ##UI Control
 
@@ -215,8 +240,17 @@ func update_chunk_updates(count: int):
 	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
 
 func update_hotbar():
-	for i in hotbar_items.size():
-		hotbar_node_items.get_node(str(i)).texture = load("res://textures/icon/" + str(hotbar_items[i]) + ".png")
+	for item_count in hotbar_items.size():
+		var item = hotbar_items[item_count]
+		if item == [] or item[2] == 0:
+			hotbar_items[item_count] = [-1, itmType.BLOCK, 0]
+			item = [-1, itmType.BLOCK, 0]
+		if item[1] == itmType.BLOCK:
+			hotbar_node_items.get_node(str(item_count)).texture = load("res://textures/icon/" + str(item[0]) + ".png")
+		#Label
+		hotbar_node_items.get_node(str(item_count)).get_node("Count").text = str(item[2])
+		if item[0] == -1:
+			hotbar_node_items.get_node(str(item_count)).get_node("Count").text = ""
 
 func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:
@@ -259,7 +293,9 @@ func _blockmenu_button_pressed(name_args: String) -> void:
 	global.do_not_allow_input = false
 	block_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	hotbar_items[selected_hotbar_item] = name_args.to_int()
+	hotbar_items[selected_hotbar_item][0] = name_args.to_int()
+	hotbar_items[selected_hotbar_item][1] = itmType.BLOCK #temporary
+	hotbar_items[selected_hotbar_item][2] = 99
 	update_hotbar()
 
 func _on_pause_save_button() -> void:
