@@ -12,6 +12,7 @@ func add_player(id, pos: Vector3):
 	var player_node = player.instantiate()
 	player_node.name = str(id)
 	player_node.position = pos
+	player_node.spawn_position = pos
 	add_child(player_node)
 	return get_node("%s" % str(id))
 
@@ -21,6 +22,7 @@ func add_player_multiplayer(id, pos: Vector3):
 	var player_node = player.instantiate()
 	player_node.name = str(id)
 	player_node.position = pos
+	player_node.spawn_position = pos
 	add_child(player_node)
 	return get_node("%s" % str(id))
 

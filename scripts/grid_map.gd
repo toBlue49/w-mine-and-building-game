@@ -201,7 +201,6 @@ func init_host():
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
 			await get_tree().create_timer(0.75).timeout
-			print("GOOOOONEENENENENq")
 			init_join.rpc(new_peer_id, [], size)
 	)
 	multiplayer.peer_disconnected.connect(
@@ -222,7 +221,6 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 		global.show_popup("ServerError", "Wrong Protocol Version.")
 		return
 	
-	
 	size = gridmap_size
 	@warning_ignore("integer_division")
 	var half_size = size/2
@@ -231,7 +229,6 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	#Get GridMap
 	for i in size:
 		global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "get_level_array", ["get_chunk", i])
-		await get_tree().process_frame
 		global.show_loading_screen(true, "Requesting Slice %s" % i)
 		while get_level_array_slice != i:
 			await get_tree().create_timer(0.01).timeout
@@ -252,11 +249,9 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
 	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
-	world.add_player_multiplayer.rpc(peer_id, Vector3(0, 4, 0))
+	world.add_player_multiplayer.rpc(peer_id, pos)
 	player = world.get_node(str(multiplayer.get_unique_id()))
 	
-	#Set Player Position
-	player.position = pos
 	
 	#Border
 	match_border_to_size()
@@ -291,7 +286,7 @@ func destroy_block(world_coord, drop: bool):
 	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
 	#Play Sound
-	world.sound.play.rpc("block.break.default", world_coord, -2.0)
+	world.sound.play("block.break.default", world_coord, -2.0)
 	
 	#Drop Item
 	if drop:
@@ -313,7 +308,7 @@ func place_block(world_coord, index):
 	place_block_object(map_pos, index)
 	
 	#Play Sound
-	world.sound.play.rpc("block.place.default", world_coord, -2.0)
+	world.sound.play("block.place.default", world_coord, -2.0)
 
 func place_block_object(map_pos, index):
 	if index == 7:
@@ -338,7 +333,6 @@ func level_to_array(slice: int) -> Array:
 			#Handle Objects
 			if get_cell_item(i) == 7 or get_cell_item(i) == 19:
 				return_array.append(["OBJECT", i , get_cell_item(i)])
-				print(["OBJECT", i , get_cell_item(i)])
 	
 	return return_array
 

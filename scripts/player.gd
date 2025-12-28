@@ -4,6 +4,7 @@ var SPEED = WALK_SPEED
 const WALK_SPEED = 7.0
 const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
+var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [0, itmType.BLOCK]
 var selected_hotbar_item = 0
@@ -154,10 +155,13 @@ func _process(delta: float) -> void:
 		healthbar.value = health
 		healthbar_label.text = "%s/100" % roundi(health)
 		healthbar_label.size.x = clamp(health*5.64, 78, 564)
+	if global.gamemode == global.CREATIVE:
+		health = 1000
 	
 	#Death
-	if health <= 0:
+	if health < 0:
 		health = 0
+		chat.add_message.rpc("serverplayer", "%s died!" % global.player_name)
 		global.do_not_allow_input = true
 		game_over_menu.visible = true
 		background.visible = true
@@ -214,25 +218,46 @@ func _physics_process(delta: float) -> void:
 					if distancex == 0 and distancez == 0: return
 				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
 					raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
-					hotbar_items[selected_hotbar_item][2] -= 1
+					if global.gamemode == global.SURVIVAL:
+						hotbar_items[selected_hotbar_item][2] -= 1
 					update_hotbar()
 
-func collect_item(new_item):
+func collect_item(new_item, test_only = false) -> Error:
 	for item_count in hotbar_items.size():
 		var item = hotbar_items[item_count]
 		if item[0] == new_item[0] and item[1] == new_item[1]:
 			#Add to stack
-			hotbar_items[item_count][2] += 1
-			update_hotbar()
-			return
+			if !test_only:
+				await get_tree().create_timer(0.2).timeout
+				hotbar_items[item_count][2] += 1
+				update_hotbar()
+			return OK
 	#Add new item
 	for item in hotbar_items:
 		if item[0] == -1:
-			item[0] = new_item[0]
-			item[1] = new_item[1]
-			item[2] = 1
-			update_hotbar()
-			return
+			if !test_only:
+				item[0] = new_item[0]
+				item[1] = new_item[1]
+				item[2] = 1
+				update_hotbar()
+			return OK
+	return FAILED
+
+@rpc("any_peer", "call_local")
+func respawn():
+	health = 100
+	position = spawn_position
+	if not is_multiplayer_authority() and global.is_multiplayer:
+		return
+	game_over_menu.visible = false
+	background.visible = false
+	global.do_not_allow_input = false
+	DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
+	rotation.y = 0
+	camera_3d.rotation.x = 0
+	for i in hotbar_items:
+		i[2] = 0
+	update_hotbar()
 
 ##UI Control
 
@@ -315,6 +340,7 @@ func _on_pause_load_button() -> void:
 	get_load_name.visible = true
 	get_save_name.visible = false
 	pause_menu.visible = false
+	game_over_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	global.do_not_allow_input = true
 	
@@ -355,3 +381,6 @@ func _on_pause_mainmenu_button() -> void:
 func _on_pause_settings_button() -> void:
 	settings.visible = true
 	settings._ready()
+
+func _on_death_respawn_button() -> void:
+	respawn.rpc()

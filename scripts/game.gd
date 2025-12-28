@@ -2,7 +2,7 @@ extends Node
 
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
-const PROTOCOL_VERSION = 1
+const PROTOCOL_VERSION = 2
 
 var gamemode = SURVIVAL
 var config = ConfigFile.new()
@@ -33,6 +33,14 @@ func _ready():
 	await get_tree().process_frame
 	load_settings()
 	load_scene("res://scenes/world.tscn")
+	
+	for argument in OS.get_cmdline_args():
+		if argument == "--force-survival":
+			print_rich("[INFO] force-survival")
+			global.gamemode = SURVIVAL
+		if argument == "--force-creative":
+			print_rich("[INFO] force-creative")
+			global.gamemode = CREATIVE
 	
 	#Create Folder
 	var dir: DirAccess = DirAccess.open("user://")
@@ -106,7 +114,6 @@ func _input(event: InputEvent) -> void:
 		config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
 		config.save("user://data.cfg")
 		print("[INFO] External Setting Save: graphics.fullscreen")
-		print(settings.graphics.fullscreen)
 
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():

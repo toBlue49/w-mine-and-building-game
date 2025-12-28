@@ -569,6 +569,11 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
 
+[node name="Respawn" type="Button" parent="CanvasLayer/Control/Menu/GameOver"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Respawn"
+
 [node name="Settings" parent="CanvasLayer/Control/Menu" instance=ExtResource("7_ujl30")]
 visible = false
 layout_mode = 1
@@ -772,3 +777,4 @@ replication_config = SubResource("SceneReplicationConfig_g2els")
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/Settings" to="." method="_on_pause_settings_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/PauseMenu/MainMenu" to="." method="_on_pause_mainmenu_button"]
 [connection signal="pressed" from="CanvasLayer/Control/Menu/GameOver/MainMenu" to="." method="_on_pause_mainmenu_button"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/GameOver/Respawn" to="." method="_on_death_respawn_button"]

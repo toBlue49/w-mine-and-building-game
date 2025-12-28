@@ -22,11 +22,14 @@ func body_enter(body):
 	var id = 0
 	if global.is_multiplayer: id = multiplayer.get_unique_id()
 	if body.name == str(id):
-		velocity = 20*(Vector3(body.global_position.x, body.global_position.y+2, body.global_position.z) - global_position)
-		gravity = 0
 		await get_tree().create_timer(0.2).timeout
-		body.collect_item(self_item)
-		remove.rpc()
+		if body.collect_item(self_item, true) == OK:
+			var diff = 20*(Vector3(body.global_position.x, body.global_position.y+2, body.global_position.z) - global_position)
+			velocity = diff
+			gravity = 0
+			await get_tree().create_timer(0.2).timeout
+			body.collect_item(self_item, false)
+			remove.rpc()
 
 @rpc("any_peer", "call_local", "reliable")
 func remove():
