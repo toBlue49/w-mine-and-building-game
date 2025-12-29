@@ -3,9 +3,6 @@ res://resources/theme.tres
 res://materials/dirt.tres
 res://resources/blocks.tres
 res://scripts/player.gd
-res://scripts/entity/dropped_item.gd
 res://scenes/player.tscn
-res://scenes/world.tscn
-res://scripts/grid_map.gd
-res://scripts/world.gd
-res://scripts/game.gd
+res://scenes/main_menu.tscn
+res://scripts/main_menu.gd

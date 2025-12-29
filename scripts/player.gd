@@ -4,6 +4,7 @@ var SPEED = WALK_SPEED
 const WALK_SPEED = 7.0
 const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
+var hit_damage = 5
 var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [0, itmType.BLOCK]
@@ -50,7 +51,6 @@ func _ready():
 	
 	control.visible = true
 	camera_3d.current = true
-	label3d.text = global.player_name
 	update_hotbar()
 	
 	#Connect BlockMenu Buttons
@@ -69,6 +69,8 @@ func _input(event: InputEvent) -> void:
 	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
+		if game_over_menu.visible == true:
+			return
 		if settings.visible:
 			settings.visible = false
 			return
@@ -142,7 +144,10 @@ func _process(delta: float) -> void:
 	#Server closed
 	if global.enet_peer.get_connection_status() == 0 and global.is_multiplayer:
 		global.show_popup("ServerError", "The multiplayer instance isn't currently active.")
-
+	
+	#Update Player Label
+	label3d.text = ("%s Health\n%s" % [clamp(round(health), 0, 100), global.player_name])
+	
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
@@ -152,16 +157,23 @@ func _process(delta: float) -> void:
 	
 	#Health
 	if global.gamemode == global.SURVIVAL:
-		healthbar.value = health
-		healthbar_label.text = "%s/100" % roundi(health)
-		healthbar_label.size.x = clamp(health*5.64, 78, 564)
+		if health == 32676: #when death, is set to 32676
+			healthbar.value = 0
+			healthbar_label.text = "0/100"
+			healthbar_label.size.x = 78
+		else: #Normal behavior
+			healthbar.value = health
+			healthbar_label.text = "%s/100" % roundi(health)
+			healthbar_label.size.x = clamp(health*5.64, 78, 564)
+
 	if global.gamemode == global.CREATIVE:
 		health = 1000
 	
 	#Death
-	if health < 0:
-		health = 0
+	if health <= 0:
+		health = 32676
 		chat.add_message.rpc("serverplayer", "%s died!" % global.player_name)
+		rpc_set_visibility.rpc(false)
 		global.do_not_allow_input = true
 		game_over_menu.visible = true
 		background.visible = true
@@ -174,7 +186,7 @@ func _physics_process(delta: float) -> void:
 	#Fall Damage
 	if is_on_floor() and fall_timer != 0:
 		if fall_timer > 0.75 and global.gamemode == global.SURVIVAL: #Give Damage
-			health -= round((pow(fall_timer+0.25, 2))*75)/10
+			player_hit.rpc(round((pow(fall_timer+0.25, 2))*60)/10)
 		fall_timer = 0
 	elif velocity.y < 0:
 		fall_timer += 1*delta
@@ -207,6 +219,8 @@ func _physics_process(delta: float) -> void:
 	#World changes by player
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
 		if Input.is_action_just_pressed("world_destroy"):
+			if raycast3d.get_collider().has_method("player_hit"):
+				raycast3d.get_collider().player_hit.rpc(hit_damage)
 			if raycast3d.get_collider().has_method("destroy_block"):
 				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
 		if Input.is_action_just_pressed("world_place"):
@@ -249,6 +263,7 @@ func respawn():
 	position = spawn_position
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		return
+	rpc_set_visibility.rpc(true)
 	game_over_menu.visible = false
 	background.visible = false
 	global.do_not_allow_input = false
@@ -259,7 +274,16 @@ func respawn():
 		i[2] = 0
 	update_hotbar()
 
-##UI Control
+@rpc("any_peer", "call_local")
+func player_hit(damage: int):
+	if health != 32676: #ignore when death condition
+		health -= damage
+
+@rpc("any_peer", "call_local")
+func rpc_set_visibility(state: bool):
+	visible = state
+
+######## UI Control
 
 func update_chunk_updates(count: int):
 	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
