@@ -1,15 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://4c7l2min62xx"]
+[gd_scene format=3 uid="uid://4c7l2min62xx"]
 
 [ext_resource type="Script" uid="uid://b2ndcm1u8rfsx" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="2_yqjtg"]
 [ext_resource type="Script" uid="uid://c5r5fwl55e71e" path="res://scripts/global_request.gd" id="3_lnu2h"]
 
-[node name="game" type="Node"]
+[node name="game" type="Node" unique_id=1815734649]
 script = ExtResource("1_uwrxv")
 
-[node name="Scene" type="Node" parent="."]
+[node name="Scene" type="Node" parent="." unique_id=1567819201]
 
-[node name="GlobalControl" type="Control" parent="."]
+[node name="GlobalControl" type="Control" parent="." unique_id=259600673]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_yqjtg")
 
-[node name="Loading" type="ColorRect" parent="GlobalControl"]
+[node name="Loading" type="ColorRect" parent="GlobalControl" unique_id=562734778]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.26239687, 0.26239687, 0.26239687, 1)
 
-[node name="Label" type="Label" parent="GlobalControl/Loading"]
+[node name="Label" type="Label" parent="GlobalControl/Loading" unique_id=1316173524]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,15 +41,15 @@ text = "Loading..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="GlobalControl"]
+[node name="Label" type="Label" parent="GlobalControl" unique_id=1368155070]
 layout_mode = 0
 offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.10d"
+text = "0.10e"
 
-[node name="frames" type="Label" parent="GlobalControl"]
+[node name="frames" type="Label" parent="GlobalControl" unique_id=1457041356]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 24.0
@@ -58,7 +58,7 @@ offset_bottom = 64.0
 theme_override_font_sizes/font_size = 24
 text = "FPS"
 
-[node name="PopupMessage" type="Control" parent="."]
+[node name="PopupMessage" type="Control" parent="." unique_id=765371349]
 visible = false
 texture_filter = 1
 layout_mode = 3
@@ -69,7 +69,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_yqjtg")
 
-[node name="ColorRect" type="ColorRect" parent="PopupMessage"]
+[node name="ColorRect" type="ColorRect" parent="PopupMessage" unique_id=1378447634]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +78,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.47058824)
 
-[node name="ServerError" type="Panel" parent="PopupMessage"]
+[node name="ServerError" type="Panel" parent="PopupMessage" unique_id=294504155]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -93,7 +93,7 @@ offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="PopupMessage/ServerError"]
+[node name="Label" type="Label" parent="PopupMessage/ServerError" unique_id=1251808094]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.05
@@ -106,7 +106,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Message" type="Label" parent="PopupMessage/ServerError"]
+[node name="Message" type="Label" parent="PopupMessage/ServerError" unique_id=1426248446]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.225
@@ -119,7 +119,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="PopupMessage/ServerError"]
+[node name="Button" type="Button" parent="PopupMessage/ServerError" unique_id=2081314857]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 256.0
@@ -127,5 +127,5 @@ offset_right = 448.0
 offset_bottom = 312.0
 text = "Back to Main Menu"
 
-[node name="request" type="Node" parent="."]
+[node name="request" type="Node" parent="." unique_id=1939780136]
 script = ExtResource("3_lnu2h")

@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgso16d84cgvt"]
+
+[ext_resource type="Script" uid="uid://44am1b7hj3h8" path="res://scripts/entity/test_entity.gd" id="1_byc52"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_byc52"]
+size = Vector3(1.8, 3.8, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_byc52"]
+albedo_color = Color(0, 1, 0.95000005, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ia05y"]
+material = SubResource("StandardMaterial3D_byc52")
+radius = 1.0
+height = 4.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_byc52"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_byc52"]
+radius = 0.2
+
+[node name="TestEntity" type="CharacterBody3D"]
+collision_layer = 16
+collision_mask = 5
+script = ExtResource("1_byc52")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+shape = SubResource("BoxShape3D_byc52")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("CapsuleMesh_ia05y")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -0.95)
+mesh = SubResource("SphereMesh_byc52")
+skeleton = NodePath("")
+
+[node name="ShouldJumpArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
+collision_layer = 16
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldJumpArea"]
+shape = SubResource("SphereShape3D_byc52")
+debug_color = Color(0.70196074, 0, 0.16144496, 0.41960785)
+
+[node name="ShouldNotJumpArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2)
+collision_layer = 16
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldNotJumpArea"]
+shape = SubResource("SphereShape3D_byc52")
+debug_color = Color(0.70196074, 0, 0.16144496, 0.41960785)

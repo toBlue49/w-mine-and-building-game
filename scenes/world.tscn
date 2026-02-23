@@ -1,13 +1,16 @@
-[gd_scene load_steps=27 format=3 uid="uid://dcnexdcn8xq20"]
+[gd_scene load_steps=29 format=3 uid="uid://dcnexdcn8xq20"]
 
 [ext_resource type="Script" uid="uid://djdywkxej8iic" path="res://scripts/world.gd" id="1_k0juu"]
 [ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://bc18dgy4sb3i" path="res://scripts/grid_map.gd" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://bnh00ujufy7hi" path="res://scripts/sounds_controller_3d.gd" id="4_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://dhft3f0orchup" path="res://scenes/blocks/block_select.tscn" id="4_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://vbj6etoyfr5n" path="res://scenes/main_menu.tscn" id="4_k0juu"]
 [ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://bcxl1ld54pd27" path="res://scenes/chat.tscn" id="5_i7141"]
 [ext_resource type="Texture2D" uid="uid://p3l6bcgqvtlm" path="res://textures/icon/13.png" id="6_qfnet"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_7r4gi"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4wyf3"]
 noise_type = 3
@@ -99,7 +102,8 @@ size = Vector3(128, 64, 512)
 [node name="World" type="Node3D"]
 script = ExtResource("1_k0juu")
 
-[node name="Chunks" type="Node3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_7r4gi")
 
 [node name="GridMap" type="GridMap" parent="."]
 visible = false
@@ -114,9 +118,13 @@ rand_noise = SubResource("FastNoiseLite_k0juu")
 height = 26
 metadata/_editor_floor_ = Vector3(0, -2, 0)
 
+[node name="BlockSelect" parent="." instance=ExtResource("4_7r4gi")]
+
+[node name="Chunks" type="Node3D" parent="."]
+
 [node name="Objects" type="Node3D" parent="."]
 
-[node name="Entites" type="Node3D" parent="."]
+[node name="Entities" type="Node3D" parent="."]
 
 [node name="Sounds" type="Node3D" parent="."]
 script = ExtResource("4_4mrxx")
@@ -138,13 +146,13 @@ directional_shadow_blend_splits = true
 _spawnable_scenes = PackedStringArray("uid://cv0klkobsceiv")
 spawn_path = NodePath("..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256, 1, 256)
 mesh = SubResource("BoxMesh_71j4m")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_k0juu")
 
 [node name="Border" type="Node3D" parent="."]
@@ -245,9 +253,9 @@ layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("4_k0juu")]
+[node name="MainMenu" parent="UI" instance=ExtResource("4_k0juu")]
 
-[node name="Chat" parent="CanvasLayer" instance=ExtResource("5_i7141")]
+[node name="Chat" parent="UI" instance=ExtResource("5_i7141")]

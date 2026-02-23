@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="W Mine and Building Game"
 run/main_scene="uid://fpxh2s3vl2n7"
-config/features=PackedStringArray("4.5", "Mobile")
+config/features=PackedStringArray("4.6", "Mobile")
 run/max_fps=300
 config/icon="uid://cpxc8a6hmtlrl"
 
@@ -135,9 +139,11 @@ ui_open_chat={
 3d_physics/layer_2="player"
 3d_physics/layer_3="world_border"
 3d_physics/layer_4="item"
+3d_physics/layer_5="entity"
 
 [physics]
 
+common/physics_ticks_per_second=80
 3d/default_gravity=25.0
 
 [rendering]

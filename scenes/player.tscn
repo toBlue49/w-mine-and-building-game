@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cv0klkobsceiv"]
+[gd_scene format=3 uid="uid://cv0klkobsceiv"]
 
 [ext_resource type="Script" uid="uid://b3svmxg1lr1v5" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="2_g2els"]
@@ -31,8 +31,18 @@
 radius = 0.7
 height = 3.8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31cv2"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_3vyb7"]
+material = SubResource("StandardMaterial3D_31cv2")
 size = Vector3(1.4, 3.8, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ujl30"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_31cv2"]
+material = SubResource("StandardMaterial3D_ujl30")
+size = Vector2(0.3, 0.3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pf23h"]
 bg_color = Color(0.49, 0, 0, 0.54901963)
@@ -63,29 +73,37 @@ properties/2/path = NodePath("Label3D:text")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=2095538814]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_3vyb7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1771503970]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
 shape = SubResource("CapsuleShape3D_3vyb7")
 debug_color = Color(1, 0, 0.9926071, 1)
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=273342363]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=200187872]
 target_position = Vector3(0, 0, -10)
 collision_mask = 3
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1914988894]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
 mesh = SubResource("BoxMesh_3vyb7")
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="eye" type="MeshInstance3D" parent="MeshInstance3D" unique_id=574871434]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.3, 1, -0.71)
+mesh = SubResource("QuadMesh_31cv2")
+
+[node name="eye2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=38220582]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.3, 1, -0.71)
+mesh = SubResource("QuadMesh_31cv2")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=607349176]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.497413, 0)
 pixel_size = 0.0075
 billboard = 2
@@ -93,9 +111,9 @@ text = "LOADING..."
 font_size = 64
 outline_size = 32
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1314119003]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1124018657]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -105,7 +123,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_dqkch")
 
-[node name="Label" type="Label" parent="CanvasLayer/Control"]
+[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=1175473597]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -118,7 +136,7 @@ theme_override_font_sizes/font_size = 16
 text = "DBGLABEL"
 horizontal_alignment = 2
 
-[node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control"]
+[node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control" unique_id=217364659]
 texture_filter = 1
 layout_mode = 0
 offset_left = 1192.0
@@ -127,7 +145,7 @@ offset_right = 1272.0
 offset_bottom = 712.0
 texture = ExtResource("2_g2els")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=948758795]
 modulate = Color(1, 1, 1, 0.6666667)
 texture_filter = 1
 layout_mode = 1
@@ -144,7 +162,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_qhqgy")
 
-[node name="chunk_updates" type="Label" parent="CanvasLayer/Control"]
+[node name="chunk_updates" type="Label" parent="CanvasLayer/Control" unique_id=519361891]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 48.0
@@ -152,7 +170,7 @@ offset_right = 281.0
 offset_bottom = 88.0
 theme_override_font_sizes/font_size = 24
 
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control" unique_id=1153077031]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 599.0
@@ -163,7 +181,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_pf23h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_dt7fs")
 value = 50.0
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/HealthBar"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/HealthBar" unique_id=433201460]
 layout_mode = 0
 offset_left = 4.0
 offset_right = 82.0
@@ -173,7 +191,7 @@ text = "0/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Hotbar" type="Control" parent="CanvasLayer/Control"]
+[node name="Hotbar" type="Control" parent="CanvasLayer/Control" unique_id=1563409188]
 layout_mode = 1
 anchor_left = 0.0125
 anchor_top = 0.8888889
@@ -181,7 +199,7 @@ anchor_right = 0.45625
 anchor_bottom = 0.9777778
 metadata/_edit_use_anchors_ = true
 
-[node name="HotbarTexture" type="TextureRect" parent="CanvasLayer/Control/Hotbar"]
+[node name="HotbarTexture" type="TextureRect" parent="CanvasLayer/Control/Hotbar" unique_id=763502250]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -192,7 +210,7 @@ grow_vertical = 2
 texture = ExtResource("5_qlg0r")
 stretch_mode = 4
 
-[node name="Selection" type="TextureRect" parent="CanvasLayer/Control/Hotbar"]
+[node name="Selection" type="TextureRect" parent="CanvasLayer/Control/Hotbar" unique_id=1457071675]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -201,7 +219,7 @@ anchor_bottom = 1.0
 texture = ExtResource("6_tuyoq")
 metadata/_edit_use_anchors_ = true
 
-[node name="Items" type="Control" parent="CanvasLayer/Control/Hotbar"]
+[node name="Items" type="Control" parent="CanvasLayer/Control/Hotbar" unique_id=1929253082]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -209,7 +227,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="0" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="0" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=1733813619]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -219,7 +237,7 @@ anchor_right = 0.08450704
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/0"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/0" unique_id=871787904]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -231,7 +249,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="1" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="1" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=953570594]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -241,7 +259,7 @@ anchor_right = 0.18309858
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/1"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/1" unique_id=2141064955]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -253,7 +271,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="2" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="2" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=1141281249]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -263,7 +281,7 @@ anchor_right = 0.28169015
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/2"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/2" unique_id=1401369179]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -275,7 +293,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="3" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="3" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=109126736]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -285,7 +303,7 @@ anchor_right = 0.3802817
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/3"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/3" unique_id=2142536323]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -297,7 +315,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="4" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="4" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=78544030]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -307,7 +325,7 @@ anchor_right = 0.47887325
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/4"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/4" unique_id=1044621195]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -319,7 +337,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="5" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="5" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=1200209733]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -329,7 +347,7 @@ anchor_right = 0.57746476
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/5"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/5" unique_id=273729147]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -341,7 +359,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="6" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="6" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=897620499]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -351,7 +369,7 @@ anchor_right = 0.67605627
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/6"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/6" unique_id=662081099]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -363,7 +381,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="7" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="7" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=1523400873]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -373,7 +391,7 @@ anchor_right = 0.77464783
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/7"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/7" unique_id=636467308]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -385,7 +403,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="8" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="8" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=810448330]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -395,7 +413,7 @@ anchor_right = 0.8732394
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/8"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/8" unique_id=799421956]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -407,7 +425,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="9" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items"]
+[node name="9" type="TextureRect" parent="CanvasLayer/Control/Hotbar/Items" unique_id=1002834752]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -417,7 +435,7 @@ anchor_right = 0.97183096
 anchor_bottom = 0.75
 metadata/_edit_use_anchors_ = true
 
-[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/9"]
+[node name="Count" type="Label" parent="CanvasLayer/Control/Hotbar/Items/9" unique_id=1452940311]
 layout_mode = 0
 offset_left = 13.999996
 offset_top = 21.0
@@ -429,7 +447,7 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Menu" type="Control" parent="CanvasLayer/Control"]
+[node name="Menu" type="Control" parent="CanvasLayer/Control" unique_id=143221050]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -437,7 +455,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="CanvasLayer/Control/Menu"]
+[node name="Background" type="TextureRect" parent="CanvasLayer/Control/Menu" unique_id=362930889]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -447,7 +465,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_g2els")
 
-[node name="GetSaveName" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+[node name="GetSaveName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1404332751]
 visible = false
 layout_mode = 0
 anchor_left = 0.15
@@ -458,31 +476,31 @@ grow_vertical = 2
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1993567943]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Save Level Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/GetSaveName"]
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1090455607]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Enter Here! (no file extension)"
 alignment = 1
 
-[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/Control/Menu/GetSaveName"]
+[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=959657827]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/Control/Menu/GetSaveName"]
+[node name="Button" type="Button" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1359259256]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
 text = "Done!"
 
-[node name="GetLoadName" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+[node name="GetLoadName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=2140332328]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -496,14 +514,14 @@ theme = ExtResource("4_dqkch")
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetLoadName"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetLoadName" unique_id=726992992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Load Level"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1452494338]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -517,34 +535,34 @@ theme = ExtResource("4_dqkch")
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1999823354]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Pause Menu"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Save" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="Save" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=98061611]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Save Level"
 
-[node name="Load" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="Load" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1599368460]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Load Level"
 
-[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1549720683]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Settings"
 
-[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu"]
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=139584415]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
 
-[node name="GameOver" type="VBoxContainer" parent="CanvasLayer/Control/Menu"]
+[node name="GameOver" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=466650026]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -558,28 +576,28 @@ theme = ExtResource("4_dqkch")
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GameOver"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GameOver" unique_id=927795424]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Game Over!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/GameOver"]
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=121862983]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Back to Main Menu"
 
-[node name="Respawn" type="Button" parent="CanvasLayer/Control/Menu/GameOver"]
+[node name="Respawn" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=686627760]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Respawn"
 
-[node name="Settings" parent="CanvasLayer/Control/Menu" instance=ExtResource("7_ujl30")]
+[node name="Settings" parent="CanvasLayer/Control/Menu" unique_id=2039730251 instance=ExtResource("7_ujl30")]
 visible = false
 layout_mode = 1
 
-[node name="BlockMenu" type="Control" parent="CanvasLayer/Control"]
+[node name="BlockMenu" type="Control" parent="CanvasLayer/Control" unique_id=1998081061]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -596,7 +614,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("4_dqkch")
 
-[node name="Background" type="TextureRect" parent="CanvasLayer/Control/BlockMenu"]
+[node name="Background" type="TextureRect" parent="CanvasLayer/Control/BlockMenu" unique_id=1302915597]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -605,14 +623,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_g2els")
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/BlockMenu"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/BlockMenu" unique_id=1080423688]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 36.0
 text = "Block Menu"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/BlockMenu"]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/BlockMenu" unique_id=1764007039]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -629,147 +647,147 @@ theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 24
 columns = 7
 
-[node name="0" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="0" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1038453929]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("2_g2els")
 stretch_mode = 0
 
-[node name="1" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="1" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1523187017]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("7_jej6c")
 stretch_mode = 0
 
-[node name="2" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="2" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1287016549]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("8_f1ej7")
 stretch_mode = 0
 
-[node name="3" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="3" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=871978560]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("9_oprun")
 stretch_mode = 0
 
-[node name="4" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="4" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1946791418]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("10_a8ls1")
 stretch_mode = 0
 
-[node name="5" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="5" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1052418284]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("11_qfm1y")
 stretch_mode = 0
 
-[node name="6" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="6" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=2140925876]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("12_fulsm")
 stretch_mode = 0
 
-[node name="7" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="7" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1820613221]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("13_4r5pv")
 stretch_mode = 0
 
-[node name="8" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="8" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=231295447]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("14_l71n6")
 stretch_mode = 0
 
-[node name="9" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="9" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1866009670]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("15_ke2ow")
 stretch_mode = 0
 
-[node name="11" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="11" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=2075147581]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("16_ujl30")
 stretch_mode = 0
 
-[node name="10" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="10" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=576159670]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("17_31cv2")
 stretch_mode = 0
 
-[node name="12" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="12" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=129649050]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("18_pf23h")
 stretch_mode = 0
 
-[node name="13" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="13" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=334990471]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("19_dt7fs")
 stretch_mode = 0
 
-[node name="14" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="14" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=64432306]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("20_wqfne")
 stretch_mode = 0
 
-[node name="15" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="15" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=41529046]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("21_wnwbv")
 stretch_mode = 0
 
-[node name="16" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="16" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=763470090]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("22_gl8cc")
 stretch_mode = 0
 
-[node name="17" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="17" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=252442889]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("23_487ah")
 stretch_mode = 0
 
-[node name="18" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="18" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1408407068]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("24_md1ol")
 stretch_mode = 0
 
-[node name="19" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer"]
+[node name="19" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=986602240]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("25_ke2ow")
 stretch_mode = 0
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=996974428]
 replication_config = SubResource("SceneReplicationConfig_g2els")
 
 [connection signal="pressed" from="CanvasLayer/Control/Menu/GetSaveName/Button" to="." method="_get_save_name_pressed"]

@@ -1,10 +1,18 @@
 extends Node3D
 
 const player = preload("res://scenes/player.tscn")
-@onready var mainmenu: Control = $CanvasLayer/MainMenu
+const TEST_ENTITY = preload("res://scenes/entity/test_entity.tscn")
+var physics_tick_counter = 0
+var tick_counter = 0
+
+@onready var mainmenu: Control = $UI/MainMenu
 @onready var grid_map: GridMap = $GridMap
-@onready var chat: Control = $CanvasLayer/Chat
+@onready var chat: Control = $UI/Chat
 @onready var sound: Node3D = $Sounds
+@onready var blockSelect: Node3D = $BlockSelect
+@onready var objects: Node3D = $Objects
+@onready var entities: Node3D = $Entities
+
 
 func add_player(id, pos: Vector3):
 	#id = 0
@@ -63,6 +71,32 @@ func _process(_delta: float) -> void:
 		multiplayer.multiplayer_peer = global.enet_peer
 		
 		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
+
+func _physics_process(delta: float) -> void:
+	physics_tick_counter += 1
+	if physics_tick_counter == 2:
+		tick()
+		physics_tick_counter = 0
+
+func tick(): #40 tic/sec
+	tick_counter += 1
+	
+	#objects
+	for node in objects.get_children():
+		if node.has_method("tick"):
+			node.tick()
+	#entities
+	for node in entities.get_children():
+		if node.has_method("tick"):
+			node.tick()
+	
+
+func move_block_selection(exact_local_pos: Vector3):
+	var map_pos: Vector3 = grid_map.local_to_map(exact_local_pos)
+	var local_pos: Vector3 = grid_map.map_to_local(map_pos)
+	
+	blockSelect.position = local_pos
+	return OK
 
 func upnp_start():
 	var upnp = UPNP.new()

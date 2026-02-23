@@ -31,7 +31,7 @@ enum itmType{
 @onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
 @onready var game_over_menu: VBoxContainer = $CanvasLayer/Control/Menu/GameOver
 @onready var settings: Control = $CanvasLayer/Control/Menu/Settings
-@onready var chat: Control = $"../CanvasLayer/Chat"
+@onready var chat: Control = $"../UI/Chat"
 @onready var healthbar: ProgressBar = $CanvasLayer/Control/HealthBar
 @onready var healthbar_label: Label = $CanvasLayer/Control/HealthBar/Label
 
@@ -216,7 +216,7 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-	#World changes by player
+	## World changes by player
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
 		if Input.is_action_just_pressed("world_destroy"):
 			if raycast3d.get_collider().has_method("player_hit"):
@@ -235,7 +235,13 @@ func _physics_process(delta: float) -> void:
 					if global.gamemode == global.SURVIVAL:
 						hotbar_items[selected_hotbar_item][2] -= 1
 					update_hotbar()
-
+	
+		# Block Selection
+		grid_map.world.move_block_selection(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
+	else:
+		#No Block Selection
+		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
+		
 func collect_item(new_item, test_only = false) -> Error:
 	for item_count in hotbar_items.size():
 		var item = hotbar_items[item_count]

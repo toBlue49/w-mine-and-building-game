@@ -19,8 +19,8 @@ enum itmType{
 @onready var player: CharacterBody3D
 @onready var objects: Node3D = $"../Objects"
 @onready var border: Node3D = $"../Border"
-@onready var chat: Control = $"../CanvasLayer/Chat"
-@onready var entites: Node3D = $"../Entites"
+@onready var chat: Control = $"../UI/Chat"
+@onready var entities: Node3D = $"../Entities"
 
 @export_range(4, 256, 4) var resolution = 16:
 	set(new_resolution):
@@ -154,6 +154,16 @@ func match_border_to_size():
 	border.get_node("movable").position.z = size*2+256
 	border.get_node("MeshInstance3Dmovable2").position.x = size*2+256
 
+func spawn_test_entity(amount: int):
+	for i in amount:
+		var x = randi_range(0, size)
+		var z = randi_range(0, size)
+		var y = height*3 + 16
+		
+		var entity = world.TEST_ENTITY.instantiate()
+		entity.init(Vector3(x, y, z))
+		entities.add_child(entity, true)
+
 func GENERATE():
 	#set rand_noise seed:
 	rand_noise.seed = noise.seed
@@ -164,6 +174,7 @@ func GENERATE():
 	create_gridmap_chunks()
 	render_gridmap()
 	match_border_to_size()
+	spawn_test_entity(1)
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 
@@ -211,7 +222,7 @@ func init_host():
 	)
 
 @rpc("reliable")
-func init_join(peer_id, level_array: Array, gridmap_size: int):
+func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	#Protocol Version Check
 	global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "protocol_version_diff", ["compare_protocol", global.PROTOCOL_VERSION])
 	while protocol_version_diff == -32676:
@@ -233,7 +244,6 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 		while get_level_array_slice != i:
 			await get_tree().create_timer(0.01).timeout
 	
-	
 	global.show_loading_screen(true, "Loading Level..")
 	await get_tree().process_frame
 	
@@ -251,7 +261,6 @@ func init_join(peer_id, level_array: Array, gridmap_size: int):
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player_multiplayer.rpc(peer_id, pos)
 	player = world.get_node(str(multiplayer.get_unique_id()))
-	
 	
 	#Border
 	match_border_to_size()
@@ -293,7 +302,7 @@ func destroy_block(world_coord, drop: bool):
 		var dropped_item = load("res://scenes/entity/dropped_item.tscn").instantiate()
 		dropped_item.position = map_to_local(map_pos)
 		dropped_item.name = str(map_pos) #NOTE: May be temporary
-		entites.add_child(dropped_item)
+		entities.add_child(dropped_item)
 		dropped_item.set_item([block_id, itmType.BLOCK])
 
 @rpc("call_local", "any_peer")

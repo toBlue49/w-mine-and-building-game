@@ -1,4 +1,4 @@
-[gd_resource type="MeshLibrary" load_steps=116 format=3 uid="uid://clds32js11vo3"]
+[gd_resource type="MeshLibrary" format=3 uid="uid://clds32js11vo3"]
 
 [ext_resource type="Material" uid="uid://cdurrvsyu72c4" path="res://materials/grass.tres" id="1_b5i5q"]
 [ext_resource type="Material" uid="uid://bpujx28qo8ikc" path="res://materials/stone.tres" id="2_eij13"]

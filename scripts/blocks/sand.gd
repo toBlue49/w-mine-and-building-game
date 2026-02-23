@@ -1,8 +1,8 @@
 extends Node3D
 
 var map_pos: Vector3i
+var tick_counter = 0
 var gridmap
-@onready var timer: Timer = $Timer
 
 func init(map_pos_args: Vector3i, gridmap_args: GridMap):
 	map_pos = map_pos_args
@@ -10,10 +10,15 @@ func init(map_pos_args: Vector3i, gridmap_args: GridMap):
 	name = str(map_pos) + "b19"
 
 func _ready():
-	timer.connect("timeout", timer_runout)
+	pass
 
+func tick(): #40 tic/sec
+	tick_counter += 1
+	if tick_counter >= 8:
+		move_down()
+		tick_counter = 0
 
-func timer_runout():
+func move_down():
 	if gridmap.get_cell_item(map_pos - Vector3i(0, 1, 0)) == -1:
 		gridmap.set_cell_item(map_pos, -1)
 		gridmap.set_cell_item(map_pos - Vector3i(0, 1, 0), 19)

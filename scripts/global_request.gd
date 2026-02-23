@@ -1,5 +1,7 @@
 extends Node
 
+var returning_value: Variant = null
+
 @rpc("any_peer", "call_remote")
 func return_value(goal_peer: int, goal_node: NodePath, var_name: StringName, value, do_log = false, special: String = "none"):
 	if multiplayer.get_unique_id() != goal_peer: return
