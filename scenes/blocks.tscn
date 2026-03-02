@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://mkxxfvmbvtbw"]
+[gd_scene format=3 uid="uid://mkxxfvmbvtbw"]
 
 [ext_resource type="Material" uid="uid://cdurrvsyu72c4" path="res://materials/grass.tres" id="1_giubl"]
 [ext_resource type="Material" uid="uid://bpujx28qo8ikc" path="res://materials/stone.tres" id="2_3jd7w"]
@@ -296,183 +296,183 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_03jfd")
 size = Vector3(2, 2, 2)
 
-[node name="blocks" type="Node3D"]
+[node name="blocks" type="Node3D" unique_id=726535322]
 
-[node name="Grass" type="MeshInstance3D" parent="."]
+[node name="Grass" type="MeshInstance3D" parent="." unique_id=859118434]
 mesh = SubResource("BoxMesh_irvtj")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Grass"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Grass" unique_id=161448459]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Grass/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Grass/StaticBody3D" unique_id=645706096]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Stone" type="MeshInstance3D" parent="."]
+[node name="Stone" type="MeshInstance3D" parent="." unique_id=681214056]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 mesh = SubResource("BoxMesh_ow8de")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Stone"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Stone" unique_id=596188239]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Stone/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stone/StaticBody3D" unique_id=2085192840]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Dirt" type="MeshInstance3D" parent="."]
+[node name="Dirt" type="MeshInstance3D" parent="." unique_id=1357250201]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
 mesh = SubResource("BoxMesh_1mwmw")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Dirt"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Dirt" unique_id=394485919]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Dirt/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dirt/StaticBody3D" unique_id=1397511359]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Log" type="MeshInstance3D" parent="."]
+[node name="Log" type="MeshInstance3D" parent="." unique_id=1478888968]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 mesh = SubResource("BoxMesh_wro84")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Log"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Log" unique_id=809814449]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Log/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Log/StaticBody3D" unique_id=977414372]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Leaves" type="MeshInstance3D" parent="."]
+[node name="Leaves" type="MeshInstance3D" parent="." unique_id=1344267655]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
 mesh = SubResource("BoxMesh_nnip7")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Leaves"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Leaves" unique_id=307852100]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Leaves/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Leaves/StaticBody3D" unique_id=1604103893]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Planks" type="MeshInstance3D" parent="."]
+[node name="Planks" type="MeshInstance3D" parent="." unique_id=668668815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
 mesh = SubResource("BoxMesh_rgft6")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Planks"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Planks" unique_id=804580124]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Planks/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planks/StaticBody3D" unique_id=783374507]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Glass" type="MeshInstance3D" parent="."]
+[node name="Glass" type="MeshInstance3D" parent="." unique_id=190291507]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
 mesh = SubResource("BoxMesh_6nsvg")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Glass"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Glass" unique_id=1318893029]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Glass/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Glass/StaticBody3D" unique_id=2080823859]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Light" type="MeshInstance3D" parent="."]
+[node name="Light" type="MeshInstance3D" parent="." unique_id=817096189]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 0)
 mesh = SubResource("BoxMesh_5x58u")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Light"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Light" unique_id=950008033]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Light/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Light/StaticBody3D" unique_id=907199241]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteWhite" type="MeshInstance3D" parent="."]
+[node name="ConcreteWhite" type="MeshInstance3D" parent="." unique_id=1822801202]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
 mesh = SubResource("BoxMesh_w60hs")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteWhite"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteWhite" unique_id=796682115]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteWhite/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteWhite/StaticBody3D" unique_id=1081433979]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteGray" type="MeshInstance3D" parent="."]
+[node name="ConcreteGray" type="MeshInstance3D" parent="." unique_id=2051583440]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0)
 mesh = SubResource("BoxMesh_yfapm")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGray"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGray" unique_id=75812808]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGray/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGray/StaticBody3D" unique_id=1327339989]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteYellow" type="MeshInstance3D" parent="."]
+[node name="ConcreteYellow" type="MeshInstance3D" parent="." unique_id=949392720]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 0)
 mesh = SubResource("BoxMesh_cny3s")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteYellow"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteYellow" unique_id=1417343254]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteYellow/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteYellow/StaticBody3D" unique_id=228750689]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteOrange" type="MeshInstance3D" parent="."]
+[node name="ConcreteOrange" type="MeshInstance3D" parent="." unique_id=945366722]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
 mesh = SubResource("BoxMesh_m64mq")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteOrange"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteOrange" unique_id=811466135]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteOrange/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteOrange/StaticBody3D" unique_id=580561782]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteGreenYellow" type="MeshInstance3D" parent="."]
+[node name="ConcreteGreenYellow" type="MeshInstance3D" parent="." unique_id=1539956528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 0)
 mesh = SubResource("BoxMesh_xl1gl")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGreenYellow"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteGreenYellow" unique_id=1752613451]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGreenYellow/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteGreenYellow/StaticBody3D" unique_id=1101694864]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteLimeGreen" type="MeshInstance3D" parent="."]
+[node name="ConcreteLimeGreen" type="MeshInstance3D" parent="." unique_id=1136500770]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 0)
 mesh = SubResource("BoxMesh_s0i7d")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteLimeGreen"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteLimeGreen" unique_id=402953624]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteLimeGreen/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteLimeGreen/StaticBody3D" unique_id=561911753]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteCyan" type="MeshInstance3D" parent="."]
+[node name="ConcreteCyan" type="MeshInstance3D" parent="." unique_id=516322636]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56, 0, 0)
 mesh = SubResource("BoxMesh_s5mrl")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteCyan"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteCyan" unique_id=276381948]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteCyan/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteCyan/StaticBody3D" unique_id=502633705]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcretePalatinateBlue" type="MeshInstance3D" parent="."]
+[node name="ConcretePalatinateBlue" type="MeshInstance3D" parent="." unique_id=1590552067]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 0)
 mesh = SubResource("BoxMesh_keoep")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePalatinateBlue"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePalatinateBlue" unique_id=682735848]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePalatinateBlue/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePalatinateBlue/StaticBody3D" unique_id=473590942]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteElectricViolet" type="MeshInstance3D" parent="."]
+[node name="ConcreteElectricViolet" type="MeshInstance3D" parent="." unique_id=494562752]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 0)
 mesh = SubResource("BoxMesh_a6x4e")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteElectricViolet"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteElectricViolet" unique_id=308521377]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteElectricViolet/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteElectricViolet/StaticBody3D" unique_id=1396628865]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcreteMagenta" type="MeshInstance3D" parent="."]
+[node name="ConcreteMagenta" type="MeshInstance3D" parent="." unique_id=338380077]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68, 0, 0)
 mesh = SubResource("BoxMesh_34qpj")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteMagenta"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcreteMagenta" unique_id=1013959596]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteMagenta/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteMagenta/StaticBody3D" unique_id=530846768]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="ConcretePink" type="MeshInstance3D" parent="."]
+[node name="ConcretePink" type="MeshInstance3D" parent="." unique_id=1115453737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 0, 0)
 mesh = SubResource("BoxMesh_83fgn")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePink"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ConcretePink" unique_id=1875043139]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePink/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcretePink/StaticBody3D" unique_id=1700101505]
 shape = SubResource("BoxShape3D_irvtj")
 
-[node name="Sand" type="MeshInstance3D" parent="."]
+[node name="Sand" type="MeshInstance3D" parent="." unique_id=582034909]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76, 0, 0)
 mesh = SubResource("BoxMesh_wrnuw")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Sand"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Sand" unique_id=936598259]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Sand/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sand/StaticBody3D" unique_id=269764158]
 shape = SubResource("BoxShape3D_irvtj")

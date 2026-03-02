@@ -13,6 +13,7 @@ var direction = Vector3(1, 0, 1).normalized()
 
 func init(pos: Vector3):
 	start_pos = pos
+	direction = new_direction()
 
 func _ready() -> void:
 	position = start_pos

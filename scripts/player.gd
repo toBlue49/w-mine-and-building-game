@@ -18,6 +18,7 @@ enum itmType{
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
+@onready var raycast3dGridmap: RayCast3D = $Camera3D/RayCast3DGridmapOnly
 @onready var grid_map: GridMap = $"../GridMap"
 @onready var label3d: Label3D = $Label3D
 ##UI
@@ -236,8 +237,9 @@ func _physics_process(delta: float) -> void:
 						hotbar_items[selected_hotbar_item][2] -= 1
 					update_hotbar()
 	
+	if raycast3dGridmap.is_colliding():
 		# Block Selection
-		grid_map.world.move_block_selection(raycast3d.get_collision_point() - raycast3d.get_collision_normal())
+		grid_map.world.move_block_selection(raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal())
 	else:
 		#No Block Selection
 		grid_map.world.move_block_selection(Vector3(-1, -1, -1))

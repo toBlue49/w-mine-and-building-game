@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgso16d84cgvt"]
+[gd_scene format=3 uid="uid://bgso16d84cgvt"]
 
 [ext_resource type="Script" uid="uid://44am1b7hj3h8" path="res://scripts/entity/test_entity.gd" id="1_byc52"]
 
@@ -20,39 +20,50 @@ height = 0.5
 [sub_resource type="SphereShape3D" id="SphereShape3D_byc52"]
 radius = 0.2
 
-[node name="TestEntity" type="CharacterBody3D"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_byc52"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="TestEntity" type="CharacterBody3D" unique_id=765028971]
 collision_layer = 16
 collision_mask = 5
 script = ExtResource("1_byc52")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=846339782]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
 shape = SubResource("BoxShape3D_byc52")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1212372675]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 mesh = SubResource("CapsuleMesh_ia05y")
 skeleton = NodePath("")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=37931728]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -0.95)
 mesh = SubResource("SphereMesh_byc52")
 skeleton = NodePath("")
 
-[node name="ShouldJumpArea" type="Area3D" parent="."]
+[node name="ShouldJumpArea" type="Area3D" parent="." unique_id=65181236]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
 collision_layer = 16
 collision_mask = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldJumpArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldJumpArea" unique_id=1806017229]
 shape = SubResource("SphereShape3D_byc52")
 debug_color = Color(0.70196074, 0, 0.16144496, 0.41960785)
 
-[node name="ShouldNotJumpArea" type="Area3D" parent="."]
+[node name="ShouldNotJumpArea" type="Area3D" parent="." unique_id=1583588745]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2)
 collision_layer = 16
 collision_mask = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldNotJumpArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShouldNotJumpArea" unique_id=272741027]
 shape = SubResource("SphereShape3D_byc52")
 debug_color = Color(0.70196074, 0, 0.16144496, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=559443518]
+replication_config = SubResource("SceneReplicationConfig_byc52")

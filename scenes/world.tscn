@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dcnexdcn8xq20"]
+[gd_scene format=3 uid="uid://dcnexdcn8xq20"]
 
 [ext_resource type="Script" uid="uid://djdywkxej8iic" path="res://scripts/world.gd" id="1_k0juu"]
 [ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
@@ -99,13 +99,13 @@ texture_filter = 0
 material = SubResource("StandardMaterial3D_i7141")
 size = Vector3(128, 64, 512)
 
-[node name="World" type="Node3D"]
+[node name="World" type="Node3D" unique_id=574060656]
 script = ExtResource("1_k0juu")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=79596707]
 navigation_mesh = SubResource("NavigationMesh_7r4gi")
 
-[node name="GridMap" type="GridMap" parent="."]
+[node name="GridMap" type="GridMap" parent="." unique_id=893708759]
 visible = false
 mesh_library = ExtResource("1_rwgxs")
 collision_mask = 2
@@ -118,21 +118,21 @@ rand_noise = SubResource("FastNoiseLite_k0juu")
 height = 26
 metadata/_editor_floor_ = Vector3(0, -2, 0)
 
-[node name="BlockSelect" parent="." instance=ExtResource("4_7r4gi")]
+[node name="BlockSelect" parent="." unique_id=1753847008 instance=ExtResource("4_7r4gi")]
 
-[node name="Chunks" type="Node3D" parent="."]
+[node name="Chunks" type="Node3D" parent="." unique_id=2046637603]
 
-[node name="Objects" type="Node3D" parent="."]
+[node name="Objects" type="Node3D" parent="." unique_id=1263441585]
 
-[node name="Entities" type="Node3D" parent="."]
+[node name="Entities" type="Node3D" parent="." unique_id=993951784]
 
-[node name="Sounds" type="Node3D" parent="."]
+[node name="Sounds" type="Node3D" parent="." unique_id=1151923322]
 script = ExtResource("4_4mrxx")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1026124375]
 environment = SubResource("Environment_k0juu")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=82803847]
 transform = Transform3D(0.9396926, -0.21984632, 0.26200265, 0, 0.76604456, 0.64278764, -0.34202012, -0.6040228, 0.71984637, 0, 0, 0)
 light_bake_mode = 0
 shadow_enabled = true
@@ -142,120 +142,124 @@ directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.2
 directional_shadow_blend_splits = true
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=170673645]
 _spawnable_scenes = PackedStringArray("uid://cv0klkobsceiv")
 spawn_path = NodePath("..")
 
-[node name="Floor" type="MeshInstance3D" parent="."]
+[node name="MultiplayerSpawnerEntity" type="MultiplayerSpawner" parent="." unique_id=8436456]
+_spawnable_scenes = PackedStringArray("uid://bgso16d84cgvt")
+spawn_path = NodePath("../Entities")
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=366671978]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256, 1, 256)
 mesh = SubResource("BoxMesh_71j4m")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=836974323]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=635978055]
 shape = SubResource("ConcavePolygonShape3D_k0juu")
 
-[node name="Border" type="Node3D" parent="."]
+[node name="Border" type="Node3D" parent="." unique_id=836523455]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Border"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Border" unique_id=1336284563]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32, -256)
 layers = 4
 mesh = SubResource("BoxMesh_w7kh3")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D" unique_id=1891595770]
 collision_layer = 4
 collision_mask = 2
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D/StaticBody3D" unique_id=288853814]
 shape = SubResource("ConcavePolygonShape3D_qfnet")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border" unique_id=138733838]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -256, 31.999, 512)
 layers = 4
 mesh = SubResource("BoxMesh_7r4gi")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3D2" unique_id=1818279084]
 collision_layer = 4
 collision_mask = 2
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3D2/StaticBody3D" unique_id=376148806]
 shape = SubResource("ConcavePolygonShape3D_i7141")
 
-[node name="MeshInstance3Dmovable2" type="MeshInstance3D" parent="Border"]
+[node name="MeshInstance3Dmovable2" type="MeshInstance3D" parent="Border" unique_id=425421420]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 768, 31.999, 0)
 layers = 4
 mesh = SubResource("BoxMesh_7r4gi")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3Dmovable2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Border/MeshInstance3Dmovable2" unique_id=1380168852]
 collision_layer = 4
 collision_mask = 2
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3Dmovable2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/MeshInstance3Dmovable2/StaticBody3D" unique_id=772026009]
 shape = SubResource("ConcavePolygonShape3D_i7141")
 
-[node name="movable" type="StaticBody3D" parent="Border"]
+[node name="movable" type="StaticBody3D" parent="Border" unique_id=966294409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 512, 32, 768)
 collision_layer = 4
 collision_mask = 2
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/movable"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Border/movable" unique_id=123443562]
 shape = SubResource("ConcavePolygonShape3D_qfnet")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Border/movable" unique_id=703325011]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -448, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Border/movable" unique_id=147798886]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Border/movable" unique_id=1501571213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -192, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Border/movable" unique_id=504931824]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Border/movable" unique_id=487377999]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Border/movable" unique_id=252843326]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Border/movable" unique_id=321188466]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D8" type="MeshInstance3D" parent="Border/movable"]
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Border/movable" unique_id=1642830431]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 448, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_4mrxx")
 skeleton = NodePath("../..")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1025560229]
 layer = 3
 
-[node name="MainMenu" parent="UI" instance=ExtResource("4_k0juu")]
+[node name="MainMenu" parent="UI" unique_id=172685832 instance=ExtResource("4_k0juu")]
 
-[node name="Chat" parent="UI" instance=ExtResource("5_i7141")]
+[node name="Chat" parent="UI" unique_id=2112273412 instance=ExtResource("5_i7141")]

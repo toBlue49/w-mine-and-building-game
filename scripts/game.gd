@@ -72,7 +72,6 @@ func load_settings():
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(1280, 720))
-	
 
 func update_save_settings():
 	print_rich("[INFO] Updating saved settings")

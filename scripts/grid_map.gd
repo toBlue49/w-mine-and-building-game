@@ -174,7 +174,7 @@ func GENERATE():
 	create_gridmap_chunks()
 	render_gridmap()
 	match_border_to_size()
-	spawn_test_entity(1)
+	spawn_test_entity(roundi(size/3))
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 
@@ -387,6 +387,9 @@ func load_level_from_file(file: String):
 	global.show_loading_screen(true, "Loading Map...")
 	await get_tree().process_frame
 	var scene_gridmap = load("user://levels/" + file)
+	if scene_gridmap == null:
+		global.show_popup("LoadError", "Couldn't load level.")
+		return
 	var scene_objects = load("user://levels/" + file.trim_suffix(".tscn") + ".objects.tscn")
 	var node_gridmap: GridMap = scene_gridmap.instantiate()
 	var node_objects: Node3D
