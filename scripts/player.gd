@@ -9,7 +9,7 @@ var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [0, itmType.BLOCK]
 var selected_hotbar_item = 0
-var hotbar_items = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [], [], [], [], [], [], []]
+var hotbar_items = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [0, itmType.ITEM, 1], [], [], [], [], [], []]
 var health = 100
 var fall_timer = 0
 enum itmType{
@@ -126,10 +126,12 @@ func _input(event: InputEvent) -> void:
 		if selected_hotbar_item < 0: selected_hotbar_item = 9
 	hotbar_selection.position.x = selected_hotbar_item * 56
 	selected_block[0] = hotbar_items[selected_hotbar_item][0]
-	selected_block[1] = itmType.BLOCK #temporary
+	selected_block[1] = hotbar_items[selected_hotbar_item][1]
 	
 	if selected_block[1] == itmType.BLOCK: #NOTE: Add Item Type
 		control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block[0]) + ".png")
+	if selected_block[1] == itmType.ITEM:
+		control.get_node("BlockSelect").texture = load("res://textures/item/" + str(selected_block[0]) + ".png")
 	
 	#Block Menu
 	if Input.is_action_just_released("hotbar_block_menu"):
@@ -152,7 +154,7 @@ func _process(delta: float) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
-	control.get_node("Label").text = "%s" % [((round(fall_timer*100))/100)]
+	control.get_node("Label").text = "%s" % [round(position)]
 	set_multiplayer_authority(str(name).to_int())
 	camera_3d.current = true
 	
@@ -179,6 +181,10 @@ func _process(delta: float) -> void:
 		game_over_menu.visible = true
 		background.visible = true
 		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
+	
+	#Use Item
+	if Input.is_action_just_pressed("world_place") and selected_block[1] == itmType.ITEM:
+		use_item(selected_block[0])
 	
 func _physics_process(delta: float) -> void:
 	if global.is_multiplayer:
@@ -291,6 +297,11 @@ func player_hit(damage: int):
 func rpc_set_visibility(state: bool):
 	visible = state
 
+func use_item(id: int):
+	print("[INFO] Use item %s" % id)
+	if id == 0:
+		chat.add_message(global.player_name, "I used the test item!")
+
 ######## UI Control
 
 func update_chunk_updates(count: int):
@@ -299,11 +310,13 @@ func update_chunk_updates(count: int):
 func update_hotbar():
 	for item_count in hotbar_items.size():
 		var item = hotbar_items[item_count]
-		if item == [] or item[2] == 0:
+		if item == [] or (item[2] == 0 and item[0] != -1):
 			hotbar_items[item_count] = [-1, itmType.BLOCK, 0]
 			item = [-1, itmType.BLOCK, 0]
 		if item[1] == itmType.BLOCK:
 			hotbar_node_items.get_node(str(item_count)).texture = load("res://textures/icon/" + str(item[0]) + ".png")
+		if item[1] == itmType.ITEM:
+			hotbar_node_items.get_node(str(item_count)).texture = load("res://textures/item/" + str(item[0]) + ".png")
 		#Label
 		hotbar_node_items.get_node(str(item_count)).get_node("Count").text = str(item[2])
 		if item[0] == -1:
@@ -400,9 +413,8 @@ func _on_pause_load_button() -> void:
 func _on_pause_mainmenu_button() -> void:
 	##Multiplayer
 	if global.is_multiplayer:
-		global.get_node("Scene/World/CanvasLayer/Chat").add_message.rpc("serverplayer", "%s disconnected." % global.player_name)
 		await get_tree().process_frame
-		multiplayer.multiplayer_peer.close()
+		global.disconnect_peer.rpc(multiplayer.get_unique_id())
 	
 	global.reload_scene()
 	global.did_generate_level = false

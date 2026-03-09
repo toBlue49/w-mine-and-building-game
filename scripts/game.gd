@@ -2,7 +2,7 @@ extends Node
 
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
-const PROTOCOL_VERSION = 2
+const PROTOCOL_VERSION = 3
 
 var gamemode = SURVIVAL
 var config = ConfigFile.new()
@@ -139,6 +139,12 @@ func change_title_extension(title: String):
 func reload_scene():
 	load_scene(loaded_scene)
 
+func set_new_enet_peer(online: bool):
+	if online:
+		enet_peer = ENetMultiplayerPeer.new()
+	else:
+		enet_peer = OfflineMultiplayerPeer.new()
+
 ##Popup:
 
 func show_popup(node: String, message: String):
@@ -160,3 +166,9 @@ func mainmenu_btn_pressed():
 	global.did_generate_level = false
 	global.is_multiplayer = false
 	reload_scene()
+
+@rpc("any_peer", "call_remote")
+func disconnect_peer(id: int):
+	if multiplayer.is_server():
+		multiplayer.multiplayer_peer.disconnect_peer(id)
+		print_rich("[INFO] Disconnected peer %s trough RPC" % id)

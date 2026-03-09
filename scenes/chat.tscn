@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcxl1ld54pd27"]
+[gd_scene format=3 uid="uid://bcxl1ld54pd27"]
 
 [ext_resource type="Script" uid="uid://e2nse7c2pbk3" path="res://scripts/chat.gd" id="1_4o336"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_paia3"]
 
-[node name="Chat" type="Control"]
+[node name="Chat" type="Control" unique_id=843762651]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -15,7 +15,7 @@ mouse_filter = 2
 theme = ExtResource("1_paia3")
 script = ExtResource("1_4o336")
 
-[node name="Messages" type="VBoxContainer" parent="."]
+[node name="Messages" type="VBoxContainer" parent="." unique_id=2063224464]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 0
 offset_right = 536.0
@@ -24,7 +24,7 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 2
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1145239144]
 visible = false
 layout_mode = 0
 offset_top = 680.0

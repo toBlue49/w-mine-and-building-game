@@ -27,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.26239687, 0.26239687, 0.26239687, 1)
+color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="Label" type="Label" parent="GlobalControl/Loading" unique_id=1316173524]
 layout_mode = 1
@@ -47,7 +47,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.10f"
+text = "0.10g"
 
 [node name="frames" type="Label" parent="GlobalControl" unique_id=1457041356]
 layout_mode = 0

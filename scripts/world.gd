@@ -13,7 +13,6 @@ var tick_counter = 0
 @onready var objects: Node3D = $Objects
 @onready var entities: Node3D = $Entities
 
-
 func add_player(id, pos: Vector3):
 	#id = 0
 	print_rich("[INFO] Add Player (non RPC): [b]", id)
@@ -64,7 +63,6 @@ func _process(_delta: float) -> void:
 		global.show_loading_screen(true, "Joining Server...")
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
-
 		
 		#Join Game
 		global.enet_peer.create_client(mainmenu.ip_address.text, global.PORT)
@@ -81,6 +79,10 @@ func _physics_process(delta: float) -> void:
 func tick(): #40 tic/sec
 	tick_counter += 1
 	
+	if objects == null or entities == null:
+		print_rich("[color=yellow][WARNING] Objects or entities is null. Skipping tick.")
+		return
+	
 	#objects
 	for node in objects.get_children():
 		if node.has_method("tick"):
@@ -89,7 +91,6 @@ func tick(): #40 tic/sec
 	for node in entities.get_children():
 		if node.has_method("tick"):
 			node.tick()
-	
 
 func move_block_selection(exact_local_pos: Vector3):
 	var map_pos: Vector3 = grid_map.local_to_map(exact_local_pos)

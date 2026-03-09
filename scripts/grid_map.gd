@@ -14,6 +14,7 @@ var block_nodes = [
 enum itmType{
 	BLOCK, ITEM
 }
+var peer_id_name = {}
 @onready var chunks: Node3D = $"../Chunks"
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
@@ -39,7 +40,11 @@ func get_rand_noise(x:int, y:int) -> int:
 
 func get_height(x: int, y: int) -> int:
 	var ball = noise.get_noise_2d(x, y) * height
+	
 	return ball
+
+func get_height_accurate(x: int, y: int):
+	return noise.get_noise_2d(x, y) * height + y_offset
 
 func update_gridmap():
 	for x in size:
@@ -118,14 +123,13 @@ func create_gridmap_chunks(do_delete = false):
 			node.name = str("x", i, "z", j)
 			chunks.add_child(node)
 
-func move_player(peer_id = 0):
+func move_player(peer_id = 0): #singleplayer / hosting player
 	for i in world.get_children():
 		if i is CharacterBody3D and peer_id == 0:
 			i.queue_free()
 	@warning_ignore("integer_division")
-	var half_size = size/2
 	var pos = Vector3(size, 0, size)
-	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +2
+	pos.y = get_height_accurate(pos.x, pos.z)*2 + 16
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player(peer_id, pos)
 
@@ -158,10 +162,10 @@ func spawn_test_entity(amount: int):
 	for i in amount:
 		var x = randi_range(0, size)
 		var z = randi_range(0, size)
-		var y = height*3 + 16
+		var y = get_height_accurate(x, z) + 8
 		
 		var entity = world.TEST_ENTITY.instantiate()
-		entity.init(Vector3(x, y, z))
+		entity.init(Vector3(x*2, y*2, z*2))
 		entities.add_child(entity, true)
 
 func GENERATE():
@@ -174,7 +178,7 @@ func GENERATE():
 	create_gridmap_chunks()
 	render_gridmap()
 	match_border_to_size()
-	spawn_test_entity(roundi(size/3))
+	@warning_ignore("integer_division") spawn_test_entity(size/4) 
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 
@@ -218,6 +222,7 @@ func init_host():
 		func(leave_peer_id):
 			print_rich("[INFO] Peer Disconnected. ID: [b]" + str(leave_peer_id))
 			if world.get_node_or_null(str(leave_peer_id)):
+				global.get_node("Scene/World/UI/Chat").add_message.rpc("serverplayer", "%s disconnected." % peer_id_name.get(leave_peer_id))
 				world.get_node_or_null(str(leave_peer_id)).queue_free()
 	)
 
@@ -244,7 +249,7 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 		while get_level_array_slice != i:
 			await get_tree().create_timer(0.01).timeout
 	
-	global.show_loading_screen(true, "Loading Level..")
+	global.show_loading_screen(true, "Loading Level...")
 	await get_tree().process_frame
 	
 	#Render GridMap
@@ -254,10 +259,11 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	
 	#Chat
 	chat.add_message.rpc("serverplayer", "%s connected." % global.player_name)
+	set_peer_id_name.rpc(multiplayer.get_unique_id(), global.player_name)
 	
 	#Create Player
 	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
-	pos.y = abs(get_height(half_size, half_size)) * 2 + y_offset*2 +4
+	pos.y = get_height_accurate(pos.x, pos.z)*2 + 16
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player_multiplayer.rpc(peer_id, pos)
 	player = world.get_node(str(multiplayer.get_unique_id()))
@@ -270,6 +276,11 @@ func _ready():
 	second_routine()
 
 ##At Runtime:
+
+@rpc("any_peer", "call_remote")
+func set_peer_id_name(id: int, name: String):
+	if multiplayer.is_server():
+		peer_id_name.set(id, name)
 
 func second_routine():
 	await get_tree().create_timer(1.0).timeout
@@ -442,7 +453,10 @@ func load_level_from_file(file: String):
 			sand_object.init(sand_pos, world.get_node("GridMap"))
 			world.get_node("GridMap").objects.add_child(sand_object)
 	
-	await get_tree().process_frame
+	#Update world variables
+	world.grid_map = world.get_node("GridMap")
+	world.objects = world.get_node("Objects")
+
 	global.show_loading_screen(false)
 	queue_free()
 
