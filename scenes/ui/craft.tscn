@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://1ge6i8k2dea3"]
+
+[ext_resource type="Texture2D" uid="uid://d4i7my2t4csdy" path="res://textures/icon/0.png" id="1_8pnpd"]
+[ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_jmboi"]
+[ext_resource type="Script" uid="uid://bcfyw0rgrb21o" path="res://scripts/ui/crafting_button.gd" id="3_55o7d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55o7d"]
+bg_color = Color(0, 0, 0, 0.6666667)
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+
+[node name="CraftButton" type="TextureButton" unique_id=1503206481]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+theme = ExtResource("1_jmboi")
+texture_normal = ExtResource("1_8pnpd")
+stretch_mode = 0
+script = ExtResource("3_55o7d")
+
+[node name="Label" type="Label" parent="." unique_id=1899163348]
+visible = false
+z_index = 3
+layout_mode = 0
+offset_left = 88.0
+offset_right = 253.0
+offset_bottom = 28.0
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_55o7d")
+text = "Craft Label"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

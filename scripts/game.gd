@@ -28,6 +28,15 @@ enum {
 	CREATIVE,
 	SURVIVAL
 }
+enum BLOCK{
+	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND
+}#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19
+enum ITEM{
+	TESTITEM
+}#  0
+enum itmType{
+	BLOCK, ITEM
+}#  0      1
 
 func _ready():
 	await get_tree().process_frame

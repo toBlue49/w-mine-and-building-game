@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://ccjjtub6o1ovh" path="res://textures/icon/17.png" id="23_487ah"]
 [ext_resource type="Texture2D" uid="uid://dcpv2tf62dwnr" path="res://textures/icon/18.png" id="24_md1ol"]
 [ext_resource type="Texture2D" uid="uid://b4poleu3u0xap" path="res://textures/icon/19.png" id="25_ke2ow"]
+[ext_resource type="PackedScene" uid="uid://1ge6i8k2dea3" path="res://scenes/ui/craft.tscn" id="26_31cv2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -450,156 +451,6 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Menu" type="Control" parent="CanvasLayer/Control" unique_id=143221050]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Background" type="TextureRect" parent="CanvasLayer/Control/Menu" unique_id=362930889]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_g2els")
-
-[node name="GetSaveName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1404332751]
-visible = false
-layout_mode = 0
-anchor_left = 0.15
-anchor_right = 0.85
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1993567943]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Save Level Name"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1090455607]
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-placeholder_text = "Enter Here! (no file extension)"
-alignment = 1
-
-[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=959657827]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1359259256]
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 25
-text = "Done!"
-
-[node name="GetLoadName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=2140332328]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.25
-anchor_right = 0.75
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("4_dqkch")
-alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetLoadName" unique_id=726992992]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Load Level"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1452494338]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.275
-anchor_right = 0.725
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("4_dqkch")
-alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1999823354]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Pause Menu"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Save" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=98061611]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Save Level"
-
-[node name="Load" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1599368460]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Load Level"
-
-[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1549720683]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Settings"
-
-[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=139584415]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Back to Main Menu"
-
-[node name="GameOver" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=466650026]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.275
-anchor_right = 0.725
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("4_dqkch")
-alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GameOver" unique_id=927795424]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Game Over!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=121862983]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Back to Main Menu"
-
-[node name="Respawn" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=686627760]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "Respawn"
-
-[node name="Settings" parent="CanvasLayer/Control/Menu" unique_id=2039730251 instance=ExtResource("7_ujl30")]
-visible = false
-layout_mode = 1
-
 [node name="BlockMenu" type="Control" parent="CanvasLayer/Control" unique_id=1998081061]
 visible = false
 layout_mode = 1
@@ -789,6 +640,226 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("25_ke2ow")
 stretch_mode = 0
+
+[node name="Crafting" type="Control" parent="CanvasLayer/Control" unique_id=1516419227]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -216.0
+offset_right = 320.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/Control/Crafting" unique_id=1101661373]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_g2els")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Crafting" unique_id=635939074]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 36.0
+text = "Crafting"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/Crafting" unique_id=535494291]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -176.0
+offset_right = 300.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 6
+
+[node name="Planks" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=1503206481 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("11_qfm1y")
+crafting_id = "planks"
+player = NodePath("../../../../..")
+
+[node name="Light" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=1771876057 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("13_4r5pv")
+crafting_id = "light"
+player = NodePath("../../../../..")
+
+[node name="Glass" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=2063986204 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("12_fulsm")
+crafting_id = "glass"
+player = NodePath("../../../../..")
+
+[node name="Menu" type="Control" parent="CanvasLayer/Control" unique_id=143221050]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/Control/Menu" unique_id=362930889]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = SubResource("GradientTexture2D_g2els")
+
+[node name="GetSaveName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1404332751]
+visible = false
+layout_mode = 0
+anchor_left = 0.15
+anchor_right = 0.85
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1993567943]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Save Level Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1090455607]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+placeholder_text = "Enter Here! (no file extension)"
+alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=959657827]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1359259256]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Done!"
+
+[node name="GetLoadName" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=2140332328]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 0.75
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetLoadName" unique_id=726992992]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Load Level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=1452494338]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.275
+anchor_right = 0.725
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1999823354]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Pause Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Save" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=98061611]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Save Level"
+
+[node name="Load" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1599368460]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Load Level"
+
+[node name="Settings" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=1549720683]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Settings"
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/PauseMenu" unique_id=139584415]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Back to Main Menu"
+
+[node name="GameOver" type="VBoxContainer" parent="CanvasLayer/Control/Menu" unique_id=466650026]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.275
+anchor_right = 0.725
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_dqkch")
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GameOver" unique_id=927795424]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Game Over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=121862983]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Back to Main Menu"
+
+[node name="Respawn" type="Button" parent="CanvasLayer/Control/Menu/GameOver" unique_id=686627760]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Respawn"
+
+[node name="Settings" parent="CanvasLayer/Control/Menu" unique_id=2039730251 instance=ExtResource("7_ujl30")]
+visible = false
+layout_mode = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=996974428]
 replication_config = SubResource("SceneReplicationConfig_g2els")

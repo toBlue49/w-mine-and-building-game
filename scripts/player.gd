@@ -9,12 +9,12 @@ var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [0, itmType.BLOCK]
 var selected_hotbar_item = 0
-var hotbar_items = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [0, itmType.ITEM, 1], [], [], [], [], [], []]
+var inventory = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [0, itmType.ITEM, 1], [], [], [], [], [], []]
 var health = 100
 var fall_timer = 0
 enum itmType{
 	BLOCK, ITEM
-}
+}#  0      1
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
@@ -32,6 +32,7 @@ enum itmType{
 @onready var pause_menu: VBoxContainer = $CanvasLayer/Control/Menu/PauseMenu
 @onready var game_over_menu: VBoxContainer = $CanvasLayer/Control/Menu/GameOver
 @onready var settings: Control = $CanvasLayer/Control/Menu/Settings
+@onready var crafting: Control = $CanvasLayer/Control/Crafting
 @onready var chat: Control = $"../UI/Chat"
 @onready var healthbar: ProgressBar = $CanvasLayer/Control/HealthBar
 @onready var healthbar_label: Label = $CanvasLayer/Control/HealthBar/Label
@@ -74,6 +75,11 @@ func _input(event: InputEvent) -> void:
 			return
 		if settings.visible:
 			settings.visible = false
+			return
+		if crafting.visible:
+			crafting.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			global.do_not_allow_input = false
 			return
 		if block_menu.visible:
 			block_menu.visible = false
@@ -125,8 +131,8 @@ func _input(event: InputEvent) -> void:
 		selected_hotbar_item += -1
 		if selected_hotbar_item < 0: selected_hotbar_item = 9
 	hotbar_selection.position.x = selected_hotbar_item * 56
-	selected_block[0] = hotbar_items[selected_hotbar_item][0]
-	selected_block[1] = hotbar_items[selected_hotbar_item][1]
+	selected_block[0] = inventory[selected_hotbar_item][0]
+	selected_block[1] = inventory[selected_hotbar_item][1]
 	
 	if selected_block[1] == itmType.BLOCK: #NOTE: Add Item Type
 		control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block[0]) + ".png")
@@ -135,7 +141,15 @@ func _input(event: InputEvent) -> void:
 	
 	#Block Menu
 	if Input.is_action_just_released("hotbar_block_menu"):
+		if crafting.visible: return
 		block_menu.show()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		global.do_not_allow_input = true
+
+	#Crafting
+	if Input.is_action_just_released("ui_crafting"):
+		if block_menu.visible: return
+		crafting.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		global.do_not_allow_input = true
 
@@ -240,7 +254,7 @@ func _physics_process(delta: float) -> void:
 				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
 					raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
 					if global.gamemode == global.SURVIVAL:
-						hotbar_items[selected_hotbar_item][2] -= 1
+						inventory[selected_hotbar_item][2] -= 1
 					update_hotbar()
 	
 	if raycast3dGridmap.is_colliding():
@@ -249,19 +263,19 @@ func _physics_process(delta: float) -> void:
 	else:
 		#No Block Selection
 		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
-		
-func collect_item(new_item, test_only = false) -> Error:
-	for item_count in hotbar_items.size():
-		var item = hotbar_items[item_count]
+
+func collect_item(new_item: Array, test_only = false) -> Error:
+	for item_count in inventory.size():
+		var item = inventory[item_count]
 		if item[0] == new_item[0] and item[1] == new_item[1]:
 			#Add to stack
 			if !test_only:
 				await get_tree().create_timer(0.2).timeout
-				hotbar_items[item_count][2] += 1
+				inventory[item_count][2] += 1
 				update_hotbar()
 			return OK
 	#Add new item
-	for item in hotbar_items:
+	for item in inventory:
 		if item[0] == -1:
 			if !test_only:
 				item[0] = new_item[0]
@@ -270,6 +284,10 @@ func collect_item(new_item, test_only = false) -> Error:
 				update_hotbar()
 			return OK
 	return FAILED
+
+func add_multiple_items(new_item: Array):
+	for i in new_item[2]:
+		collect_item(new_item)
 
 @rpc("any_peer", "call_local")
 func respawn():
@@ -284,7 +302,7 @@ func respawn():
 	DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
 	rotation.y = 0
 	camera_3d.rotation.x = 0
-	for i in hotbar_items:
+	for i in inventory:
 		i[2] = 0
 	update_hotbar()
 
@@ -300,7 +318,33 @@ func rpc_set_visibility(state: bool):
 func use_item(id: int):
 	print("[INFO] Use item %s" % id)
 	if id == 0:
-		chat.add_message(global.player_name, "I used the test item!")
+		craft_item([[1, itmType.BLOCK, 1],[2, itmType.BLOCK, 1],[3, itmType.BLOCK, 1]], [global.BLOCK.CONCRETE_LIME, itmType.BLOCK, 4])
+
+func craft_item(needed: Array, result: Array):
+	var inventory_old: Array = inventory.duplicate(true)
+	var needed_size = needed.size()
+	var needed_count = 0
+	
+	#remove items
+	for needed_item in needed:
+		for item in inventory.size():
+			if needed_item[0] == inventory[item][0] and needed_item[1] == inventory[item][1] and needed_item[2] <= inventory[item][2]:
+				needed_count += 1
+				inventory[item][2] -= needed_item[2]
+				break
+	
+	#has all items
+	if needed_count < needed_size:
+		inventory = inventory_old.duplicate(true) #revert to old inventory
+		return
+	
+	#has enough space
+	if await collect_item(result, true) == FAILED:
+		inventory = inventory_old.duplicate(true) #revert to old inventory
+		return
+	add_multiple_items(result)
+	
+	update_hotbar()
 
 ######## UI Control
 
@@ -308,10 +352,10 @@ func update_chunk_updates(count: int):
 	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
 
 func update_hotbar():
-	for item_count in hotbar_items.size():
-		var item = hotbar_items[item_count]
+	for item_count in inventory.size():
+		var item = inventory[item_count]
 		if item == [] or (item[2] == 0 and item[0] != -1):
-			hotbar_items[item_count] = [-1, itmType.BLOCK, 0]
+			inventory[item_count] = [-1, itmType.BLOCK, 0]
 			item = [-1, itmType.BLOCK, 0]
 		if item[1] == itmType.BLOCK:
 			hotbar_node_items.get_node(str(item_count)).texture = load("res://textures/icon/" + str(item[0]) + ".png")
@@ -363,9 +407,9 @@ func _blockmenu_button_pressed(name_args: String) -> void:
 	global.do_not_allow_input = false
 	block_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	hotbar_items[selected_hotbar_item][0] = name_args.to_int()
-	hotbar_items[selected_hotbar_item][1] = itmType.BLOCK #temporary
-	hotbar_items[selected_hotbar_item][2] = 99
+	inventory[selected_hotbar_item][0] = name_args.to_int()
+	inventory[selected_hotbar_item][1] = itmType.BLOCK
+	inventory[selected_hotbar_item][2] = 99
 	update_hotbar()
 
 func _on_pause_save_button() -> void:
