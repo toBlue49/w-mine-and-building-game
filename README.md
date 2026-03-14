@@ -49,4 +49,4 @@ If the GridMap (the blocks of the world) is to big, it takes to long to send the
 ### Saving and Loading
 Only the *host* of the server is *allowed to save* the current level. If you want to *load* an specific level on your server you *have to name it "server"*. The game will look in your levels folder for an level called *"server"* and load it, when starting up. This was done because loading while the server in on had some problems, while testing.
 
-> Made by Marlon49, 2025.
+> Made by Marlon49, 2026.
