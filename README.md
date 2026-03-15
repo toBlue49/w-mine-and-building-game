@@ -24,10 +24,18 @@ Jump                Spacebar
 Blockmenu           B*
 Place Block         Left Click*
 Break Block         Right Click*
-Sprint              Shift
+Sprint              Shift*
 Quit                Alt+Q (or OS default)
-Toggle Flight       Ctrl+Shift+F1 (only in singleplayer)
-Fly down            C* (only in singleplayer)
+Fly down            V* (only in singleplayer)
+Crafting            C*
+
+```
+
+## Commands
+These commands can be used in the in-game chat:
+
+```
+!fly                Toggles flight (only in singleplayer)
 ```
 
 ## Multiplayer Help
