@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://3ng3do7pi2ci"]
+[gd_scene format=3 uid="uid://3ng3do7pi2ci"]
 
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_nkug2"]
 [ext_resource type="Script" uid="uid://bpf37yjdebl7v" path="res://scripts/ui/settings.gd" id="2_nkug2"]
@@ -11,7 +11,7 @@ colors = PackedColorArray(0.16, 0.16, 0.16, 1, 0.40495878, 0.295692, 0.39123702,
 gradient = SubResource("Gradient_vue75")
 fill_from = Vector2(0, 1)
 
-[node name="Settings" type="Control"]
+[node name="Settings" type="Control" unique_id=4415019]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -22,7 +22,7 @@ grow_vertical = 2
 theme = ExtResource("1_nkug2")
 script = ExtResource("2_nkug2")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1255174317]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_gc0em")
 
-[node name="SaveButton" type="Button" parent="."]
+[node name="SaveButton" type="Button" parent="." unique_id=154290330]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 0
 offset_left = 384.0
@@ -40,7 +40,7 @@ offset_right = 896.0
 offset_bottom = 656.0
 text = "Apply and go Back"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=761651392]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -54,16 +54,16 @@ offset_bottom = 232.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer" unique_id=1800962687]
 layout_mode = 2
 current_tab = 1
 
-[node name="Graphics" type="TabBar" parent="MarginContainer/TabContainer"]
+[node name="Graphics" type="TabBar" parent="MarginContainer/TabContainer" unique_id=779160278]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Graphics"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Graphics" unique_id=1853790248]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,17 +76,17 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="max_fps" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer"]
+[node name="max_fps" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer" unique_id=1576231059]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/max_fps"]
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/max_fps" unique_id=1629137519]
 custom_minimum_size = Vector2(0, 37)
 layout_mode = 2
 text = "Max FPS: "
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/max_fps"]
+[node name="HSlider" type="HSlider" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/max_fps" unique_id=969195230]
 custom_minimum_size = Vector2(500, 40)
 layout_mode = 2
 min_value = 10.0
@@ -95,44 +95,44 @@ step = 10.0
 value = 110.0
 ticks_position = 3
 
-[node name="vsync" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer"]
+[node name="vsync" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer" unique_id=425614446]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/vsync"]
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/vsync" unique_id=761098839]
 custom_minimum_size = Vector2(0, 37)
 layout_mode = 2
 text = "V-Sync: "
 
-[node name="Button" type="Button" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/vsync"]
+[node name="Button" type="Button" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/vsync" unique_id=665657569]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 toggle_mode = true
 text = "Off"
 
-[node name="fullscreen" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer"]
+[node name="fullscreen" type="HBoxContainer" parent="MarginContainer/TabContainer/Graphics/VBoxContainer" unique_id=39136814]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/fullscreen"]
+[node name="Label" type="Label" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/fullscreen" unique_id=1789042223]
 custom_minimum_size = Vector2(0, 37)
 layout_mode = 2
 text = "Fullscreen: "
 
-[node name="Button" type="Button" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/fullscreen"]
+[node name="Button" type="Button" parent="MarginContainer/TabContainer/Graphics/VBoxContainer/fullscreen" unique_id=31700499]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 toggle_mode = true
 text = "Off"
 
-[node name="Input" type="TabBar" parent="MarginContainer/TabContainer"]
+[node name="Input" type="TabBar" parent="MarginContainer/TabContainer" unique_id=1645311287]
 layout_mode = 2
 theme = ExtResource("1_nkug2")
 metadata/_tab_index = 1
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Input"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Input" unique_id=712005359]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -150,49 +150,59 @@ theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 8
 columns = 2
 
-[node name="Forward" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Forward" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=851131798 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Forward"
 input = "move_forward"
 
-[node name="Backward" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Backward" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=23491603 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Backward"
 input = "move_backward"
 
-[node name="Left" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Left" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1946011624 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Left"
 input = "move_left"
 
-[node name="Right" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Right" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1454710730 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Right"
 input = "move_right"
 
-[node name="Place" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Place" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1902414567 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Place"
 input = "world_place"
 
-[node name="Break" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Break" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1186518688 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Break"
 input = "world_destroy"
 
-[node name="Fly Down" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Fly Down" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1421512700 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Fly Down"
 input = "move_fly_down"
 
-[node name="Hotbar Up" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Hotbar Up" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1141500729 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Hotbar Up"
 input = "hotbar_up"
 
-[node name="Hotbar Down" parent="MarginContainer/TabContainer/Input/GridContainer" instance=ExtResource("3_3ykye")]
+[node name="Hotbar Down" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1314334867 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Hotbar Down"
 input = "hotbar_down"
+
+[node name="Crafting" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=873729981 instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Crafting"
+input = "ui_crafting"
+
+[node name="Sprinting" parent="MarginContainer/TabContainer/Input/GridContainer" unique_id=1026220302 instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Sprinting"
+input = "move_sprint"
 
 [connection signal="pressed" from="SaveButton" to="." method="_save"]

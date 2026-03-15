@@ -40,6 +40,7 @@ func _process(_delta: float) -> void:
 		grid_map.size = mainmenu.size_box.value
 		global.change_title_extension("Singleplayer")
 		global.hide_popup()
+		global.in_mainmenu = false
 		
 		#Singleplayer Game
 		global.is_multiplayer = false
@@ -58,7 +59,8 @@ func _process(_delta: float) -> void:
 		upnp_start()
 		
 		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
-	
+		global.in_mainmenu = false
+		
 	if mainmenu.button_pressed == "mult_join":
 		global.show_loading_screen(true, "Joining Server...")
 		mainmenu.button_pressed = ""
@@ -69,6 +71,7 @@ func _process(_delta: float) -> void:
 		multiplayer.multiplayer_peer = global.enet_peer
 		
 		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
+		global.in_mainmenu = false
 
 func _physics_process(delta: float) -> void:
 	physics_tick_counter += 1

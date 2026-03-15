@@ -27,6 +27,9 @@
 [ext_resource type="Texture2D" uid="uid://dcpv2tf62dwnr" path="res://textures/icon/18.png" id="24_md1ol"]
 [ext_resource type="Texture2D" uid="uid://b4poleu3u0xap" path="res://textures/icon/19.png" id="25_ke2ow"]
 [ext_resource type="PackedScene" uid="uid://1ge6i8k2dea3" path="res://scenes/ui/craft.tscn" id="26_31cv2"]
+[ext_resource type="Texture2D" uid="uid://dpygi8rq0qkpn" path="res://textures/icon/20.png" id="26_pf23h"]
+[ext_resource type="Texture2D" uid="uid://downmebm620d1" path="res://textures/icon/21.png" id="27_dt7fs"]
+[ext_resource type="Texture2D" uid="uid://cj4nvfqeuh7o5" path="res://textures/icon/22.png" id="28_wqfne"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -127,17 +130,65 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_dqkch")
 
-[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=1175473597]
+[node name="Debug" type="Control" parent="CanvasLayer/Control" unique_id=689103522]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Position" type="Label" parent="CanvasLayer/Control/Debug" unique_id=1175473597]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -80.0
-offset_right = -4.0
-offset_bottom = 23.0
+offset_left = -112.0
+offset_bottom = 22.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 16
-text = "DBGLABEL"
+text = "POSITION"
+horizontal_alignment = 2
+
+[node name="BreakingTimer" type="Label" parent="CanvasLayer/Control/Debug" unique_id=1161972330]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -112.0
+offset_top = 24.0
+offset_bottom = 46.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "BREAKING_TIMER"
+horizontal_alignment = 2
+
+[node name="HoverBlock" type="Label" parent="CanvasLayer/Control/Debug" unique_id=1686405292]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -192.0
+offset_top = 48.0
+offset_right = -2.0
+offset_bottom = 70.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "HOVER_BLOCK"
+horizontal_alignment = 2
+
+[node name="FallTimer" type="Label" parent="CanvasLayer/Control/Debug" unique_id=14644578]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -192.0
+offset_top = 72.0
+offset_right = -2.0
+offset_bottom = 94.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "FALL_TIMER"
 horizontal_alignment = 2
 
 [node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control" unique_id=217364659]
@@ -639,6 +690,27 @@ texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("25_ke2ow")
+stretch_mode = 0
+
+[node name="20" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1228562451]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("26_pf23h")
+stretch_mode = 0
+
+[node name="21" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1942607195]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("27_dt7fs")
+stretch_mode = 0
+
+[node name="22" type="TextureButton" parent="CanvasLayer/Control/BlockMenu/GridContainer" unique_id=1890219344]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("28_wqfne")
 stretch_mode = 0
 
 [node name="Crafting" type="Control" parent="CanvasLayer/Control" unique_id=1516419227]

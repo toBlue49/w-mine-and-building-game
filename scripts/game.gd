@@ -2,7 +2,7 @@ extends Node
 
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
-const PROTOCOL_VERSION = 3
+const PROTOCOL_VERSION = 4
 
 var gamemode = SURVIVAL
 var config = ConfigFile.new()
@@ -12,6 +12,9 @@ var enet_peer = ENetMultiplayerPeer.new()
 var is_multiplayer = false
 var loaded_scene = ""
 var did_generate_level = false
+var in_mainmenu = true
+var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/block_data.json"))
+var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
 @onready var SceneContainer = $Scene
 @onready var GlobalControl = $GlobalControl
 @onready var request: Node = $request
@@ -29,8 +32,8 @@ enum {
 	SURVIVAL
 }
 enum BLOCK{
-	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND
-}#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19
+	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND, RUBY_ORE, IRON_ORE, DIAMOND_ORE
+}#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19    20        21        22
 enum ITEM{
 	TESTITEM
 }#  0
@@ -125,7 +128,7 @@ func _input(event: InputEvent) -> void:
 
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
-		SceneContainer.get_child(i).free()
+		SceneContainer.get_child(i).queue_free()
 	
 	await get_tree().process_frame
 	var new_scene = load(scene_path) as PackedScene

@@ -1,3 +1,5 @@
+Control
+Container
 Label
 ColorRect
 ScrollContainer
@@ -11,5 +13,3 @@ CharacterBody3D
 MeshInstance3D
 RigidBody3D
 Timer
-AnimationPlayer
-StaticBody3D

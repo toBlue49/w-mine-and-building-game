@@ -5,7 +5,7 @@ const chunk_size := 8
 var chunk_updates: int = 0
 var get_level_array = []
 var get_level_array_slice = 0
-var gotten_y = []
+var height_generated = {}
 var protocol_version_diff = -32676
 var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
@@ -39,21 +39,18 @@ func get_rand_noise(x:int, y:int) -> int:
 	return floori(rand_noise.get_noise_2d(x, y) * 1000)
 
 func get_height(x: int, y: int) -> int:
-	var ball = noise.get_noise_2d(x, y) * height
+	var ball = noise.get_noise_2d(x, y) * height + y_offset
 	
 	return ball
-
-func get_height_accurate(x: int, y: int):
-	return noise.get_noise_2d(x, y) * height + y_offset
 
 func update_gridmap():
 	for x in size:
 		for z in size:
-			if gotten_y.find(str("x", x, "z", z)) >= 0:
-				print_rich("[color=yellow][WARNING] Tried to get height twice: [b][/color]", str("x", x, "z", z))
+			if height_generated.has(str("x", x, "z", z)) == true:
+				print_rich("[color=yellow][WARNING] Tried to get height twice: [b][/color]", str("x", x, "z", z), " Returning...")
 				return
-			gotten_y.append(str("x", x, "z", z))
-			var y_level = get_height(x, z) + y_offset
+			var y_level = get_height(x, z)
+			height_generated.set(str("x", x, "z", z), y_level)
 			set_cell_item(Vector3i(x, y_level, z), 0)
 			
 			#fill ground
@@ -65,8 +62,8 @@ func update_gridmap():
 			#fill dirt layer
 			for i in 3:
 				set_cell_item(Vector3i(x, y_level-i-1, z), 2)
-	gotten_y.clear()
-
+		height_generated.clear()
+		
 func render_gridmap():
 	@warning_ignore("integer_division")
 	for xpos in size/chunk_size:
@@ -128,16 +125,28 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 		if i is CharacterBody3D and peer_id == 0:
 			i.queue_free()
 	@warning_ignore("integer_division")
-	var pos = Vector3(size, 0, size)
-	pos.y = get_height_accurate(pos.x, pos.z)*2 + 16
+	var pos = Vector3(size/2, 0, size/2)
+	pos.y = get_height(pos.x, pos.z)*2
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player(peer_id, pos)
+	
+	player = world.get_node(str(peer_id))
+	
+	#Move Player Up if in ground.
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	var counting_the_player_moving_ups = 0
+	while player.get_slide_collision_count() > 0:
+		counting_the_player_moving_ups += 1
+		print_rich("[INFO] Player collision at spawn #%s! Moving up." % [counting_the_player_moving_ups])
+		player.position.y += 2
+		await get_tree().physics_frame
 
 func generate_features():
 	for x in size:
 		for z in size:
 			if get_rand_noise(x, z) >= 975: #Trees
-				place_tree(x, get_height(x, z) + y_offset, z)
+				place_tree(x, get_height(x, z), z)
 
 func place_tree(x, y, z):
 	var tree_height:int
@@ -162,16 +171,18 @@ func spawn_test_entity(amount: int):
 	for i in amount:
 		var x = randi_range(0, size)
 		var z = randi_range(0, size)
-		var y = get_height_accurate(x, z) + 8
+		var y = get_height(x, z) + 8
 		
 		var entity = world.TEST_ENTITY.instantiate()
 		entity.init(Vector3(x*2, y*2, z*2))
 		entities.add_child(entity, true)
 
 func GENERATE():
-	#set rand_noise seed:
+	#set seed
+	noise.set_seed(randi_range(-2147483646, 2147483646))
 	rand_noise.seed = noise.seed
 	
+	#generation
 	print_rich("[INFO] [b]Generating Gridmap")
 	update_gridmap()
 	generate_features()
@@ -184,14 +195,13 @@ func GENERATE():
 
 func init_singleplayer():
 	if global.did_generate_level == false:
-		noise.set_seed(randi_range(-2147483646, 2147483646))
 		global.show_loading_screen(true, "Generating Level...")
 		await get_tree().process_frame
 		GENERATE()
+		await get_tree().process_frame
 		move_player()
-		global.show_loading_screen(false)
 		global.did_generate_level = true
-	player = world.get_node("0")
+		global.show_loading_screen(false)
 
 func init_host():
 	if global.did_generate_level == false:
@@ -201,14 +211,13 @@ func init_host():
 			global.did_generate_level = true
 		else:
 			print_rich("[color=yellow][WARNING] server.tscn level NOT found! Generating new level.")
-			noise.set_seed(randi_range(-2147483646, 2147483646))
 			global.show_loading_screen(true, "Generating Level...")
 			await get_tree().process_frame
 			GENERATE()
 			move_player(multiplayer.get_unique_id())
 			await get_tree().process_frame
-			global.show_loading_screen(false)
 			global.did_generate_level = true
+			global.show_loading_screen(false)
 		
 	player = world.get_node(str(multiplayer.get_unique_id()))
 	
@@ -240,7 +249,7 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	size = gridmap_size
 	@warning_ignore("integer_division")
 	var half_size = size/2
-	var pos = Vector3(half_size*2, 0, half_size*2)
+	var pos = Vector3(half_size, 0, half_size)
 
 	#Get GridMap
 	for i in size:
@@ -263,7 +272,7 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	
 	#Create Player
 	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
-	pos.y = get_height_accurate(pos.x, pos.z)*2 + 16
+	pos.y = get_height(pos.x, pos.z)*2 + 8
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player_multiplayer.rpc(peer_id, pos)
 	player = world.get_node(str(multiplayer.get_unique_id()))
@@ -278,9 +287,9 @@ func _ready():
 ##At Runtime:
 
 @rpc("any_peer", "call_remote")
-func set_peer_id_name(id: int, name: String):
+func set_peer_id_name(id: int, player_name: String):
 	if multiplayer.is_server():
-		peer_id_name.set(id, name)
+		peer_id_name.set(id, player_name)
 
 func second_routine():
 	await get_tree().create_timer(1.0).timeout

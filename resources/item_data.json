@@ -1,0 +1,7 @@
+{
+	"0":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.3}
+		}
+}

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dcnexdcn8xq20"]
 
 [ext_resource type="Script" uid="uid://djdywkxej8iic" path="res://scripts/world.gd" id="1_k0juu"]
-[ext_resource type="MeshLibrary" uid="uid://clds32js11vo3" path="res://resources/blocks.tres" id="1_rwgxs"]
+[ext_resource type="MeshLibrary" uid="uid://ns5h5db0kaqn" path="res://resources/blocks.tres" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://bc18dgy4sb3i" path="res://scripts/grid_map.gd" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://bnh00ujufy7hi" path="res://scripts/sounds_controller_3d.gd" id="4_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://dhft3f0orchup" path="res://scenes/blocks/block_select.tscn" id="4_7r4gi"]

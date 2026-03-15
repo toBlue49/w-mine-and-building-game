@@ -21,7 +21,6 @@ func create_node(text: String):
 
 @rpc("call_local", "any_peer")
 func add_message(player_name: String, message: String):
-	
 	var text: String
 	if player_name == "serverplayer":
 		text = "[color=orange]%s" % message
@@ -37,7 +36,7 @@ func add_message(player_name: String, message: String):
 	messages.get_node(id).free()
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_open_chat") and !line_edit.visible and global.is_multiplayer:
+	if Input.is_action_just_pressed("ui_open_chat") and !line_edit.visible and !global.in_mainmenu and !global.do_not_allow_input:
 		line_edit.visible = not line_edit.visible
 		line_edit.grab_focus()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -46,7 +45,18 @@ func _input(event: InputEvent) -> void:
 		line_edit.text = ""
 
 func _on_text_submitted(new_text: String) -> void:
-	add_message.rpc(global.player_name, new_text)
+	if new_text.begins_with("!"):
+		run_command(new_text)
+	else:
+		add_message.rpc(global.player_name, new_text)
 	get_node("LineEdit").visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	global.do_not_allow_input = false
+
+func run_command(cmd: String):
+	if cmd == "!fly":
+		if global.is_multiplayer:
+			add_message("serverplayer", "Only allowed in singleplayer!")
+		else:
+			global.get_node("Scene/World").grid_map.player.fly = !global.get_node("Scene/World").grid_map.player.fly
+			add_message("serverplayer", "Toggled flight!")

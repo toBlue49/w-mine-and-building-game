@@ -19,7 +19,7 @@ var mouse_button_table = [
 @onready var panel: Panel = $Button/Panel
 @onready var label: Label = $Label
 @onready var vbox: VBoxContainer = $Button/Panel/ScrollContainer/MarginContainer/VBoxContainer
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	key_array = InputMap.action_get_events(input)
 	event = key_array[0]
@@ -53,6 +53,7 @@ func _ready() -> void:
 			
 			vbox.get_node(str("M", i+1)).connect("pressed", func():
 				mouse_selected(vbox.get_node(str("M", i+1)), str("M", i+1)))
+	
 	#NOTE: This part was written with absolute pain.
 	#Load Inputs
 	if event is InputEventKey:

@@ -7,11 +7,15 @@ const JUMP_VELOCITY = 11
 var hit_damage = 5
 var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
-var selected_block = [0, itmType.BLOCK]
+var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
-var inventory = [[1, itmType.BLOCK, 1], [2, itmType.BLOCK, 44], [19, itmType.BLOCK, 10], [0, itmType.ITEM, 1], [], [], [], [], [], []]
+var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [], [], [0, itmType.ITEM, 1]]
 var health = 100
 var fall_timer = 0
+var breaking_timer = 0.0 
+var hovering_block: int
+var hovering_block_data: Dictionary
+var held_item_data: Dictionary
 enum itmType{
 	BLOCK, ITEM
 }#  0      1
@@ -105,10 +109,6 @@ func _input(event: InputEvent) -> void:
 	
 	if global.do_not_allow_input: return
 	
-	#Toggle flight
-	if !global.is_multiplayer and Input.is_action_just_pressed("move_toggle_fly"):
-		fly = !fly
-	
 	#Mouse
 	if event is InputEventMouseMotion:
 		rotation.y = rotation.y - event.relative.x * sensitivity
@@ -127,12 +127,16 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_released("hotbar_down"):
 		selected_hotbar_item += 1
 		if selected_hotbar_item > 9: selected_hotbar_item = 0
+		update_held_item_data()
 	elif Input.is_action_just_released("hotbar_up"):
 		selected_hotbar_item += -1
 		if selected_hotbar_item < 0: selected_hotbar_item = 9
-	hotbar_selection.position.x = selected_hotbar_item * 56
-	selected_block[0] = inventory[selected_hotbar_item][0]
-	selected_block[1] = inventory[selected_hotbar_item][1]
+		update_held_item_data()
+	for num in 10: #hotbar keybinds
+		if Input.is_action_just_pressed("hotbar_%s" % num):
+			selected_hotbar_item = num-1
+			if selected_hotbar_item == -1: selected_hotbar_item = 9
+			update_held_item_data()
 	
 	if selected_block[1] == itmType.BLOCK: #NOTE: Add Item Type
 		control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block[0]) + ".png")
@@ -153,7 +157,7 @@ func _input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		global.do_not_allow_input = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		if get_node_or_null("CanvasLayer/Control") != null:
 			control.hide()
@@ -168,7 +172,12 @@ func _process(delta: float) -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
-	control.get_node("Label").text = "%s" % [round(position)]
+	#Update Debugging Labels
+	control.get_node("Debug/Position").text = "Pos: %s" % [round(position)]
+	control.get_node("Debug/BreakingTimer").text = "B: %s" % [breaking_timer]
+	control.get_node("Debug/HoverBlock").text = "H: %s" % [hovering_block]
+	control.get_node("Debug/FallTimer").text = "FALL: %s" % [fall_timer]
+	
 	set_multiplayer_authority(str(name).to_int())
 	camera_3d.current = true
 	
@@ -201,6 +210,8 @@ func _process(delta: float) -> void:
 		use_item(selected_block[0])
 	
 func _physics_process(delta: float) -> void:
+	var gridmap_raycast_collision = raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal()
+	
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
@@ -209,8 +220,8 @@ func _physics_process(delta: float) -> void:
 		if fall_timer > 0.75 and global.gamemode == global.SURVIVAL: #Give Damage
 			player_hit.rpc(round((pow(fall_timer+0.25, 2))*60)/10)
 		fall_timer = 0
-	elif velocity.y < 0:
-		fall_timer += 1*delta
+	elif velocity.y < 0 and !fly:
+		fall_timer += delta
 	
 	# Add the gravity.
 	if fly == false:
@@ -242,8 +253,18 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("world_destroy"):
 			if raycast3d.get_collider().has_method("player_hit"):
 				raycast3d.get_collider().player_hit.rpc(hit_damage)
+		if Input.is_action_pressed("world_destroy"):
 			if raycast3d.get_collider().has_method("destroy_block"):
-				raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
+				breaking_timer -= delta
+				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/hovering_block_data.mining_time)*0.6)
+				
+				if breaking_timer <= 0:
+					raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
+					update_breaking_timer()
+		else:
+			if hovering_block_data != {}:
+				update_breaking_timer()
+				grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider().has_method("place_block"):
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
@@ -259,10 +280,13 @@ func _physics_process(delta: float) -> void:
 	
 	if raycast3dGridmap.is_colliding():
 		# Block Selection
-		grid_map.world.move_block_selection(raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal())
+		if grid_map.local_to_map(grid_map.world.blockSelect.position) != grid_map.local_to_map(gridmap_raycast_collision):
+			grid_map.world.move_block_selection(gridmap_raycast_collision)
+			update_hovering_block(gridmap_raycast_collision)
 	else:
 		#No Block Selection
 		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
+		grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 
 func collect_item(new_item: Array, test_only = false) -> Error:
 	for item_count in inventory.size():
@@ -302,8 +326,8 @@ func respawn():
 	DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
 	rotation.y = 0
 	camera_3d.rotation.x = 0
-	for i in inventory:
-		i[2] = 0
+	#for i in inventory: #keep inventory
+	#	i[2] = 0
 	update_hotbar()
 
 @rpc("any_peer", "call_local")
@@ -318,7 +342,7 @@ func rpc_set_visibility(state: bool):
 func use_item(id: int):
 	print("[INFO] Use item %s" % id)
 	if id == 0:
-		craft_item([[1, itmType.BLOCK, 1],[2, itmType.BLOCK, 1],[3, itmType.BLOCK, 1]], [global.BLOCK.CONCRETE_LIME, itmType.BLOCK, 4])
+		print(grid_map.get_height(grid_map.size/2, grid_map.size/2))
 
 func craft_item(needed: Array, result: Array):
 	var inventory_old: Array = inventory.duplicate(true)
@@ -346,6 +370,42 @@ func craft_item(needed: Array, result: Array):
 	
 	update_hotbar()
 
+func update_hovering_block(hover_position: Vector3):
+	hovering_block = grid_map.get_cell_item(grid_map.local_to_map(hover_position))
+	if hovering_block == -1: return
+	
+	hovering_block_data = global.block_data.get(str(hovering_block))
+	grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
+	
+	#Breaking Timer (this is really messy)
+	update_breaking_timer()
+
+func update_held_item_data():
+	#selected item
+	hotbar_selection.position.x = selected_hotbar_item * 56
+	selected_block[0] = inventory[selected_hotbar_item][0]
+	selected_block[1] = inventory[selected_hotbar_item][1]
+	
+	if selected_block[1] == itmType.ITEM:
+		held_item_data = global.item_data.get(str(selected_block[0]))
+	
+	#wichtig
+	update_hovering_block(raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal())
+
+func update_breaking_timer():
+	if selected_block[1] != itmType.ITEM:
+		breaking_timer = hovering_block_data.mining_time
+	else:
+		if held_item_data.type != "TOOL":
+			breaking_timer = hovering_block_data.mining_time
+		else:
+			for type in held_item_data.tool_data.block_type:
+				if type == hovering_block_data.type:
+					breaking_timer = hovering_block_data.mining_time * held_item_data.tool_data.break_multiplier
+					break
+				else:
+					breaking_timer = hovering_block_data.mining_time
+
 ######## UI Control
 
 func update_chunk_updates(count: int):
@@ -365,6 +425,9 @@ func update_hotbar():
 		hotbar_node_items.get_node(str(item_count)).get_node("Count").text = str(item[2])
 		if item[0] == -1:
 			hotbar_node_items.get_node(str(item_count)).get_node("Count").text = ""
+	
+	#Update Held Item
+	update_held_item_data()
 
 func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:
@@ -464,6 +527,7 @@ func _on_pause_mainmenu_button() -> void:
 	global.did_generate_level = false
 	global.do_not_allow_input = false
 	global.is_multiplayer = false
+	global.in_mainmenu = true
 	global.change_title_extension("[none]")
 
 func _on_pause_settings_button() -> void:

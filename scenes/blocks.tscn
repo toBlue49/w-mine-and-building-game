@@ -20,6 +20,9 @@
 [ext_resource type="Texture2D" uid="uid://blx4ahw1c0qfb" path="res://textures/concrete_magenta.png" id="17_w60hs"]
 [ext_resource type="Texture2D" uid="uid://caiq3ju7etplv" path="res://textures/concrete_deep_pink.png" id="18_ic3an"]
 [ext_resource type="Texture2D" uid="uid://dengea2204xdb" path="res://textures/sand.png" id="20_yfapm"]
+[ext_resource type="Texture2D" uid="uid://deyd74v8vh2rj" path="res://textures/ruby_ore.png" id="21_m64mq"]
+[ext_resource type="Texture2D" uid="uid://0cpvudkjv75f" path="res://textures/iron_ore.png" id="22_03jfd"]
+[ext_resource type="Texture2D" uid="uid://c3njxwxd8fvyk" path="res://textures/diamond_ore.png" id="23_wrnuw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irvtj"]
 material = ExtResource("1_giubl")
@@ -266,19 +269,19 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_ja0aw")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_p8xbs"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mdv5x"]
 load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2d5a1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wrlh"]
 depth_draw_mode = 1
 albedo_texture = ExtResource("18_ic3an")
-normal_texture = SubResource("CompressedTexture2D_p8xbs")
+normal_texture = SubResource("CompressedTexture2D_mdv5x")
 uv2_world_triplanar = true
 texture_filter = 0
 texture_repeat = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_83fgn"]
-material = SubResource("StandardMaterial3D_2d5a1")
+material = SubResource("StandardMaterial3D_0wrlh")
 size = Vector3(2, 2, 2)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m64mq"]
@@ -294,6 +297,48 @@ texture_repeat = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_wrnuw"]
 material = SubResource("StandardMaterial3D_03jfd")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrnuw"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("21_m64mq")
+normal_texture = SubResource("CompressedTexture2D_m64mq")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_gl5s0"]
+material = SubResource("StandardMaterial3D_wrnuw")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gl5s0"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s5mrl"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("22_03jfd")
+normal_texture = SubResource("CompressedTexture2D_gl5s0")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_fcfn4"]
+material = SubResource("StandardMaterial3D_s5mrl")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fcfn4"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cny3s"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("23_wrnuw")
+normal_texture = SubResource("CompressedTexture2D_fcfn4")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_4134y"]
+material = SubResource("StandardMaterial3D_cny3s")
 size = Vector3(2, 2, 2)
 
 [node name="blocks" type="Node3D" unique_id=726535322]
@@ -475,4 +520,31 @@ mesh = SubResource("BoxMesh_wrnuw")
 [node name="StaticBody3D" type="StaticBody3D" parent="Sand" unique_id=936598259]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sand/StaticBody3D" unique_id=269764158]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="RubyOre" type="MeshInstance3D" parent="." unique_id=1985526045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, 0)
+mesh = SubResource("BoxMesh_gl5s0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RubyOre" unique_id=334280638]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RubyOre/StaticBody3D" unique_id=1442373795]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="IronOre" type="MeshInstance3D" parent="." unique_id=2124156275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 0, 0)
+mesh = SubResource("BoxMesh_fcfn4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="IronOre" unique_id=1358709801]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="IronOre/StaticBody3D" unique_id=797789658]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="DiamondOre" type="MeshInstance3D" parent="." unique_id=424029017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88, 0, 0)
+mesh = SubResource("BoxMesh_4134y")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DiamondOre" unique_id=1133002546]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DiamondOre/StaticBody3D" unique_id=1902999610]
 shape = SubResource("BoxShape3D_irvtj")

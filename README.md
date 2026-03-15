@@ -2,7 +2,7 @@
 An original Mining and Building Sandbox game.
 
 ## Screenshots
-(Screenshots made in version 0.9b from December 3rd 2025)
+(Screenshots made in version 0.9b from December 3rd, 2025)
 <img width="639" height="359" alt="Screenshot1" src="https://github.com/user-attachments/assets/1d6ce4a1-21b4-4658-b446-1877de8d1664" />
 <img width="639" height="359" alt="screenshot2" src="https://github.com/user-attachments/assets/4e189f18-fedf-4397-8919-98998f8ccea0" />
 
@@ -10,6 +10,7 @@ An original Mining and Building Sandbox game.
 - Singleplayer and Multiplayer
 - Level Saving/Loading
 - Many different blocks
+- Survival mode (currently in dev)
 - bEtTer GraÜPhIcs TheN MiNcErAfT
 - Open Source and made in Godot
 

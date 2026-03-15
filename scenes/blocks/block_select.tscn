@@ -1,11 +1,23 @@
 [gd_scene format=3 uid="uid://dhft3f0orchup"]
 
 [ext_resource type="Script" uid="uid://ba5nucvosjxsr" path="res://scripts/blocks/block_select.gd" id="1_4jxjv"]
+[ext_resource type="Texture2D" uid="uid://b2if7fkwv0f5p" path="res://textures/block_selection.png" id="2_qyvb6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyvb6"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o3vif"]
+material = SubResource("StandardMaterial3D_qyvb6")
+size = Vector3(2.005, 2.005, 2.005)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xerie"]
 transparency = 1
-shading_mode = 2
+shading_mode = 0
 albedo_color = Color(0, 0, 0, 0.05882353)
+albedo_texture = ExtResource("2_qyvb6")
+texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_4jxjv"]
 material = SubResource("StandardMaterial3D_xerie")
@@ -40,7 +52,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.25, 3, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0.15686275), Color(1, 1, 1, 0.11764706), Color(0, 0, 0, 0.15686275)]
+"values": [Color(0, 0, 0, 0.23529412), Color(1, 1, 1, 0.23529412), Color(0, 0, 0, 0.23529412)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o3vif"]
@@ -51,6 +63,10 @@ _data = {
 
 [node name="BlockSelect" type="Node3D" unique_id=534079634]
 script = ExtResource("1_4jxjv")
+
+[node name="BreakingMesh" type="MeshInstance3D" parent="." unique_id=2029809637]
+visible = false
+mesh = SubResource("BoxMesh_o3vif")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2142861926]
 mesh = SubResource("BoxMesh_4jxjv")
