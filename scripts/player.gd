@@ -9,8 +9,7 @@ var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
-var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [], [], [0, itmType.ITEM, 1]]
-var health = 100
+var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [global.ITEM.DIAMOND_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1]]
 var fall_timer = 0
 var breaking_timer = 0.0 
 var hovering_block: int
@@ -19,12 +18,14 @@ var held_item_data: Dictionary
 enum itmType{
 	BLOCK, ITEM
 }#  0      1
+@export var health = 100
 @export var fly = false
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
 @onready var raycast3dGridmap: RayCast3D = $Camera3D/RayCast3DGridmapOnly
 @onready var grid_map: GridMap = $"../GridMap"
 @onready var label3d: Label3D = $Label3D
+@onready var label3d_nodepth: Label3D = $Label3DNoDepth
 ##UI
 @onready var control: Control = $CanvasLayer/Control
 @onready var get_save_name: VBoxContainer = $CanvasLayer/Control/Menu/GetSaveName
@@ -166,20 +167,22 @@ func _process(_delta: float) -> void:
 	if global.enet_peer.get_connection_status() == 0 and global.is_multiplayer:
 		global.show_popup("ServerError", "The multiplayer instance isn't currently active.")
 	
-	#Update Player Label
-	label3d.text = ("%s Health\n%s" % [clamp(round(health), 0, 100), global.player_name])
-	
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
+	
+	#Update Player Labels
+	label3d.text = ("%s Health\n%s" % [clamp(round(health), 0, 100), global.player_name])
+	label3d_nodepth.text = label3d.text
+	
+	### IS MULTIPLAYER AUTHORITY ###
+	set_multiplayer_authority(str(name).to_int())
+	camera_3d.current = true
 	
 	#Update Debugging Labels
 	control.get_node("Debug/Position").text = "Pos: %s" % [round(position)]
 	control.get_node("Debug/BreakingTimer").text = "B: %s" % [breaking_timer]
 	control.get_node("Debug/HoverBlock").text = "H: %s" % [hovering_block]
 	control.get_node("Debug/FallTimer").text = "FALL: %s" % [fall_timer]
-	
-	set_multiplayer_authority(str(name).to_int())
-	camera_3d.current = true
 	
 	#Health
 	if global.gamemode == global.SURVIVAL:
@@ -288,16 +291,24 @@ func _physics_process(delta: float) -> void:
 		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
 		grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 
-func collect_item(new_item: Array, test_only = false) -> Error:
+func collect_item(new_item: Array, test_only = false, test_count = 1) -> Error:
 	for item_count in inventory.size():
 		var item = inventory[item_count]
 		if item[0] == new_item[0] and item[1] == new_item[1]:
 			#Add to stack
-			if !test_only:
-				await get_tree().create_timer(0.2).timeout
-				inventory[item_count][2] += 1
-				update_hotbar()
-			return OK
+			var allow_stack = false
+			if new_item[1] == itmType.BLOCK:
+				if (inventory[item_count][2] + test_count) <= global.block_data.get(str(new_item[0])).stack_limit:
+					allow_stack = true
+			else:
+				if (inventory[item_count][2] + test_count) <= global.item_data.get(str(new_item[0])).stack_limit:
+					allow_stack = true
+			if allow_stack:
+				if !test_only:
+					inventory[item_count][2] += 1
+					update_hotbar()
+				return OK
+			return FAILED
 	#Add new item
 	for item in inventory:
 		if item[0] == -1:
@@ -310,6 +321,8 @@ func collect_item(new_item: Array, test_only = false) -> Error:
 	return FAILED
 
 func add_multiple_items(new_item: Array):
+	if collect_item(new_item, true, new_item[2]) != OK:
+		return
 	for i in new_item[2]:
 		collect_item(new_item)
 

@@ -47,7 +47,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.10i"
+text = "0.11a"
 
 [node name="frames" type="Label" parent="GlobalControl" unique_id=1457041356]
 layout_mode = 0

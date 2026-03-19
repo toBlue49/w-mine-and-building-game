@@ -2,6 +2,97 @@
 	"0":
 		{
 			"type": "TOOL",
-			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.3}
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.3},
+			"stack_limit": 1
+		},
+	"1":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.75},
+			"stack_limit": 1
+		},
+	"2":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["WOOD"], "break_multiplier": 0.75},
+			"stack_limit": 1
+		},
+	"3":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.75},
+			"stack_limit": 1
+		},
+	"4":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.62},
+			"stack_limit": 1
+		},
+	"5":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["WOOD"], "break_multiplier": 0.62},
+			"stack_limit": 1
+		},
+	"6":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.62},
+			"stack_limit": 1
+		},
+	"7":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.5},
+			"stack_limit": 1
+		},
+	"8":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["WOOD"], "break_multiplier": 0.5},
+			"stack_limit": 1
+		},
+	"9":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.5},
+			"stack_limit": 1
+		},
+	"10":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.37},
+			"stack_limit": 1
+		},
+	"11":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["WOOD"], "break_multiplier": 0.37},
+			"stack_limit": 1
+		},
+	"12":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.37},
+			"stack_limit": 1
+		},
+	"13":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["STONE"], "break_multiplier": 0.27},
+			"stack_limit": 1
+		},
+	"14":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["WOOD"], "break_multiplier": 0.27},
+			"stack_limit": 1
+		},
+	"15":
+		{
+			"type": "TOOL",
+			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.27},
+			"stack_limit": 1
 		}
 }
