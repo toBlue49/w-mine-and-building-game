@@ -1,10 +1,11 @@
 extends Node3D
 
-const player = preload("res://scenes/player.tscn")
+const player_scene = preload("res://scenes/player.tscn")
 const TEST_ENTITY = preload("res://scenes/entity/test_entity.tscn")
 var physics_tick_counter = 0
 var tick_counter = 0
 
+var player: CharacterBody3D
 @onready var mainmenu: Control = $UI/MainMenu
 @onready var grid_map: GridMap = $GridMap
 @onready var chat: Control = $UI/Chat
@@ -16,21 +17,24 @@ var tick_counter = 0
 func add_player(id, pos: Vector3):
 	#id = 0
 	print_rich("[INFO] Add Player (non RPC): [b]", id)
-	var player_node = player.instantiate()
+	var player_node = player_scene.instantiate()
 	player_node.name = str(id)
 	player_node.position = pos
 	player_node.spawn_position = pos
 	add_child(player_node)
+	player = player_node
 	return get_node("%s" % str(id))
 
 @rpc("call_local", "any_peer")
 func add_player_multiplayer(id, pos: Vector3):
 	print_rich("[INFO] Add Player (RPC) [b]: ", id)
-	var player_node = player.instantiate()
+	var player_node = player_scene.instantiate()
 	player_node.name = str(id)
 	player_node.position = pos
 	player_node.spawn_position = pos
 	add_child(player_node)
+	if is_multiplayer_authority():
+		player = player_node
 	return get_node("%s" % str(id))
 
 func _process(_delta: float) -> void:
@@ -117,3 +121,130 @@ func upnp_start():
 	print_rich("[color=green][SUCCESS] UPNP SETUP SUCCESS![/color] IP Address: [b]%s" % upnp.query_external_address())
 	
 	chat.add_message("serverplayer", "Use this IP to join to your server: %s" % upnp.query_external_address())
+
+#Save and Load
+func save_level_to_file(filename: String):
+	var absolute_path = "user://levels/%s" % filename
+	var save_gridmap = GridMap.new()
+	var save_objects = Node3D.new()
+	var save_metadata: Dictionary
+	save_gridmap = grid_map
+	save_objects = objects
+	
+	#Setup Folder
+	if !DirAccess.dir_exists_absolute(absolute_path):
+		DirAccess.make_dir_recursive_absolute(absolute_path)
+	
+	#METADATA
+	save_metadata.gridmap_size = save_gridmap.size
+	save_metadata.protocol_version = global.PROTOCOL_VERSION
+	save_metadata.player = {"pos": player.position, "inventory": player.inventory, "rotation": player.rotation}
+	var metadata_file = FileAccess.open("%s/metadata.bytes" % absolute_path, FileAccess.WRITE)
+	metadata_file.store_var(save_metadata)
+	metadata_file.close()
+	
+	#GRIDMAP
+	var scene = PackedScene.new()
+	scene.pack(save_gridmap)
+	print_rich("[INFO] Saving following scene: [b]", scene)
+	var result = scene.pack(save_gridmap)
+	if result == OK:
+		var error = ResourceSaver.save(scene, ("%s/gridmap.tscn" % absolute_path))
+		print_rich("[INFO] Errorlevel Save Level Gridmap: " + str(error))
+	
+	#OBJECTS
+	scene = PackedScene.new()
+	for i in objects.get_children():
+		i.owner = objects
+	scene.pack(save_gridmap)
+	print_rich("[INFO] Saving following scene: [b]", scene)
+	var result_obj = scene.pack(save_objects)
+	if result_obj == OK:
+		var error = ResourceSaver.save(scene, ("%s/objects.tscn" % absolute_path))
+		print_rich("[INFO] Errorlevel Save Level Gridmap: " + str(error))
+	
+func load_level_from_file(filename: String):
+	global.show_loading_screen(true, "Loading Map...")
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	await get_tree().process_frame
+	var absolute_path = "user://levels/%s" % filename
+	
+	#Error
+	if !DirAccess.dir_exists_absolute(absolute_path):
+		global.show_popup("LoadError", "Directory does not exist")
+		return
+	if !FileAccess.file_exists("%s/gridmap.tscn" % absolute_path):
+		global.show_popup("LoadError", "Gridmap.tscn does not exist")
+		return
+	if !FileAccess.file_exists("%s/objects.tscn" % absolute_path):
+		global.show_popup("LoadError", "Objects.tscn does not exist. Try copying from another world.")
+		return
+	if !FileAccess.file_exists("%s/metadata.bytes" % absolute_path):
+		global.show_popup("LoadError", "Metadata.bytes does not exist. Try copying from another world.")
+		return
+	
+	var scene_gridmap = load("%s/gridmap.tscn" % absolute_path)
+	var scene_objects = load("%s/objects.tscn" % absolute_path)
+	var node_gridmap: GridMap = scene_gridmap.instantiate()
+	var node_objects: Node3D = scene_objects.instantiate()
+	var metadata_file = FileAccess.open("%s/metadata.bytes" % absolute_path, FileAccess.READ)
+	var metadata = metadata_file.get_var(false)
+	
+	#get Saved GridMap Size
+	
+	print_rich("[INFO] Loaded GridMap size: [b]" + str(metadata.gridmap_size))
+	
+	node_objects.name = "Objects"
+	node_gridmap.name = "GridMap"
+	
+	#Remove Old Nodes
+	grid_map.queue_free()
+	objects.queue_free()
+	if get_node_or_null("0"):
+		get_node_or_null("0").queue_free()
+	await get_tree().process_frame
+	
+	#add nodes
+	add_child(node_gridmap, true)
+	if node_objects:
+		add_child(node_objects, true)
+	
+	#Update Variables
+	grid_map = get_node("GridMap")
+	objects = get_node("Objects")
+	
+	#GridMap
+	grid_map.size = int(metadata.gridmap_size)
+	if global.is_multiplayer:
+		grid_map.move_player(1)
+	else:
+		grid_map.move_player()
+	grid_map.create_gridmap_chunks(true)
+	grid_map.render_gridmap()
+	grid_map.objects = get_node("Objects")
+	grid_map.match_border_to_size()
+	
+	#Sand Block Fix 5000
+	for node in objects.get_children():
+		if node.name.contains("b19"): #If is Sand
+			var sand_pos = grid_map.string_to_vector3(node.name.rstrip("b19"))
+			node.free()
+			
+			#place new sand node
+			var sand_object: Node3D = grid_map.block_nodes[1].instantiate()
+			sand_object.position = grid_map.map_to_local(sand_pos)
+			sand_object.name = str(sand_pos) + "b19"
+			sand_object.init(sand_pos, get_node("GridMap"))
+			objects.add_child(sand_object)
+	
+	#Player
+	player.grid_map = grid_map
+	player.control.visible = true
+	if metadata.protocol_version >= 5: #0.11a
+		player.position = metadata.player.pos
+		player.inventory = metadata.player.inventory
+		player.rotation = metadata.player.rotation
+
+	
+	global.show_loading_screen(false)
+	global.do_not_allow_input = false

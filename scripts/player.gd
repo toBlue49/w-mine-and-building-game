@@ -376,7 +376,7 @@ func craft_item(needed: Array, result: Array):
 		return
 	
 	#has enough space
-	if await collect_item(result, true) == FAILED:
+	if collect_item(result, true) == FAILED:
 		inventory = inventory_old.duplicate(true) #revert to old inventory
 		return
 	add_multiple_items(result)
@@ -446,7 +446,7 @@ func _get_save_name_pressed() -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	var filename: String = get_save_name.get_node("LineEdit").text
-	grid_map.save_level_to_file(filename)
+	grid_map.world.save_level_to_file(filename)
 	
 	background.visible = false
 	get_save_name.visible = false
@@ -459,21 +459,13 @@ func _get_load_name_pressed(button_text) -> void:
 	global.show_loading_screen(true, "Loading Map...")
 	control.visible = false
 	print_rich("[INFO] Loading scene: [b]", button_text)
-	grid_map.load_level_from_file(button_text)
+	grid_map.world.load_level_from_file(button_text)
 	
 	await get_tree().process_frame
 	
 	background.visible = false
 	get_load_name.visible = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
-	#get grid_map back
-	for i in 4:
-		global.do_not_allow_input = false
-		await get_tree().process_frame
-	grid_map = $"../GridMap"
-	global.show_loading_screen(false)
-	control.visible = true
+	global.do_not_allow_input = true
 
 func open_level_folder():
 	OS.shell_open(ProjectSettings.globalize_path("user://levels/"))
@@ -508,23 +500,22 @@ func _on_pause_load_button() -> void:
 	game_over_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	global.do_not_allow_input = true
-	
 	var dir: DirAccess = DirAccess.open("user://levels/")
 	
+	#Remove Buttons
 	for i in get_load_name.get_child_count():
 		if get_load_name.get_child(i) is Button:
 			get_load_name.get_child(i).queue_free()
 	
-	dir.list_dir_begin()
-	for file: String in dir.get_files():
+	#Add Buttons
+	for level: String in dir.get_directories():
 		var scene = load("res://scenes/load_level_button.tscn")
 		var node: Node = scene.instantiate()
-		node.text = file
-		node.pressed.connect(
-			Callable(_get_load_name_pressed).bind(node.text)
-		)
-		if not file.containsn(".objects.tscn"):
-			get_load_name.add_child(node)
+		node.text = level
+		node.pressed.connect(Callable(_get_load_name_pressed).bind(node.text))
+		get_load_name.add_child(node)
+	
+	#Readd FolderButton
 	var folderbutton = Button.new()
 	folderbutton.text = "Open Folder"
 	folderbutton.connect("pressed", open_level_folder)

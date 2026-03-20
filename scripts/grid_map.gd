@@ -205,12 +205,12 @@ func init_singleplayer():
 
 func init_host():
 	if global.did_generate_level == false:
-		if FileAccess.file_exists("user://levels/server.tscn"):
-			print_rich("[INFO] server.tscn level found! Loading.")
-			load_level_from_file("server.tscn")
+		if DirAccess.dir_exists_absolute("user://levels/server/"):
+			print_rich("[INFO] server level found! Loading.")
+			world.load_level_from_file("server")
 			global.did_generate_level = true
 		else:
-			print_rich("[color=yellow][WARNING] server.tscn level NOT found! Generating new level.")
+			print_rich("[color=yellow][WARNING] server level NOT found! Generating new level.")
 			global.show_loading_screen(true, "Generating Level...")
 			await get_tree().process_frame
 			GENERATE()
@@ -372,38 +372,7 @@ func array_to_level(array: Array):
 		else: #Cells
 			set_cell_item(cell[0], cell[1])
 
-func save_level_to_file(path: String):
-	var save_gridmap = GridMap.new()
-	var save_objects = Node3D.new()
-	save_gridmap = self
-	save_objects = world.get_node("Objects")
-	
-	var scene = PackedScene.new()
-	
-	#set owner
-	for i in objects.get_children():
-		i.owner = objects
-	
-	#set_name
-	save_gridmap.name = "GridMap_" + str(size)
-	
-	#Pack gridmap node
-	scene.pack(save_gridmap)
-	print_rich("[INFO] Saving following scene: [b]", scene)
-	var result = scene.pack(save_gridmap)
-	if result == OK:
-		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".tscn"))
-		print_rich("[INFO] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
-	
-	#Pack Objects Node
-	scene.pack(save_gridmap)
-	print_rich("[INFO] Saving following scene: [b]", scene)
-	var result_obj = scene.pack(save_objects)
-	if result_obj == OK:
-		var error = ResourceSaver.save(scene, ("user://levels/" + path + ".objects.tscn"))
-		print_rich("[INFO] [color=yellow]Errorlevel Save Level Gridmap: " + str(error))
-
-func load_level_from_file(file: String):
+func LEGACY_load_level_from_file(file: String):
 	global.show_loading_screen(true, "Loading Map...")
 	await get_tree().process_frame
 	var scene_gridmap = load("user://levels/" + file)

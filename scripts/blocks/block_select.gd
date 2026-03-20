@@ -8,7 +8,3 @@ func _ready():
 	
 func update_breaking_mesh_alpha(alpha: float):
 	breaking_mesh.mesh.surface_get_material(0).albedo_color.a = alpha
-	if is_equal_approx(alpha, 0):
-		breaking_mesh.visible = false
-	else:
-		breaking_mesh.visible = true
