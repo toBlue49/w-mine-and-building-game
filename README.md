@@ -36,6 +36,9 @@ These commands can be used in the in-game chat:
 
 ```
 !fly                Toggles flight (only in singleplayer)
+!give [BLOCK/ITEM]  Gives an Item or Block with given ID and Count.
+ [ID] [COUNT]
+!clearinv           Clears your inventory.
 ```
 
 ## Multiplayer Help
