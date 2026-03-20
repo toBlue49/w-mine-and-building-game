@@ -32,6 +32,8 @@ func _ready() -> void:
 	
 	if crafting_data.result[1] == global.itmType.BLOCK:
 		label_text += "Result: %sx %s" % [int(crafting_data.result[2]), global.BLOCK.keys()[int(crafting_data.result[0])]]
+	if crafting_data.result[1] == global.itmType.ITEM:
+		label_text += "Result: %sx %s" % [int(crafting_data.result[2]), global.ITEM.keys()[int(crafting_data.result[0])]]
 	
 	label.text = label_text
 	

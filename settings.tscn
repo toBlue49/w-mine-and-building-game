@@ -34,11 +34,12 @@ texture = SubResource("GradientTexture2D_gc0em")
 [node name="SaveButton" type="Button" parent="." unique_id=154290330]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 0
-offset_left = 384.0
-offset_top = 616.0
-offset_right = 896.0
-offset_bottom = 656.0
+anchor_left = 0.3
+anchor_top = 0.85555553
+anchor_right = 0.7
+anchor_bottom = 0.9111111
 text = "Apply and go Back"
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=761651392]
 layout_mode = 1

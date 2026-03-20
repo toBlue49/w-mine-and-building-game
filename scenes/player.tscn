@@ -31,6 +31,21 @@
 [ext_resource type="Texture2D" uid="uid://dpygi8rq0qkpn" path="res://textures/icon/20.png" id="26_pf23h"]
 [ext_resource type="Texture2D" uid="uid://downmebm620d1" path="res://textures/icon/21.png" id="27_dt7fs"]
 [ext_resource type="Texture2D" uid="uid://cj4nvfqeuh7o5" path="res://textures/icon/22.png" id="28_wqfne"]
+[ext_resource type="Texture2D" uid="uid://bu1676mkh3o72" path="res://textures/item/1.png" id="31_gl8cc"]
+[ext_resource type="Texture2D" uid="uid://cyn5p4hmiebff" path="res://textures/item/2.png" id="32_md1ol"]
+[ext_resource type="Texture2D" uid="uid://d3hq5m3vkj87i" path="res://textures/item/3.png" id="33_bj30b"]
+[ext_resource type="Texture2D" uid="uid://dnhopve6b3r1x" path="res://textures/item/4.png" id="34_bj30b"]
+[ext_resource type="Texture2D" uid="uid://bp1k45shmhnyd" path="res://textures/item/5.png" id="35_jc3p3"]
+[ext_resource type="Texture2D" uid="uid://cmy7kctwh1sad" path="res://textures/item/6.png" id="36_hax0n"]
+[ext_resource type="Texture2D" uid="uid://bb7ygyvtra4yq" path="res://textures/item/7.png" id="37_t4otl"]
+[ext_resource type="Texture2D" uid="uid://dtpiwl4ei01eh" path="res://textures/item/8.png" id="38_j2b1d"]
+[ext_resource type="Texture2D" uid="uid://b116rpjldokwf" path="res://textures/item/9.png" id="39_cs1tg"]
+[ext_resource type="Texture2D" uid="uid://4wl47ohvfhg" path="res://textures/item/10.png" id="40_2dvfe"]
+[ext_resource type="Texture2D" uid="uid://dk53h55epwngq" path="res://textures/item/11.png" id="41_fdfoy"]
+[ext_resource type="Texture2D" uid="uid://c51q7b7yyf7if" path="res://textures/item/12.png" id="42_hhpqf"]
+[ext_resource type="Texture2D" uid="uid://ch7x3y6o1f2y6" path="res://textures/item/13.png" id="43_g5jhy"]
+[ext_resource type="Texture2D" uid="uid://4qe3fa7gcn5j" path="res://textures/item/14.png" id="44_holxr"]
+[ext_resource type="Texture2D" uid="uid://ui3n5oikn0kr" path="res://textures/item/15.png" id="45_holxr"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 radius = 0.7
@@ -766,7 +781,19 @@ offset_bottom = 36.0
 text = "Crafting"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/Crafting" unique_id=535494291]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/Control/Crafting" unique_id=1358106246]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 632.0
+offset_bottom = 424.0
+current_tab = 0
+
+[node name="Blocks" type="TabBar" parent="CanvasLayer/Control/Crafting/TabContainer" unique_id=397962340]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks" unique_id=535494291]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -774,32 +801,144 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -176.0
+offset_top = -174.0
 offset_right = 300.0
-offset_bottom = 184.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 24
 theme_override_constants/v_separation = 24
 columns = 6
 
-[node name="Planks" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=1503206481 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+[node name="Planks" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks/GridContainer" unique_id=1503206481 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
 layout_mode = 2
 texture_normal = ExtResource("11_qfm1y")
 crafting_id = "planks"
-player = NodePath("../../../../..")
+player = NodePath("../../../../../../..")
 
-[node name="Light" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=1771876057 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+[node name="Light" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks/GridContainer" unique_id=1771876057 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
 layout_mode = 2
 texture_normal = ExtResource("13_4r5pv")
 crafting_id = "light"
-player = NodePath("../../../../..")
+player = NodePath("../../../../../../..")
 
-[node name="Glass" parent="CanvasLayer/Control/Crafting/GridContainer" unique_id=2063986204 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+[node name="Glass" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks/GridContainer" unique_id=2063986204 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
 layout_mode = 2
 texture_normal = ExtResource("12_fulsm")
 crafting_id = "glass"
-player = NodePath("../../../../..")
+player = NodePath("../../../../../../..")
+
+[node name="Tools" type="TabBar" parent="CanvasLayer/Control/Crafting/TabContainer" unique_id=1836006411]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/Crafting/TabContainer/Tools" unique_id=1642930953]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -174.0
+offset_right = 300.0
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 6
+
+[node name="WoodPickaxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1697927780 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("31_gl8cc")
+crafting_id = "wood_pickaxe"
+player = NodePath("../../../../../../..")
+
+[node name="WoodAxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1793004027 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("32_md1ol")
+crafting_id = "wood_axe"
+player = NodePath("../../../../../../..")
+
+[node name="WoodShovel" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=854464134 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("33_bj30b")
+crafting_id = "wood_shovel"
+player = NodePath("../../../../../../..")
+
+[node name="StonePickaxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=616790896 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("34_bj30b")
+crafting_id = "stone_pickaxe"
+player = NodePath("../../../../../../..")
+
+[node name="StoneAxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1063694 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("35_jc3p3")
+crafting_id = "stone_axe"
+player = NodePath("../../../../../../..")
+
+[node name="StoneShovel" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=868488156 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("36_hax0n")
+crafting_id = "stone_shovel"
+player = NodePath("../../../../../../..")
+
+[node name="IronPickaxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1624840126 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("37_t4otl")
+crafting_id = "iron_pickaxe"
+player = NodePath("../../../../../../..")
+
+[node name="IronAxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=866600123 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("38_j2b1d")
+crafting_id = "iron_axe"
+player = NodePath("../../../../../../..")
+
+[node name="IronShovel" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=602238307 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("39_cs1tg")
+crafting_id = "iron_shovel"
+player = NodePath("../../../../../../..")
+
+[node name="DiamondPickaxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1511414152 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("40_2dvfe")
+crafting_id = "diamond_pickaxe"
+player = NodePath("../../../../../../..")
+
+[node name="DiamondAxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=604119089 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("41_fdfoy")
+crafting_id = "diamond_axe"
+player = NodePath("../../../../../../..")
+
+[node name="DiamondShovel" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=219106136 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("42_hhpqf")
+crafting_id = "diamond_shovel"
+player = NodePath("../../../../../../..")
+
+[node name="RubyPickaxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=143991424 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("43_g5jhy")
+crafting_id = "ruby_pickaxe"
+player = NodePath("../../../../../../..")
+
+[node name="RubyAxe" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=878134207 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("44_holxr")
+crafting_id = "ruby_axe"
+player = NodePath("../../../../../../..")
+
+[node name="RubyShovel" parent="CanvasLayer/Control/Crafting/TabContainer/Tools/GridContainer" unique_id=1695687006 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("45_holxr")
+crafting_id = "ruby_shovel"
+player = NodePath("../../../../../../..")
 
 [node name="Menu" type="Control" parent="CanvasLayer/Control" unique_id=143221050]
 layout_mode = 1

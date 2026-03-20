@@ -1,11 +1,9 @@
-res://scenes/player.tscn
+res://scenes/game.tscn
 res://resources/theme.tres
 res://materials/dirt.tres
 res://resources/blocks.tres
-res://scenes/blocks.tscn
-res://resources/item_data.json
-res://scripts/player.gd
-res://scripts/game.gd
-res://resources/block_data.json
-res://scripts/chat.gd
-res://scenes/game.tscn
+res://resources/crafting.json
+res://scripts/sounds_controller_3d.gd
+res://scenes/player.tscn
+res://scripts/ui/crafting_button.gd
+res://settings.tscn
