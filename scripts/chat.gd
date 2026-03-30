@@ -60,7 +60,7 @@ func run_command(cmd_string: String):
 		if global.is_multiplayer:
 			add_message("serverplayer", "Only allowed in singleplayer!")
 		else:
-			global.get_node("Scene/World").grid_map.player.fly = !global.get_node("Scene/World").grid_map.player.fly
+			global.get_node("Scene/World").player.fly = !global.get_node("Scene/World").grid_map.player.fly
 			add_message("serverplayer", "Toggled flight!")
 	if cmd[0] == "!give":
 		#syntax

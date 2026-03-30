@@ -4,7 +4,6 @@ var size := -1
 const chunk_size := 8
 var chunk_updates: int = 0
 var get_level_array = []
-var get_level_array_slice = 0
 var height_generated = {}
 var protocol_version_diff = -32676
 var block_nodes = [
@@ -125,8 +124,8 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 		if i is CharacterBody3D and peer_id == 0:
 			i.queue_free()
 	@warning_ignore("integer_division")
-	var pos = Vector3(size/2, 0, size/2)
-	pos.y = get_height(pos.x, pos.z)*2
+	var pos = Vector3(size, 0, size)
+	pos.y = get_height(pos.x/2, pos.z/2)*2
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player(peer_id, pos)
 	
@@ -238,12 +237,13 @@ func init_host():
 @rpc("reliable")
 func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	#Protocol Version Check
-	global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "protocol_version_diff", ["compare_protocol", global.PROTOCOL_VERSION])
-	while protocol_version_diff == -32676:
-		await get_tree().create_timer(0.1).timeout
+	protocol_version_diff = await global.request.get_var(1, self.get_path(), ["compare_protocol", global.PROTOCOL_VERSION])
 	print_rich("[INFO] Protocol Difference: [b]%s" % protocol_version_diff)
 	if protocol_version_diff != 0:
-		global.show_popup("ServerError", "Wrong Protocol Version.")
+		if protocol_version_diff == -32676:
+			global.show_popup("ServerError", "Connection Timeout")
+		else:
+			global.show_popup("ServerError", "Wrong Protocol Version.")
 		return
 	
 	size = gridmap_size
@@ -253,10 +253,11 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 
 	#Get GridMap
 	for i in size:
-		global.request.send.rpc(1, multiplayer.get_unique_id(), self.get_path(), self.get_path(), "get_level_array", ["get_chunk", i])
 		global.show_loading_screen(true, "Requesting Slice %s" % i)
-		while get_level_array_slice != i:
-			await get_tree().create_timer(0.01).timeout
+		get_level_array.append_array(await global.request.get_var(1, self.get_path(), ["get_block_slice", i]))
+		if get_level_array[-1] is int: if get_level_array[-1] == -32676:
+			global.show_popup("ServerError", "Connection Timeout")
+			return
 	
 	global.show_loading_screen(true, "Loading Level...")
 	await get_tree().process_frame

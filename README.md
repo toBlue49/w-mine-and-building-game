@@ -2,17 +2,17 @@
 An original Mining and Building Sandbox game.
 
 ## Screenshots
-(Screenshots made in version 0.9b from December 3rd, 2025)
+(Screenshots made in an old version from December 3rd, 2025)
 <img width="639" height="359" alt="Screenshot1" src="https://github.com/user-attachments/assets/1d6ce4a1-21b4-4658-b446-1877de8d1664" />
 <img width="639" height="359" alt="screenshot2" src="https://github.com/user-attachments/assets/4e189f18-fedf-4397-8919-98998f8ccea0" />
 
 ## Features
-- Singleplayer and Multiplayer
-- Level Saving/Loading
+- Singleplayer and *Multiplayer*
+- Level *Saving/Loading*
 - Many different blocks
-- Survival mode (currently in dev)
+- *Survival mode* (currently in dev)
 - bEtTer GraÜPhIcs TheN MiNcErAfT
-- Open Source and made in Godot
+- *Open Source* and made in Godot
 
 ## Controls
 These are the controls for the game. Every Input marked with an * can be changed in settings
@@ -43,10 +43,13 @@ These commands can be used in the in-game chat:
 
 ## Multiplayer Help
 
+### Disclaimer
+Multiplayer **does NOT provide any kind of anti-cheat**. Anyone with the technical skills could modify the game code to **enable flying in multiplayer or similar**, since these checks are performed **client-side**. This multiplayer is **not ment for any professional and/or big environment** and should **only be used** with people you know and trust.
+
 ### Setup
 To make it easier to copy your IP, open the *Console Version* of the game.
 
-**Note:** You have to enable *UPNP* on your router settings, or else nobody can join your server. Just look for an setting with "UPNP enable" or similar. You don't need to port forward, since we use UPNP.
+**Note:** You have to enable *UPNP* on your router settings, or else nobody can join your server. Just look for an setting with "UPNP enable" or similar. You don't need to port forward, since we use UPNP. (I may swap out UPNP for just port forwarding in the near future)
 
 Then in the game, *choose an Playername and world size*. After that click on *"Multiplayer Host"*. This will *open an server and print the IP in the chat* and the console. If you don't see one, *look for some errors* in the console.
 
@@ -61,4 +64,7 @@ If the GridMap (the blocks of the world) is to big, it takes to long to send the
 ### Saving and Loading
 Only the *host* of the server is *allowed to save* the current level. If you want to *load* an specific level on your server you *have to name it "server"*. The game will look in your levels folder for an level called *"server"* and load it, when starting up. This was done because loading while the server in on had some problems, while testing.
 
-> Made by Marlon49, 2026.
+> Made by Marlon49, 2026
+
+## Legal Disclaimer
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
