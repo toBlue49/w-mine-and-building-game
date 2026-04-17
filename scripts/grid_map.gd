@@ -188,7 +188,7 @@ func GENERATE():
 	create_gridmap_chunks()
 	render_gridmap()
 	match_border_to_size()
-	@warning_ignore("integer_division") spawn_entity((size*size)/32, global.ENTITY.PIG) 
+	@warning_ignore("integer_division") spawn_entity((size*size)/16, global.ENTITY.PIG) 
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 

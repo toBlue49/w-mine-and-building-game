@@ -6,6 +6,9 @@ var editable = {
 		"max_fps": "MarginContainer/TabContainer/Graphics/VBoxContainer/max_fps/HSlider",
 		"vsync": "MarginContainer/TabContainer/Graphics/VBoxContainer/vsync/Button",
 		"fullscreen": "MarginContainer/TabContainer/Graphics/VBoxContainer/fullscreen/Button"
+	},
+	"input": {
+		"sensitivity": "MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer/sensi/HSlider"
 	}
 }
 
@@ -14,6 +17,7 @@ func _ready():
 	get_node(editable.graphics.max_fps).value = global.settings.graphics.max_fps
 	get_node(editable.graphics.vsync).button_pressed = global.settings.graphics.vsync
 	get_node(editable.graphics.fullscreen).button_pressed = global.settings.graphics.fullscreen
+	get_node(editable.input.sensitivity).value = global.settings.input_other.sensitivity * 10000
 	
 	#manual toggle button text update
 	update_toggle_button_text(get_node(editable.graphics.vsync))
@@ -29,7 +33,8 @@ func _save():
 	global.settings.graphics.max_fps = get_node(editable.graphics.max_fps).value
 	global.settings.graphics.vsync = get_node(editable.graphics.vsync).button_pressed
 	global.settings.graphics.fullscreen = get_node(editable.graphics.fullscreen).button_pressed
-	
+	global.settings.input_other.sensitivity = get_node(editable.input.sensitivity).value / 10000
+
 	global.update_save_settings()
 	
 	#close settings

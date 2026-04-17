@@ -1,4 +1,9 @@
+Label
+HBoxContainer
+VBoxContainer
+ScrollContainer
 AnimationTree
+AnimationPlayer
 LimitAngularVelocityModifier3D
 CollisionShape3D
 MeshInstance3D
@@ -8,8 +13,3 @@ LivingEntity
 CharacterBody3D
 TabBar
 TabContainer
-Control
-Container
-Label
-ColorRect
-ScrollContainer

@@ -112,6 +112,8 @@ func _input(event: InputEvent) -> void:
 	
 	#Mouse
 	if event is InputEventMouseMotion:
+		sensitivity = global.settings.input_other.sensitivity
+		
 		rotation.y = rotation.y - event.relative.x * sensitivity
 		camera_3d.rotation.x = camera_3d.rotation.x - event.relative.y * sensitivity
 		camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))

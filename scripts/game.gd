@@ -28,6 +28,22 @@ var settings: Dictionary = {
 		"max_fps": 0,
 		"vsync": false,
 		"fullscreen": false
+	},
+	"input_other": {
+		"sensitivity": 0.002
+	},
+	"input": {
+		"move_forward": {"mouse": false, "key": -1},
+		"move_backward": {"mouse": false, "key": -1},
+		"move_left": {"mouse": false, "key": -1},
+		"move_right": {"mouse": false, "key": -1},
+		"world_place": {"mouse": false, "key": -1},
+		"world_destroy": {"mouse": false, "key": -1},
+		"move_fly_down": {"mouse": false, "key": -1},
+		"hotbar_up": {"mouse": false, "key": -1},
+		"hotbar_down": {"mouse": false, "key": -1},
+		"ui_crafting": {"mouse": false, "key": -1},
+		"move_sprint": {"mouse": false, "key": -1}
 	}
 }
 
@@ -72,9 +88,31 @@ func load_settings():
 	settings.graphics.max_fps = config.get_value("settings", "graphics.max_fps", 300)
 	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", false)
 	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", false)
-
-	#NOTE: Input Actions are set by the key_input_node script. Loaded on player ready.
-
+	
+	#Input Action
+	for input_str in settings.input:
+		var input = settings.input.get(input_str)
+		
+		#Load
+		var config_input = config.get_value("settings", "input.%s" % input_str, -1)
+		if !config_input is int:
+			input = config_input
+		
+		if input.key == -1:
+			return
+		else:
+			if input.mouse == true:
+				var new_mouse_input_event = InputEventMouseButton.new()
+				new_mouse_input_event.set_button_index(input.key)
+				new_mouse_input_event.double_click = false
+				InputMap.action_erase_events(input_str)
+				InputMap.action_add_event(input_str, new_mouse_input_event)
+			else:
+				var new_key_input_event = InputEventKey.new()
+				new_key_input_event.physical_keycode = input.key
+				InputMap.action_erase_events(input_str)
+				InputMap.action_add_event(input_str, new_key_input_event)
+	
 	#apply settings
 	Engine.max_fps = settings.graphics.max_fps
 	if settings.graphics.vsync:
@@ -92,15 +130,14 @@ func update_save_settings():
 	config.set_value("settings", "graphics.max_fps", settings.graphics.max_fps)
 	config.set_value("settings", "graphics.vsync", settings.graphics.vsync)
 	config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
-	config.set_value("settings", "input.move_forward", InputMap.action_get_events("move_forward")[0].get_physical_keycode())
-	config.set_value("settings", "input.move_backward", InputMap.action_get_events("move_backward")[0].get_physical_keycode())
-	config.set_value("settings", "input.move_left", InputMap.action_get_events("move_left")[0].get_physical_keycode())
-	config.set_value("settings", "input.move_right", InputMap.action_get_events("move_right")[0].get_physical_keycode())
-	config.set_value("settings", "input.world_place", InputMap.action_get_events("world_place")[0].get_button_index())
-	config.set_value("settings", "input.world_destroy", InputMap.action_get_events("world_destroy")[0].get_button_index())
-	config.set_value("settings", "input.move_fly_down", InputMap.action_get_events("move_fly_down")[0].get_physical_keycode())
-	config.set_value("settings", "input.hotbar_up", InputMap.action_get_events("hotbar_up")[0].get_button_index())
-	config.set_value("settings", "input.hotbar_down", InputMap.action_get_events("hotbar_down")[0].get_button_index())
+	config.set_value("settings", "input_other.sensitivity", settings.input_other.sensitivity)
+	
+	for event_str in settings.input:
+		#var event = settings.input.get(event_str)
+		if InputMap.action_get_events(event_str)[0] is InputEventMouseButton == true:
+			config.set_value("settings", "input.%s" % event_str, {"mouse": true, "key": InputMap.action_get_events(event_str)[0].get_button_index()})
+		else:
+			config.set_value("settings", "input.%s" % event_str, {"mouse": false, "key": InputMap.action_get_events(event_str)[0].get_physical_keycode()})
 	
 	config.save("user://data.cfg")
 	load_settings()
