@@ -3,6 +3,10 @@ extends Node
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 5
+const ENTITY_LIST: Array = [
+	preload("res://scenes/entity/test_entity.tscn"),
+	preload("res://scenes/entity/pig.tscn")
+]
 
 var gamemode = SURVIVAL
 var config = ConfigFile.new()
@@ -27,19 +31,17 @@ var settings: Dictionary = {
 	}
 }
 
-enum {
-	CREATIVE,
-	SURVIVAL
-}
+enum {CREATIVE, SURVIVAL}
 enum BLOCK{
 	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND, RUBY_ORE, IRON_ORE, DIAMOND_ORE
 }#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19    20        21        22
 enum ITEM{
 	TESTITEM, WOOD_PICKAXE, WOOD_AXE, WOOD_SHOVEL, STONE_PICKAXE, STONE_AXE, STONE_SHOVEL, IRON_PICKAXE, IRON_AXE, IRON_SHOVEL, DIAMOND_PICKAXE, DIAMOND_AXE, DIAMOND_SHOVEL, RUBY_PICKAXE, RUBY_AXE, RUBY_SHOVEL
 }#  0         1             2         3            4              5          6             7             8         9            10               11           12              13            14        15
-enum itmType{
-	BLOCK, ITEM
-}#  0      1
+enum ENTITY{
+	TEST_ENTITY, PIG
+}
+enum itmType{BLOCK, ITEM}#  0      1
 
 func _ready():
 	await get_tree().process_frame

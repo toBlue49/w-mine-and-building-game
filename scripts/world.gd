@@ -1,7 +1,6 @@
 extends Node3D
 
 const player_scene = preload("res://scenes/player.tscn")
-const TEST_ENTITY = preload("res://scenes/entity/test_entity.tscn")
 var physics_tick_counter = 0
 var tick_counter = 0
 

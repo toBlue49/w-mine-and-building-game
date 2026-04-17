@@ -1,3 +1,11 @@
+AnimationTree
+LimitAngularVelocityModifier3D
+CollisionShape3D
+MeshInstance3D
+Node3D
+MultiMeshInstance3D
+LivingEntity
+CharacterBody3D
 TabBar
 TabContainer
 Control
@@ -5,11 +13,3 @@ Container
 Label
 ColorRect
 ScrollContainer
-VBoxContainer
-Panel
-MultiplayerSynchronizer
-CollisionShape3D
-Area3D
-NavigationRegion3D
-CharacterBody3D
-MeshInstance3D

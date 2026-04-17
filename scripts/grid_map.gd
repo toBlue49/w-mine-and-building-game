@@ -166,13 +166,13 @@ func match_border_to_size():
 	border.get_node("movable").position.z = size*2+256
 	border.get_node("MeshInstance3Dmovable2").position.x = size*2+256
 
-func spawn_test_entity(amount: int):
+func spawn_entity(amount: int, id: int):
 	for i in amount:
-		var x = randi_range(0, size)
-		var z = randi_range(0, size)
+		var x = randi_range(0, size*2)
+		var z = randi_range(0, size*2)
 		var y = get_height(x, z) + 8
 		
-		var entity = world.TEST_ENTITY.instantiate()
+		var entity = global.ENTITY_LIST[id].instantiate()
 		entity.init(Vector3(x*2, y*2, z*2))
 		entities.add_child(entity, true)
 
@@ -188,7 +188,7 @@ func GENERATE():
 	create_gridmap_chunks()
 	render_gridmap()
 	match_border_to_size()
-	@warning_ignore("integer_division") spawn_test_entity(size/4) 
+	@warning_ignore("integer_division") spawn_entity((size*size)/32, global.ENTITY.PIG) 
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 
