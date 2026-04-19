@@ -12,6 +12,7 @@ var selected_hotbar_item = 0
 var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [global.ITEM.DIAMOND_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1]]
 var fall_timer = 0
 var breaking_timer = 0.0 
+var breaking_timer_default = 0.0
 var hovering_block: int
 var hovering_block_data: Dictionary
 var held_item_data: Dictionary
@@ -141,7 +142,7 @@ func _input(event: InputEvent) -> void:
 			if selected_hotbar_item == -1: selected_hotbar_item = 9
 			update_held_item_data()
 	
-	if selected_block[1] == itmType.BLOCK: #NOTE: Add Item Type
+	if selected_block[1] == itmType.BLOCK:
 		control.get_node("BlockSelect").texture = load("res://textures/icon/" + str(selected_block[0]) + ".png")
 	if selected_block[1] == itmType.ITEM:
 		control.get_node("BlockSelect").texture = load("res://textures/item/" + str(selected_block[0]) + ".png")
@@ -184,7 +185,7 @@ func _process(_delta: float) -> void:
 	control.get_node("Debug/Position").text = "Pos: %s" % [round(position)]
 	control.get_node("Debug/BreakingTimer").text = "B: %s" % [breaking_timer]
 	control.get_node("Debug/HoverBlock").text = "H: %s" % [hovering_block]
-	control.get_node("Debug/FallTimer").text = "FALL: %s" % [fall_timer]
+	control.get_node("Debug/BreakingTimerDefault").text = "BD: %s" % [breaking_timer_default]
 	
 	#Health
 	if global.gamemode == global.SURVIVAL:
@@ -258,10 +259,15 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("world_destroy"):
 			if raycast3d.get_collider().has_method("player_hit"):
 				raycast3d.get_collider().player_hit.rpc(hit_damage)
+		
+		#GridMap
 		if Input.is_action_pressed("world_destroy"):
+			if raycast3d.get_collider() == null:
+				return
+			
 			if raycast3d.get_collider().has_method("destroy_block"):
 				breaking_timer -= delta
-				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/hovering_block_data.mining_time)*0.6)
+				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/breaking_timer_default)*0.6)
 				
 				if breaking_timer <= 0:
 					raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
@@ -358,6 +364,13 @@ func use_item(id: int):
 	print("[INFO] Use item %s" % id)
 	if id == 0:
 		print(grid_map.get_height(grid_map.size/2, grid_map.size/2))
+	if held_item_data.type == "FOOD":
+		if health == 100: return
+		
+		health += held_item_data.food_data.health
+		inventory[selected_hotbar_item][2] -= 1
+		update_held_item_data()
+		update_hotbar()
 
 func craft_item(needed: Array, result: Array):
 	var inventory_old: Array = inventory.duplicate(true)
@@ -392,7 +405,6 @@ func update_hovering_block(hover_position: Vector3):
 	hovering_block_data = global.block_data.get(str(hovering_block))
 	grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 	
-	#Breaking Timer (this is really messy)
 	update_breaking_timer()
 
 func update_held_item_data():
@@ -410,16 +422,20 @@ func update_held_item_data():
 func update_breaking_timer():
 	if selected_block[1] != itmType.ITEM:
 		breaking_timer = hovering_block_data.mining_time
+		breaking_timer_default = hovering_block_data.mining_time
 	else:
 		if held_item_data.type != "TOOL":
 			breaking_timer = hovering_block_data.mining_time
+			breaking_timer_default = hovering_block_data.mining_time
 		else:
 			for type in held_item_data.tool_data.block_type:
 				if type == hovering_block_data.type:
 					breaking_timer = hovering_block_data.mining_time * held_item_data.tool_data.break_multiplier
+					breaking_timer_default = hovering_block_data.mining_time * held_item_data.tool_data.break_multiplier
 					break
 				else:
 					breaking_timer = hovering_block_data.mining_time
+					breaking_timer_default = hovering_block_data.mining_time
 
 ######## UI Control
 

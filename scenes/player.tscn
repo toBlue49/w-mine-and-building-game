@@ -115,7 +115,7 @@ current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=200187872]
 target_position = Vector3(0, 0, -10)
-collision_mask = 3
+collision_mask = 19
 
 [node name="RayCast3DGridmapOnly" type="RayCast3D" parent="Camera3D" unique_id=1351432399]
 target_position = Vector3(0, 0, -10)
@@ -214,7 +214,7 @@ theme_override_font_sizes/font_size = 16
 text = "HOVER_BLOCK"
 horizontal_alignment = 2
 
-[node name="FallTimer" type="Label" parent="CanvasLayer/Control/Debug" unique_id=14644578]
+[node name="BreakingTimerDefault" type="Label" parent="CanvasLayer/Control/Debug" unique_id=14644578]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -225,7 +225,7 @@ offset_right = -2.0
 offset_bottom = 94.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 16
-text = "FALL_TIMER"
+text = "BREAKING_TIMER_DEFAULT"
 horizontal_alignment = 2
 
 [node name="BlockSelect" type="TextureRect" parent="CanvasLayer/Control" unique_id=217364659]

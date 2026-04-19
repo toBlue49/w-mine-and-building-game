@@ -5,10 +5,12 @@ const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 5
 const ENTITY_LIST: Array = [
 	preload("res://scenes/entity/test_entity.tscn"),
-	preload("res://scenes/entity/pig.tscn")
+	preload("res://scenes/entity/pig.tscn"),
+	preload("res://scenes/entity/dropped_item.tscn")
 ]
 
 var gamemode = SURVIVAL
+var show_debug = false
 var config = ConfigFile.new()
 var do_not_allow_input = false
 var player_name = "DEFAULTNAME"
@@ -19,6 +21,7 @@ var did_generate_level = false
 var in_mainmenu = true
 var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/block_data.json"))
 var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
+var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/drops.json"))
 @onready var SceneContainer = $Scene
 @onready var GlobalControl = $GlobalControl
 @onready var request: Node = $request
@@ -43,7 +46,8 @@ var settings: Dictionary = {
 		"hotbar_up": {"mouse": false, "key": -1},
 		"hotbar_down": {"mouse": false, "key": -1},
 		"ui_crafting": {"mouse": false, "key": -1},
-		"move_sprint": {"mouse": false, "key": -1}
+		"move_sprint": {"mouse": false, "key": -1},
+		"move_jump": {"mouse": false, "key": -1}
 	}
 }
 
@@ -52,10 +56,10 @@ enum BLOCK{
 	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND, RUBY_ORE, IRON_ORE, DIAMOND_ORE
 }#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19    20        21        22
 enum ITEM{
-	TESTITEM, WOOD_PICKAXE, WOOD_AXE, WOOD_SHOVEL, STONE_PICKAXE, STONE_AXE, STONE_SHOVEL, IRON_PICKAXE, IRON_AXE, IRON_SHOVEL, DIAMOND_PICKAXE, DIAMOND_AXE, DIAMOND_SHOVEL, RUBY_PICKAXE, RUBY_AXE, RUBY_SHOVEL
-}#  0         1             2         3            4              5          6             7             8         9            10               11           12              13            14        15
+	TESTITEM, WOOD_PICKAXE, WOOD_AXE, WOOD_SHOVEL, STONE_PICKAXE, STONE_AXE, STONE_SHOVEL, IRON_PICKAXE, IRON_AXE, IRON_SHOVEL, DIAMOND_PICKAXE, DIAMOND_AXE, DIAMOND_SHOVEL, RUBY_PICKAXE, RUBY_AXE, RUBY_SHOVEL, RAW_PORKCHOP, COOKED_PORKCHOP
+}#  0         1             2         3            4              5          6             7             8         9            10               11           12              13            14        15           16            17
 enum ENTITY{
-	TEST_ENTITY, PIG
+	TEST_ENTITY, PIG, ITEM
 }
 enum itmType{BLOCK, ITEM}#  0      1
 
@@ -152,7 +156,7 @@ func _input(event: InputEvent) -> void:
 				$"Scene/World/CanvasLayer/Chat".add_message.rpc("serverplayer", "%s disconnected." % player_name)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		get_tree().quit()
-	if event.is_action_pressed("ui_fullscreen"):
+	if Input.is_action_just_pressed("ui_fullscreen"):
 		var mode := DisplayServer.window_get_mode()
 		var is_window: bool = mode != DisplayServer.WINDOW_MODE_FULLSCREEN
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if is_window else DisplayServer.WINDOW_MODE_WINDOWED)
@@ -164,7 +168,9 @@ func _input(event: InputEvent) -> void:
 		config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
 		config.save("user://data.cfg")
 		print("[INFO] External Setting Save: graphics.fullscreen")
-
+	if Input.is_action_just_pressed("ui_debug"):
+		show_debug = !show_debug
+	
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
 		SceneContainer.get_child(i).queue_free()

@@ -8,7 +8,7 @@ var height_generated = {}
 var protocol_version_diff = -32676
 var block_nodes = [
 	preload("res://scenes/blocks/omni_light_light_block.tscn"),
-	preload("res://scenes/blocks/sand_object.tscn")
+	preload("res://scenes/blocks/sand_object.tscn"),
 ]
 enum itmType{
 	BLOCK, ITEM
@@ -320,11 +320,25 @@ func destroy_block(world_coord, drop: bool):
 	
 	#Drop Item
 	if drop:
-		var dropped_item = load("res://scenes/entity/dropped_item.tscn").instantiate()
-		dropped_item.position = map_to_local(map_pos)
-		dropped_item.name = str(map_pos) #NOTE: May be temporary
-		entities.add_child(dropped_item)
-		dropped_item.set_item([block_id, itmType.BLOCK])
+		var item_data: Array
+		if global.drops.block.has(str(block_id)): #Has custom drop data
+			var drops = global.drops.block.get(str(block_id))
+			if drops.size()-1 == -1:
+				return
+			
+			item_data = drops[randi_range(0, drops.size()-1)] #set data
+			item_data[0] = int(item_data[0]) #force to int
+			item_data[1] = int(item_data[1]) #force to int
+			item_data[2] = int(item_data[2]) #force to int
+		else:
+			item_data = [block_id, itmType.BLOCK, 1] #default drop
+		
+		for i in item_data[2]: #create dropped item nodes
+			var dropped_item = global.ENTITY_LIST[global.ENTITY.ITEM].instantiate()
+			dropped_item.position = map_to_local(map_pos)
+			dropped_item.name = str(map_pos)
+			entities.add_child(dropped_item, true)
+			dropped_item.set_item([item_data[0], item_data[1]])
 
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):

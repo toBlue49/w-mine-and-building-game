@@ -35,7 +35,7 @@ func add_message(player_name: String, message: String):
 		await get_tree().create_timer(0.02).timeout
 	messages.get_node(id).free()
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_open_chat") and !line_edit.visible and !global.in_mainmenu and !global.do_not_allow_input:
 		line_edit.visible = not line_edit.visible
 		line_edit.grab_focus()

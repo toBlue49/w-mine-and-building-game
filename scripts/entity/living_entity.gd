@@ -8,10 +8,13 @@ var spawn_pos = Vector3(-1, -1, -1)
 var direction = Vector3(1, 0, 1).normalized()
 var tick_counter: int = 0
 var do_gravity = true
+var is_invincible = false
 
 func _ready() -> void:
 	if spawn_pos != Vector3(-1, -1, -1):
 		position = spawn_pos
+	
+	make_mesh_unique_recursive()
 	
 	override_ready()
 
@@ -61,3 +64,15 @@ func should_jump(jump_area: Area3D, not_jump_area: Area3D) -> bool:
 	var not_area = not_jump_area.get_overlapping_bodies().size() > 0
 	
 	return (area and !not_area)
+
+func tint_model(col: Color):
+	for node in find_children("*"):
+		if node is MeshInstance3D:
+			var mesh_inst: MeshInstance3D = node
+			mesh_inst.mesh.surface_get_material(0).albedo_color = col
+
+func make_mesh_unique_recursive():
+	for node in find_children("*"):
+		if node is MeshInstance3D:
+			var mesh_inst: MeshInstance3D = node
+			mesh_inst.mesh = mesh_inst.mesh.duplicate(true)

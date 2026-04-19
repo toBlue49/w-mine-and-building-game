@@ -1,30 +1,55 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddoewb2ro358i"]
+[gd_scene format=3 uid="uid://ddoewb2ro358i"]
 
 [ext_resource type="Texture2D" uid="uid://b4poleu3u0xap" path="res://textures/icon/19.png" id="1_5m600"]
 [ext_resource type="Script" uid="uid://bcm0itgjc8toj" path="res://scripts/entity/dropped_item.gd" id="1_ps0j0"]
+[ext_resource type="FontFile" uid="uid://da2ru6hfdqeos" path="res://resources/SMW.otf" id="3_7re00"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_ps0j0"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_a3upa"]
+size = Vector3(0.7, 0.7, 0.7)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5m600"]
 radius = 2.0
 
-[node name="RigidBody3D" type="RigidBody3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_7re00"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=505901980]
 collision_layer = 8
 script = ExtResource("1_ps0j0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_ps0j0")
+[node name="DEBUG" type="Label3D" parent="." unique_id=729316910]
+visible = false
+billboard = 1
+double_sided = false
+texture_filter = 0
+render_priority = 1
+outline_render_priority = 0
+text = "VELOCITY"
+font = ExtResource("3_7re00")
+font_size = 40
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=218050913]
+shape = SubResource("BoxShape3D_a3upa")
+debug_color = Color(0, 0.5950001, 0.7, 1)
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1226415129]
 pixel_size = 0.04
 billboard = 1
 texture_filter = 0
 texture = ExtResource("1_5m600")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=662971485]
 collision_layer = 8
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1419812205]
 shape = SubResource("SphereShape3D_5m600")
 debug_color = Color(1, 0, 0.6252098, 0.41960785)
+
+[node name="Area3DGrounded" type="Area3D" parent="." unique_id=2083602950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3DGrounded" unique_id=70452714]
+shape = SubResource("BoxShape3D_7re00")
+debug_color = Color(0.70196074, 0, 0.6285283, 0.41960785)

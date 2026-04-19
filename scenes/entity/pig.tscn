@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dgof1qpq26b66" path="res://scripts/entity/pig.gd" id="1_ac0ri"]
 [ext_resource type="Texture2D" uid="uid://bcgjqwscqmb" path="res://resources/model/pig_0.png" id="2_vgmde"]
+[ext_resource type="FontFile" uid="uid://da2ru6hfdqeos" path="res://resources/SMW.otf" id="3_4a2ds"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4a2ds"]
 size = Vector3(1, 1.5, 1.7)
@@ -16,7 +17,7 @@ albedo_texture = ExtResource("2_vgmde")
 texture_filter = 0
 texture_repeat = false
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_nag6c"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vgmde"]
 _surfaces = [{
 "aabb": AABB(-0.25, 0, -0.25, 0.5625, 0.5, 0.75),
 "format": 34896613377,
@@ -30,7 +31,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ckmu4"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4a2ds"]
 resource_name = "blockbench_export_mesh"
 _surfaces = [{
 "aabb": AABB(-0.25, 0, -0.25, 0.5625, 0.5, 0.75),
@@ -46,9 +47,9 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_nag6c")
+shadow_mesh = SubResource("ArrayMesh_vgmde")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_2jfb5"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vguhk"]
 _surfaces = [{
 "aabb": AABB(-0.21875, -0.0625, -0.4375, 0.4375, 0.4375, 0.4375),
 "format": 34896613377,
@@ -62,7 +63,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_yu0ue"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ul655"]
 resource_name = "blockbench_export_mesh2"
 _surfaces = [{
 "aabb": AABB(-0.21875, -0.0625, -0.4375, 0.4375, 0.4375, 0.4375),
@@ -78,9 +79,9 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_2jfb5")
+shadow_mesh = SubResource("ArrayMesh_vguhk")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_i7t7x"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_s0qkh"]
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
 "format": 34896613377,
@@ -94,7 +95,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_id4d8"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_wvajj"]
 resource_name = "blockbench_export_mesh3"
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
@@ -110,9 +111,9 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_i7t7x")
+shadow_mesh = SubResource("ArrayMesh_s0qkh")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_em7qw"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_p2h4p"]
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
 "format": 34896613377,
@@ -126,7 +127,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pjwbv"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vyk5g"]
 resource_name = "blockbench_export_mesh4"
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
@@ -142,9 +143,9 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_em7qw")
+shadow_mesh = SubResource("ArrayMesh_p2h4p")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3ygfw"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_4fe4f"]
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
 "format": 34896613377,
@@ -158,7 +159,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_o3a32"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vav1h"]
 resource_name = "blockbench_export_mesh5"
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
@@ -174,9 +175,9 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_3ygfw")
+shadow_mesh = SubResource("ArrayMesh_4fe4f")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_xyyor"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_uqhkr"]
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
 "format": 34896613377,
@@ -190,7 +191,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_akf7t"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_1bliq"]
 resource_name = "blockbench_export_mesh6"
 _surfaces = [{
 "aabb": AABB(-0.0625, -0.25, -0.0625, 0.125, 0.25, 0.125),
@@ -206,7 +207,7 @@ _surfaces = [{
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_xyyor")
+shadow_mesh = SubResource("ArrayMesh_uqhkr")
 
 [sub_resource type="Animation" id="Animation_vgmde"]
 length = 0.001
@@ -257,6 +258,52 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PigModel:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ul655"]
+resource_name = "death"
+length = 0.9
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PigModel:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -1.5707964)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"drop_item"
+}, {
+"args": [],
+"method": &"queue_free"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_4a2ds"]
@@ -368,9 +415,13 @@ tracks/3/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ul655"]
 _data = {
 &"RESET": SubResource("Animation_vgmde"),
+&"death": SubResource("Animation_ul655"),
 &"idle": SubResource("Animation_4a2ds"),
 &"walking": SubResource("Animation_vguhk")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vgmde"]
+animation = &"death"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s0qkh"]
 animation = &"idle"
@@ -391,14 +442,26 @@ xfade_time = 0.5
 advance_mode = 2
 advance_condition = &"idle"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4a2ds"]
+xfade_time = 0.2
+advance_mode = 2
+advance_condition = &"death"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vguhk"]
+xfade_time = 0.2
+advance_mode = 2
+advance_condition = &"death"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vav1h"]
-states/Start/position = Vector2(208, 196)
+states/Start/position = Vector2(209, 196)
+states/death/node = SubResource("AnimationNodeAnimation_vgmde")
+states/death/position = Vector2(607.229, 214)
 states/idle/node = SubResource("AnimationNodeAnimation_s0qkh")
 states/idle/position = Vector2(363, 196)
 states/walking/node = SubResource("AnimationNodeAnimation_wvajj")
 states/walking/position = Vector2(537, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_p2h4p"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_vyk5g"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_4fe4f")]
-graph_offset = Vector2(-1198, 0)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_p2h4p"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_vyk5g"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_4fe4f"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_4a2ds"), "walking", "death", SubResource("AnimationNodeStateMachineTransition_vguhk")]
+graph_offset = Vector2(-57.770996, 54)
 
 [node name="Pig" type="CharacterBody3D" unique_id=2069488120]
 collision_layer = 16
@@ -415,12 +478,12 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="body" type="MeshInstance3D" parent="PigModel" unique_id=1209028988]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03125, 0.25, 0)
-mesh = SubResource("ArrayMesh_ckmu4")
+mesh = SubResource("ArrayMesh_4a2ds")
 skeleton = NodePath("")
 
 [node name="head" type="MeshInstance3D" parent="PigModel" unique_id=632439694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.0625)
-mesh = SubResource("ArrayMesh_yu0ue")
+mesh = SubResource("ArrayMesh_ul655")
 skeleton = NodePath("")
 
 [node name="legs" type="Node3D" parent="PigModel" unique_id=304863915]
@@ -428,22 +491,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3125, 0, 0.0625)
 
 [node name="leg" type="MeshInstance3D" parent="PigModel/legs" unique_id=1074500704]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.46875, 0.25, -0.1875)
-mesh = SubResource("ArrayMesh_id4d8")
+mesh = SubResource("ArrayMesh_wvajj")
 skeleton = NodePath("")
 
 [node name="leg2" type="MeshInstance3D" parent="PigModel/legs" unique_id=663767397]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15625, 0.25, -0.1875)
-mesh = SubResource("ArrayMesh_pjwbv")
+mesh = SubResource("ArrayMesh_vyk5g")
 skeleton = NodePath("")
 
 [node name="leg3" type="MeshInstance3D" parent="PigModel/legs" unique_id=737690569]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46875, 0.25, 0.3125)
-mesh = SubResource("ArrayMesh_o3a32")
+mesh = SubResource("ArrayMesh_vav1h")
 skeleton = NodePath("")
 
 [node name="leg4" type="MeshInstance3D" parent="PigModel/legs" unique_id=402318581]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15625, 0.25, 0.3125)
-mesh = SubResource("ArrayMesh_akf7t")
+mesh = SubResource("ArrayMesh_1bliq")
 skeleton = NodePath("")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1162467467]
@@ -452,5 +515,19 @@ libraries/ = SubResource("AnimationLibrary_ul655")
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=641053974]
 tree_root = SubResource("AnimationNodeStateMachine_vav1h")
 anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/death = false
 parameters/conditions/idle = false
 parameters/conditions/walking = false
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1717937353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0573807, 0)
+visible = false
+billboard = 1
+double_sided = false
+texture_filter = 0
+render_priority = 1
+outline_render_priority = 0
+text = "dbg
+dbg"
+font = ExtResource("3_4a2ds")
+font_size = 40

@@ -182,6 +182,16 @@ layout_mode = 2
 text = "Right"
 input = "move_right"
 
+[node name="Sprinting" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1026220302 instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Sprinting"
+input = "move_sprint"
+
+[node name="Jump" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=873729981 instance=ExtResource("3_3ykye")]
+layout_mode = 2
+text = "Jump"
+input = "move_jump"
+
 [node name="Place" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1902414567 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Place"
@@ -191,11 +201,6 @@ input = "world_place"
 layout_mode = 2
 text = "Break"
 input = "world_destroy"
-
-[node name="Fly Down" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1421512700 instance=ExtResource("3_3ykye")]
-layout_mode = 2
-text = "Fly Down"
-input = "move_fly_down"
 
 [node name="Hotbar Up" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1141500729 instance=ExtResource("3_3ykye")]
 layout_mode = 2
@@ -207,14 +212,14 @@ layout_mode = 2
 text = "Hotbar Down"
 input = "hotbar_down"
 
-[node name="Crafting" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=873729981 instance=ExtResource("3_3ykye")]
+[node name="Crafting" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=899592970 instance=ExtResource("3_3ykye")]
 layout_mode = 2
 text = "Crafting"
 input = "ui_crafting"
 
-[node name="Sprinting" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1026220302 instance=ExtResource("3_3ykye")]
+[node name="Fly Down" parent="MarginContainer/TabContainer/Input/ScrollContainer/VBoxContainer" unique_id=1421512700 instance=ExtResource("3_3ykye")]
 layout_mode = 2
-text = "Sprinting"
-input = "move_sprint"
+text = "Fly Down"
+input = "move_fly_down"
 
 [connection signal="pressed" from="SaveButton" to="." method="_save"]

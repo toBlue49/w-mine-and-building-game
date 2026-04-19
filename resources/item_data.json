@@ -94,5 +94,17 @@
 			"type": "TOOL",
 			"tool_data":{"block_type": ["DIRT"], "break_multiplier": 0.27},
 			"stack_limit": 1
+		},
+	"16":
+		{
+			"type": "FOOD",
+			"food_data":{"health": 15},
+			"stack_limit": 16
+		},
+	"17":
+		{
+			"type": "FOOD",
+			"food_data":{"health": 35},
+			"stack_limit": 16
 		}
 }

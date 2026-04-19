@@ -76,7 +76,7 @@ func _process(_delta: float) -> void:
 		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
 		global.in_mainmenu = false
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	physics_tick_counter += 1
 	if physics_tick_counter == 2:
 		tick()

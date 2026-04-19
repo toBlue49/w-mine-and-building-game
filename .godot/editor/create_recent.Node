@@ -1,3 +1,6 @@
+Label3D
+CollisionShape3D
+Area3D
 Label
 HBoxContainer
 VBoxContainer
@@ -5,11 +8,7 @@ ScrollContainer
 AnimationTree
 AnimationPlayer
 LimitAngularVelocityModifier3D
-CollisionShape3D
 MeshInstance3D
 Node3D
 MultiMeshInstance3D
 LivingEntity
-CharacterBody3D
-TabBar
-TabContainer

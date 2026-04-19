@@ -33,23 +33,23 @@ func _ready() -> void:
 		mainbutton.text = mouse_button_table[event.get_button_index()]
 	label.text = "%s: " % [text]
 	
-	mainbutton.pressed.connect(on_button_pressed.bind(mainbutton, event))
+	mainbutton.pressed.connect(on_button_pressed)
 
-func on_button_pressed(button, event):
+func on_button_pressed():
 	if !is_remapping:
 		is_remapping = true
 	mainbutton.text = "Press Key.."
 
-func _input(event):
+func _input(new_event):
 	if is_remapping:
-		if (event is InputEventKey or (event is InputEventMouseButton && event.pressed)):
+		if (new_event is InputEventKey or (new_event is InputEventMouseButton && new_event.pressed)):
 			InputMap.action_erase_events(input)
-			InputMap.action_add_event(input, event)
+			InputMap.action_add_event(input, new_event)
 			
-			if event is InputEventMouseButton:
-				event.double_click = false
+			if new_event is InputEventMouseButton:
+				new_event.double_click = false
 			
-			mainbutton.text = event.as_text().trim_suffix(" (Physical)")
+			mainbutton.text = new_event.as_text().trim_suffix(" (Physical)")
 			
 			is_remapping = false
 			
