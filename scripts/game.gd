@@ -28,7 +28,7 @@ var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://r
 
 var settings: Dictionary = {
 	"graphics": {
-		"max_fps": 0,
+		"max_fps": 300,
 		"vsync": false,
 		"fullscreen": false
 	},
@@ -48,6 +48,10 @@ var settings: Dictionary = {
 		"ui_crafting": {"mouse": false, "key": -1},
 		"move_sprint": {"mouse": false, "key": -1},
 		"move_jump": {"mouse": false, "key": -1}
+	},
+	"audio": {
+		"music": 0.0,
+		"sound": 0.0
 	}
 }
 
@@ -89,9 +93,11 @@ func load_settings():
 	config.load("user://data.cfg")
 	print_rich("[INFO] Loading settings")
 	
-	settings.graphics.max_fps = config.get_value("settings", "graphics.max_fps", 300)
-	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", false)
-	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", false)
+	settings.graphics.max_fps = config.get_value("settings", "graphics.max_fps", settings.graphics.max_fps)
+	settings.graphics.vsync = config.get_value("settings", "graphics.vsync", settings.graphics.vsync)
+	settings.graphics.fullscreen = config.get_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
+	settings.audio.music = config.get_value("settings", "audio.music", settings.audio.music)
+	settings.audio.sound = config.get_value("settings", "audio.sound", settings.audio.sound)
 	
 	#Input Action
 	for input_str in settings.input:
@@ -118,16 +124,18 @@ func load_settings():
 				InputMap.action_add_event(input_str, new_key_input_event)
 	
 	#apply settings
-	Engine.max_fps = settings.graphics.max_fps
-	if settings.graphics.vsync:
+	Engine.max_fps = settings.graphics.max_fps #Max FPS
+	if settings.graphics.vsync: #VSync
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	if settings.graphics.fullscreen:
+	if settings.graphics.fullscreen: #Fullscreen
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(1280, 720))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("music"), settings.audio.music)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("sound"), settings.audio.sound)
 
 func update_save_settings():
 	print_rich("[INFO] Updating saved settings")
@@ -135,6 +143,8 @@ func update_save_settings():
 	config.set_value("settings", "graphics.vsync", settings.graphics.vsync)
 	config.set_value("settings", "graphics.fullscreen", settings.graphics.fullscreen)
 	config.set_value("settings", "input_other.sensitivity", settings.input_other.sensitivity)
+	config.set_value("settings", "audio.music", settings.audio.music)
+	config.set_value("settings", "audio.sound", settings.audio.sound)
 	
 	for event_str in settings.input:
 		#var event = settings.input.get(event_str)
@@ -170,7 +180,7 @@ func _input(event: InputEvent) -> void:
 		print("[INFO] External Setting Save: graphics.fullscreen")
 	if Input.is_action_just_pressed("ui_debug"):
 		show_debug = !show_debug
-	
+
 func load_scene(scene_path: String): 
 	for i in SceneContainer.get_child_count():
 		SceneContainer.get_child(i).queue_free()

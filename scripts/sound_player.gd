@@ -1,6 +1,6 @@
 extends AudioStreamPlayer3D
 
-func play_sound(sound: String, rng_pitch:int = 0, pos: Vector3 = Vector3(0,0,0), vol: float = 0.0, despawn: bool = true):
+func play_sound(sound: String, rng_pitch:int = 0, pos: Vector3 = Vector3(0,0,0), vol: float = 0.0, max_dist = 20.0, despawn: bool = true):
 	if despawn:
 		connect("finished", remove)
 	
@@ -8,6 +8,8 @@ func play_sound(sound: String, rng_pitch:int = 0, pos: Vector3 = Vector3(0,0,0),
 	pitch_scale = randf_range(1-rng_pitch, 1+rng_pitch)
 	position = pos
 	volume_db = vol
+	max_distance = max_dist
+	bus = &"sound"
 	
 	play()
 	

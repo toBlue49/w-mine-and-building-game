@@ -201,6 +201,7 @@ func init_singleplayer():
 		move_player()
 		global.did_generate_level = true
 		global.show_loading_screen(false)
+		world.start_music_timer()
 
 func init_host():
 	if global.did_generate_level == false:
@@ -217,6 +218,7 @@ func init_host():
 			await get_tree().process_frame
 			global.did_generate_level = true
 			global.show_loading_screen(false)
+		world.start_music_timer()
 		
 	player = world.get_node(str(multiplayer.get_unique_id()))
 	
@@ -277,6 +279,9 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
 	world.add_player_multiplayer.rpc(peer_id, pos)
 	player = world.get_node(str(multiplayer.get_unique_id()))
+	
+	#Music
+	world.start_music_timer()
 	
 	#Border
 	match_border_to_size()

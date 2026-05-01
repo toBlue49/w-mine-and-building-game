@@ -12,6 +12,11 @@ var player: CharacterBody3D
 @onready var blockSelect: Node3D = $BlockSelect
 @onready var objects: Node3D = $Objects
 @onready var entities: Node3D = $Entities
+@onready var music_timer: Timer = $MusicTimer
+@onready var music_player: AudioStreamPlayer = $MusicStreamPlayer
+
+func _ready():
+	music_player.finished.connect(start_music_timer)
 
 func add_player(id, pos: Vector3):
 	#id = 0
@@ -120,6 +125,15 @@ func upnp_start():
 	print_rich("[color=green][SUCCESS] UPNP SETUP SUCCESS![/color] IP Address: [b]%s" % upnp.query_external_address())
 	
 	chat.add_message("serverplayer", "Use this IP to join to your server: %s" % upnp.query_external_address())
+
+func start_music_timer():
+	music_timer.wait_time = randi_range(40, 180)
+	music_timer.start()
+	
+	await music_timer.timeout
+	
+	music_player.stream = load("res://sound/music.untitled_main_theme.ogg")
+	music_player.play()
 
 #Save and Load
 func save_level_to_file(filename: String):

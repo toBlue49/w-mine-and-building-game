@@ -20,6 +20,10 @@ config/features=PackedStringArray("4.6", "Mobile")
 run/max_fps=300
 config/icon="uid://cpxc8a6hmtlrl"
 
+[audio]
+
+buses/default_bus_layout="uid://vj0bip2y767"
+
 [autoload]
 
 global="*res://scenes/game.tscn"

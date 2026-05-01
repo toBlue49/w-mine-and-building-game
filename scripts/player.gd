@@ -361,13 +361,16 @@ func rpc_set_visibility(state: bool):
 	visible = state
 
 func use_item(id: int):
+	if global.do_not_allow_input: return
+	
 	print("[INFO] Use item %s" % id)
 	if id == 0:
 		print(grid_map.get_height(grid_map.size/2, grid_map.size/2))
 	if held_item_data.type == "FOOD":
-		if health == 100: return
+		if health >= 100: return
 		
 		health += held_item_data.food_data.health
+		if health > 100: health = 100
 		inventory[selected_hotbar_item][2] -= 1
 		update_held_item_data()
 		update_hotbar()

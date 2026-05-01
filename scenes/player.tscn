@@ -976,15 +976,23 @@ metadata/_edit_use_anchors_ = true
 [node name="Label" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1993567943]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Save Level Name"
+text = "Save Level"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=1090455607]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
-placeholder_text = "Enter Here! (no file extension)"
+placeholder_text = "Enter Level Name here!"
 alignment = 1
+
+[node name="Notice" type="Label" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=3183131]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.61, 0.61, 1)
+theme_override_font_sizes/font_size = 20
+text = "Note: Levels may not load in future versions."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/Control/Menu/GetSaveName" unique_id=959657827]
 custom_minimum_size = Vector2(0, 30)

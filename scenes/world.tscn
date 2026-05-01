@@ -271,3 +271,11 @@ layer = 3
 [node name="MainMenu" parent="UI" unique_id=172685832 instance=ExtResource("4_k0juu")]
 
 [node name="Chat" parent="UI" unique_id=2112273412 instance=ExtResource("5_i7141")]
+
+[node name="MusicTimer" type="Timer" parent="." unique_id=900399252]
+wait_time = 30.0
+one_shot = true
+
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=912957223]
+volume_db = -5.0
+bus = &"music"
