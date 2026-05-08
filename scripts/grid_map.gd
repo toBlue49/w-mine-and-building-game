@@ -35,7 +35,7 @@ var peer_id_name = {}
 ##Generation:
 
 func get_rand_noise(x:int, y:int) -> int:
-	return floori(rand_noise.get_noise_2d(x, y) * 1000)
+	return floori(rand_noise.get_noise_2d(x, y) * 500) + 500
 
 func get_height(x: int, y: int) -> int:
 	var ball = noise.get_noise_2d(x, y) * height + y_offset
@@ -144,20 +144,54 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 func generate_features():
 	for x in size:
 		for z in size:
-			if get_rand_noise(x, z) >= 975: #Trees
+			##Trees
+			var rand = get_rand_noise(x, z)
+			if rand >= 975:
 				place_tree(x, get_height(x, z), z)
+			
+			##Ores
+			for y in int():
+				var y_rand = get_rand_noise(x, z+y)
+				if y_rand >= 950 and y_rand <= 1000:
+					generate_ore(x, y, z)
+
+func generate_ore(x, y, z) -> void:
+	if get_cell_item(Vector3i(x, y, z)) != global.BLOCK.STONE:
+		return
+	
+	##Choose ore type
+	var rand_type = get_rand_noise(x+256, z+y)
+	if rand_type >= 0 and rand_type <= 450:
+		set_cell_item(Vector3i(x, y, z), global.BLOCK.IRON_ORE)
+	if rand_type >= 451 and 800:
+		set_cell_item(Vector3i(x, y , z), global.BLOCK.DIAMOND_ORE)
+	if rand_type >= 801 and 1000:
+		set_cell_item(Vector3i(x, y, z), global.BLOCK.RUBY_ORE)
 
 func place_tree(x, y, z):
+	##Detect near generated trees
+	for x_detect in 3:
+		for z_detect in 3:
+			if get_cell_item(Vector3i(x+(x_detect-1), y+1, z+(z_detect-1))) == global.BLOCK.LOG:
+				print_rich("[INFO] Near tree detected at %s; Aborting Tree Generation" % Vector3i(x, y, z))
+				return
+	
+	##Randomized Tree Height
 	var tree_height:int
-	if get_rand_noise(x, z+100) >= 800:
+	if get_rand_noise(x, z+5) >= 800:
 		tree_height = 4
 	else:
 		tree_height = 5
 	
+	##Place Tree
 	for y_leaves in 3:
 		for x_leaves in 3:
 			for z_leaves in 3:
 				set_cell_item(Vector3i(x+(x_leaves-1), y+y_leaves+tree_height-1, z+(z_leaves-1)), 4)
+	set_cell_item(Vector3i(x+1, y+tree_height+1, z+1), -1)
+	set_cell_item(Vector3i(x+1, y+tree_height+1, z-1), -1)
+	set_cell_item(Vector3i(x-1, y+tree_height+1, z+1), -1)
+	set_cell_item(Vector3i(x-1, y+tree_height+1, z-1), -1)
 
 	for i in tree_height:
 		set_cell_item(Vector3i(x, y+i+1, z), 3)

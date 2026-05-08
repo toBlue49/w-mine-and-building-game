@@ -1,6 +1,10 @@
 # W Mine and Building Game
 An original Mining and Building Sandbox game.
 
+## IMPORTANT
+
+**Currently W Mine and Building Game sometimes takes up to 90GB of Memory while generating worlds. I am looking into this and trying to fix it soon. (This might cause an major rewrite of the game.)**
+
 ## Screenshots
 (Screenshots made in an old version from December 3rd, 2025)
 <img width="639" height="359" alt="Screenshot1" src="https://github.com/user-attachments/assets/1d6ce4a1-21b4-4658-b446-1877de8d1664" />
