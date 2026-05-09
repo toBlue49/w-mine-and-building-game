@@ -24,7 +24,7 @@ enum itmType{
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
 @onready var raycast3dGridmap: RayCast3D = $Camera3D/RayCast3DGridmapOnly
-@onready var grid_map: GridMap = $"../GridMap"
+@onready var grid_map: GridMapRewrite = $"../GridMap"
 @onready var label3d: Label3D = $Label3D
 @onready var label3d_nodepth: Label3D = $Label3DNoDepth
 ##UI

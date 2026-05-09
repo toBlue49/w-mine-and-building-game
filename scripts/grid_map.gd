@@ -1,4 +1,4 @@
-extends GridMap
+extends GridMapRewrite
 
 var size := -1
 const chunk_size := 8
@@ -407,7 +407,7 @@ func place_block_object(map_pos, index):
 		objects.add_child(sand_object)
 
 func level_to_array(slice: int) -> Array:
-	var save_gridmap: GridMap = self
+	var save_gridmap: GridMapRewrite = self
 	var return_array: Array
 	for i in save_gridmap.get_used_cells():
 		if i.x == slice:

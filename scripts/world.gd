@@ -6,7 +6,7 @@ var tick_counter = 0
 
 var player: CharacterBody3D
 @onready var mainmenu: Control = $UI/MainMenu
-@onready var grid_map: GridMap = $GridMap
+@onready var grid_map: GridMapRewrite = $GridMap
 @onready var chat: Control = $UI/Chat
 @onready var sound: Node3D = $Sounds
 @onready var blockSelect: Node3D = $BlockSelect
