@@ -215,6 +215,9 @@ func GENERATE():
 	noise.set_seed(randi_range(-2147483646, 2147483646))
 	rand_noise.seed = noise.seed
 	
+	#setup cell data
+	setup_cell_data(size, 128)
+	
 	#generation
 	print_rich("[INFO] [b]Generating Gridmap")
 	update_gridmap()

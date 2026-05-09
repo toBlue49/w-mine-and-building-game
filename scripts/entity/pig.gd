@@ -3,6 +3,7 @@ extends LivingEntity
 var change_direction_tick = 120
 var should_move = true
 var health = 30
+var player: Node3D
 @onready var material: StandardMaterial3D = load("res://scenes/entity/pig.tscn::StandardMaterial3D_sj77l")
 @onready var should_jump_area: Area3D
 @onready var should_not_jump_area: Area3D
@@ -17,6 +18,11 @@ func init(pos: Vector3):
 	direction = new_random_direction()
 
 func override_tick(): #40 t/s
+	if player == null:
+		for i in $"../..".get_children():
+			if (i.name == str(multiplayer.get_unique_id()) and global.is_multiplayer) or (i.name == "0" and !global.is_multiplayer):
+				player = i
+	
 	if tick_counter >= change_direction_tick:
 		var rand = randi_range(0, 2)
 		if rand == 0:
@@ -35,8 +41,8 @@ func override_tick(): #40 t/s
 	if (should_jump_area.get_overlapping_bodies().size() > 0 and should_not_jump_area.get_overlapping_bodies().size() > 0):
 		direction = new_random_direction()
 	
-	$Label3D.visible = global.show_debug
-	if global.show_debug:
+	$Label3D.visible = (global.show_debug and position.distance_to(player.position) < 10)
+	if (global.show_debug and position.distance_to(player.position) < 20):
 		$Label3D.text = "h: %s\ntick: %s" % [health, tick_counter]
 
 func override_physics_process(_delta: float):

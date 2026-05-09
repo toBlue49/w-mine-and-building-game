@@ -4,7 +4,7 @@ var map_pos: Vector3i
 var tick_counter = 0
 var gridmap
 
-func init(map_pos_args: Vector3i, gridmap_args: GridMap):
+func init(map_pos_args: Vector3i, gridmap_args: GridMapRewrite):
 	map_pos = map_pos_args
 	gridmap = gridmap_args
 	name = str(map_pos) + "b19"

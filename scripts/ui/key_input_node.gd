@@ -23,10 +23,6 @@ func _ready() -> void:
 	key_array = InputMap.action_get_events(input)
 	event = key_array[0]
 	
-	#NOTE: This part was written with absolute pain.
-	#Load Inputs
-
-	
 	if event is InputEventKey:
 		mainbutton.text = OS.get_keycode_string(event.get_physical_keycode())
 	else:

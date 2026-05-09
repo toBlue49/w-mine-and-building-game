@@ -8,3 +8,9 @@ res://scripts/grid_map.gd
 res://scripts/world.gd
 res://scripts/player.gd
 res://scenes/player.tscn
+res://scripts/ui/key_input_node.gd
+res://scenes/grid_map_render.tscn
+res://scenes/entity/pig.tscn
+res://scripts/entity/pig.gd
+res://scenes/blocks/sand_object.tscn
+res://scripts/blocks/sand.gd

@@ -261,30 +261,28 @@ func _physics_process(delta: float) -> void:
 				raycast3d.get_collider().player_hit.rpc(hit_damage)
 		
 		#GridMap
-		if Input.is_action_pressed("world_destroy"):
-			if raycast3d.get_collider() == null:
-				return
+		if Input.is_action_pressed("world_destroy") and raycast3d.get_collider() != null:
 			
-			if raycast3d.get_collider().has_method("destroy_block"):
+			if raycast3d.get_collider() is GridMap:
 				breaking_timer -= delta
 				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/breaking_timer_default)*0.6)
 				
 				if breaking_timer <= 0:
-					raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
+					grid_map.destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
 					update_breaking_timer()
 		else:
 			if hovering_block_data != {}:
 				update_breaking_timer()
 				grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 		if Input.is_action_just_pressed("world_place"):
-			if raycast3d.get_collider().has_method("place_block"):
+			if raycast3d.get_collider() is GridMap:
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
 				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
 				if distancey == 1:
 					if distancex == 0 and distancez == 0: return
 				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
-					raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
+					grid_map.place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
 					if global.gamemode == global.SURVIVAL:
 						inventory[selected_hotbar_item][2] -= 1
 					update_hotbar()
