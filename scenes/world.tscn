@@ -109,6 +109,7 @@ script = ExtResource("1_k0juu")
 
 [node name="GridMap" type="Node3D" parent="." unique_id=1047689662]
 script = ExtResource("2_k0juu")
+resolution = null
 noise = SubResource("FastNoiseLite_4mrxx")
 rand_noise = SubResource("FastNoiseLite_7r4gi")
 height = 20

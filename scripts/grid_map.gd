@@ -62,7 +62,7 @@ func update_gridmap():
 			for i in 3:
 				set_cell_item(Vector3i(x, y_level-i-1, z), 2)
 		height_generated.clear()
-		
+
 func render_gridmap():
 	@warning_ignore("integer_division")
 	for xpos in size/chunk_size:
@@ -74,16 +74,16 @@ func render_chunk(gridmap, x, z):
 	@warning_ignore("integer_division")
 	if x >= size/chunk_size or z >= size/chunk_size or x < 0 or z < 0: return
 	if gridmap == null: return
-	for y in 128:
+	for y in 127:
 		for lx in chunk_size:
 			for lz in chunk_size:
 				var i = Vector3i(lx+chunk_size*x, y, lz+chunk_size*z)
 				if get_cell_item(i + Vector3i(0, 1, 0)) == -1 or get_cell_item(i + Vector3i(0, -1, 0)) == -1 or get_cell_item(i + Vector3i(1, 0, 0)) == -1 or get_cell_item(i + Vector3i(-1, 0, 0)) == -1 or get_cell_item(i + Vector3i(0, 0, 1)) == -1 or get_cell_item(i + Vector3i(0, 0, -1)) == -1:
 					#if air
-					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
+					gridmap.set_cell_item(Vector3i(lx, i.y, lz), get_cell_item(i))
 				elif get_cell_item(i + Vector3i(0, 1, 0)) == 3 or get_cell_item(i + Vector3i(0, -1, 0)) == 3 or get_cell_item(i + Vector3i(1, 0, 0)) == 3 or get_cell_item(i + Vector3i(-1, 0, 0)) == 3 or get_cell_item(i + Vector3i(0, 0, 1)) == 3 or get_cell_item(i + Vector3i(0, 0, -1)) == 3:
 					#if leaves
-					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
+					gridmap.set_cell_item(Vector3i(lx, i.y, lz), get_cell_item(i))
 
 func update_single_chunk(gridmap: GridMap, x , z, global_map_pos):
 	var map_pos = global_map_pos%chunk_size
@@ -108,7 +108,7 @@ func create_gridmap_chunks(do_delete = false):
 	if do_delete:
 		for i in chunks.get_children():
 			i.free()
-		
+	
 	@warning_ignore("integer_division")
 	for i in size/chunk_size:
 		@warning_ignore("integer_division")
@@ -209,6 +209,9 @@ func spawn_entity(amount: int, id: int):
 		var entity = global.ENTITY_LIST[id].instantiate()
 		entity.init(Vector3(x*2, y*2, z*2))
 		entities.add_child(entity, true)
+
+func test():
+	set_cell_item(Vector3i(5, 60, 5), 0)
 
 func GENERATE():
 	#set seed
