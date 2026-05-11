@@ -1,11 +1,22 @@
 extends Node3D
 class_name GridMapRewrite
 
+class XBlockdataResource:
+	extends Resource
+	
+	@export var x = []
+	
+	func _init(new: Array) -> void:
+		x = new
+
+var data = []
+
 var cell_data_size: int
 var cell_data_height: int
 
 ##Creates the empty cell_data with an given size and height.
 func setup_cell_data(size: int, height:int = 128):
+	
 	var z_layer: Array[Dictionary]
 	var y_layer: Array[Array]
 	for z in size:
@@ -13,30 +24,27 @@ func setup_cell_data(size: int, height:int = 128):
 	for y in height:
 		y_layer.append(z_layer.duplicate(true))
 	for x in size:
-		var datablock_node: Node = load("res://scenes/gridmap_datablock.tscn").instantiate()
-		datablock_node.x = x
-		datablock_node.data = y_layer.duplicate(true)
-		datablock_node.name = "data%s" % x
-		add_child(datablock_node, true)
+		data.append(XBlockdataResource.new(y_layer.duplicate(true)))
 	
 	cell_data_size = size
 	cell_data_height = height
 
 ##Set the Block ID of an given cell.
 ##NOTE: Orientation is currently unused!
-func set_cell_item(pos: Vector3i, block_id: int, _orientation: int = 0):
+func set_cell_item(pos: Vector3i, block_id: int, _orientation: int = 0) -> void:
 	if is_pos_out_of_bounds(pos):
-		print_rich(pos)
 		return
 	
-	get_node("data%s" % str(pos.x)).data[pos.y][pos.z].id = block_id
+	var x = data[pos.x].x
+	x[pos.y][pos.z].id = block_id
+	data[pos.x].x = x
 
 ##Get the Block ID of an given cell.
 ##Returns -1 if the cell is empty.
 func get_cell_item(pos: Vector3i) -> int:
 	if is_pos_out_of_bounds(pos):
 		return -1
-	return get_node("data%s" % str(pos.x)).data[pos.y][pos.z].id
+	return (data[pos.x].x)[pos.y][pos.z].id
 
 ##Converts local position into map position
 func local_to_map(local_position: Vector3) -> Vector3i:

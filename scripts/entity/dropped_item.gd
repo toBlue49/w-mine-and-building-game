@@ -43,6 +43,10 @@ func remove():
 	queue_free()
 
 func _physics_process(delta: float) -> void:
+	if self_item[0] == -1:
+		free()
+		return
+	
 	velocity.y -= delta*gravity
 	
 	if !collecting:

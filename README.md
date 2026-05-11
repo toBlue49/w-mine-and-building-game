@@ -3,7 +3,7 @@ An original Mining and Building Sandbox game.
 
 ## IMPORTANT
 
-**Currently W Mine and Building Game sometimes takes up to 90GB of Memory while generating worlds. I am looking into this and trying to fix it soon. This is due to the _GridMap_ Node. It is very unoptimised. Soon I will add an different 'gridmap_rewrite' branch to fix these issues. After all functionality has been copied with own code it will be merged with this main branch.**
+**In progress rewrite of the GridMap Node for optimization of RAM for the 0.12 release. For an current comparison see _spamming blocks test comp.png_. After completion, this branch will be copied to main and deleted.**
 
 ## Screenshots
 (Screenshots made in an old version from December 3rd, 2025)
