@@ -440,9 +440,6 @@ func update_breaking_timer():
 
 ######## UI Control
 
-func update_chunk_updates(count: int):
-	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
-
 func update_hotbar():
 	for item_count in inventory.size():
 		var item = inventory[item_count]

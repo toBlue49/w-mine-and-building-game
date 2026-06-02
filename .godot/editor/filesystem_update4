@@ -1,7 +1,8 @@
-res://scenes/entity/pig.tscn
-res://resources/theme.tres
-res://scenes/world.tscn
-res://scripts/gridmap_rewrite.gd
 res://scenes/game.tscn
-res://scenes/entity/dropped_item.tscn
-res://scripts/entity/dropped_item.gd
+res://resources/theme.tres
+res://scripts/gridmap_rewrite.gd
+res://scripts/grid_map.gd
+res://scenes/world.tscn
+res://scripts/blocks/sand.gd
+res://scenes/player.tscn
+res://scripts/player.gd
