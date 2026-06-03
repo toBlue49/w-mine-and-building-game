@@ -1,6 +1,8 @@
 extends Node3D
 class_name GridMapRewrite
 
+##Saves block data of an X slice
+##Uses variable "x" for saving.
 class XBlockdataResource:
 	extends Resource
 	
@@ -15,10 +17,18 @@ var data = []
 var cell_data_size: int
 var cell_data_height: int
 var do_neighbor_updates = false
+var transparent_blocks = [-1] #-1 hardcoded, since it is air and always transparent
 @onready var chunks: Node3D = $"../Chunks"
+
+func _ready() -> void:
+	#Set transparent_block array
+	for i in global.block_data:
+		if global.block_data.get(str(i)).transparent == true:
+			transparent_blocks.append(int(i))
 
 ##Creates the empty cell_data with an given size and height.
 func setup_cell_data(size: int, height:int = 128):
+	data = [].duplicate()
 	var z_layer: Array[Dictionary]
 	var y_layer: Array[Array]
 	for z in size:
@@ -30,7 +40,7 @@ func setup_cell_data(size: int, height:int = 128):
 	
 	cell_data_size = size
 	cell_data_height = height
-		
+
 ##Set the Block ID of an given cell.
 ##NOTE: Orientation is currently unused!
 func set_cell_item(pos: Vector3i, block_id: int, _orientation: int = 0) -> void:
@@ -47,6 +57,14 @@ func set_cell_item(pos: Vector3i, block_id: int, _orientation: int = 0) -> void:
 	if do_neighbor_updates:
 		update_neighboring_cells(pos)
 
+##Returns value of the given X Slice Resource
+func get_data_of_x(xpos: int):
+	return data[xpos].x
+
+##Set value of the given X Slice Resource
+func set_data_of_x(xpos: int, new_data: Array):
+	data[xpos].x = new_data
+
 ##Get the Block ID of an given cell.
 ##Returns -1 if the cell is empty or out of bounds.
 func get_cell_item(pos: Vector3i) -> int:
@@ -54,6 +72,14 @@ func get_cell_item(pos: Vector3i) -> int:
 		return -1
 	
 	return (data[pos.x].x)[pos.y][pos.z].id
+
+##Get the Data Dictionary of an given cell.
+##Returns {} if cell is out of bounds.
+func get_cell_data(pos: Vector3i) -> Dictionary:
+	if is_pos_out_of_bounds(pos):
+		return {}
+	
+	return (data[pos.x].x)[pos.y][pos.z]
 
 ##Get the exposed state of an given cell
 ##Returns false if the cell is out of bounds.
@@ -93,17 +119,17 @@ func update_exposed_state_of_cell(pos: Vector3i):
 ##Returns true if cell is exposed on at least one side.
 ##If cell exist on all sides, returns false.
 func is_cell_exposed(pos: Vector3i) -> bool:
-	if get_cell_item(pos + Vector3i(1, 0, 0)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(1, 0, 0))):
 		return true
-	if get_cell_item(pos + Vector3i(-1, 0, 0)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(-1, 0, 0))):
 		return true
-	if get_cell_item(pos + Vector3i(0, 1, 0)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(0, 1, 0))):
 		return true
-	if get_cell_item(pos + Vector3i(1, -1, 0)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(0, -1, 0))):
 		return true
-	if get_cell_item(pos + Vector3i(1, 0, 1)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(0, 0, 1))):
 		return true
-	if get_cell_item(pos + Vector3i(1, 0, -1)) == -1:
+	if transparent_blocks.has(get_cell_item(pos + Vector3i(0, 0, -1))):
 		return true
 	
 	return false
@@ -125,4 +151,6 @@ func update_render_single_cell(pos: Vector3i):
 	var gridmap: GridMap = chunks.get_node("x" + str(xpos) + "z" + str(zpos))
 	
 	if get_cell_exposed_state(pos):
-		gridmap.set_cell_item(pos, get_cell_item(pos))
+		gridmap.set_cell_item(Vector3i(pos.x%chunk_size, pos.y, pos.z%chunk_size), get_cell_item(pos))
+	else:
+		gridmap.set_cell_item(Vector3i(pos.x%chunk_size, pos.y, pos.z%chunk_size), -1)

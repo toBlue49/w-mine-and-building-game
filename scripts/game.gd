@@ -2,7 +2,8 @@ extends Node
 
 const PORT = 9555
 const MAIN_TITLE = "W Mine and Building Game"
-const PROTOCOL_VERSION = 5
+const PROTOCOL_VERSION = 6
+const SAVE_VERSION = 0
 const ENTITY_LIST: Array = [
 	preload("res://scenes/entity/test_entity.tscn"),
 	preload("res://scenes/entity/pig.tscn"),

@@ -163,7 +163,7 @@ func match_border_to_size():
 	border.get_node("movable").position.z = size*2+256
 	border.get_node("MeshInstance3Dmovable2").position.x = size*2+256
 
-func spawn_entity(amount: int, id: int):
+func spawn_entitys(amount: int, id: int):
 	for i in amount:
 		var x = randi_range(0, size*2)
 		var z = randi_range(0, size*2)
@@ -192,7 +192,6 @@ func GENERATE():
 	generate_features()
 	#render_gridmap()
 	match_border_to_size()
-	@warning_ignore("integer_division") spawn_entity((size*size)/16, global.ENTITY.PIG) 
 	
 	do_neighbor_updates = true
 	render_all_cells()

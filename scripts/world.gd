@@ -135,13 +135,18 @@ func start_music_timer():
 	music_player.stream = load("res://sound/music.untitled_main_theme.ogg")
 	music_player.play()
 
+func spawn_entity(pos: Vector3, id: int):
+	var entity = global.ENTITY_LIST[id].instantiate()
+	entity.init(pos)
+	entities.add_child(entity, true)
+
 #Save and Load
 func save_level_to_file(filename: String):
 	var absolute_path = "user://levels/%s" % filename
-	var save_gridmap = GridMap.new()
+	var save_gridmap: GridMapRewrite = grid_map
+	var save_gridmap_data: Dictionary = {}
 	var save_objects = Node3D.new()
 	var save_metadata: Dictionary
-	save_gridmap = grid_map
 	save_objects = objects
 	
 	#Setup Folder
@@ -151,22 +156,23 @@ func save_level_to_file(filename: String):
 	#METADATA
 	save_metadata.gridmap_size = save_gridmap.size
 	save_metadata.protocol_version = global.PROTOCOL_VERSION
+	save_metadata.save_version = global.SAVE_VERSION
 	save_metadata.player = {"pos": player.position, "inventory": player.inventory, "rotation": player.rotation}
 	var metadata_file = FileAccess.open("%s/metadata.bytes" % absolute_path, FileAccess.WRITE)
 	metadata_file.store_var(save_metadata)
 	metadata_file.close()
 	
 	#GRIDMAP
-	var scene = PackedScene.new()
-	scene.pack(save_gridmap)
-	print_rich("[INFO] Saving following scene: [b]", scene)
-	var result = scene.pack(save_gridmap)
-	if result == OK:
-		var error = ResourceSaver.save(scene, ("%s/gridmap.tscn" % absolute_path))
-		print_rich("[INFO] Errorlevel Save Level Gridmap: " + str(error))
+	print_rich("[INFO] Saving GridMap Data")
+	for i in save_gridmap.size:
+		save_gridmap_data.set(i, save_gridmap.get_data_of_x(i))
+	
+	var gridmap_file = FileAccess.open("%s/gridmap.bytes" % absolute_path, FileAccess.WRITE)
+	gridmap_file.store_var(save_gridmap_data)
+	gridmap_file.close()
 	
 	#OBJECTS
-	scene = PackedScene.new()
+	var scene = PackedScene.new()
 	for i in objects.get_children():
 		i.owner = objects
 	scene.pack(save_gridmap)
@@ -184,41 +190,36 @@ func load_level_from_file(filename: String):
 	
 	#Error
 	if !DirAccess.dir_exists_absolute(absolute_path):
-		global.show_popup("LoadError", "Directory does not exist")
+		global.show_popup("LoadError", "Directory does not exist!")
 		return
-	if !FileAccess.file_exists("%s/gridmap.tscn" % absolute_path):
-		global.show_popup("LoadError", "Gridmap.tscn does not exist")
+	if !FileAccess.file_exists("%s/gridmap.bytes" % absolute_path):
+		global.show_popup("LoadError", "Gridmap.tscn does not exist!")
 		return
 	if !FileAccess.file_exists("%s/objects.tscn" % absolute_path):
 		global.show_popup("LoadError", "Objects.tscn does not exist. Try copying from another world.")
 		return
 	if !FileAccess.file_exists("%s/metadata.bytes" % absolute_path):
-		global.show_popup("LoadError", "Metadata.bytes does not exist. Try copying from another world.")
+		global.show_popup("LoadError", "Metadata.bytes does not exist!")
 		return
 	
-	var scene_gridmap = load("%s/gridmap.tscn" % absolute_path)
 	var scene_objects = load("%s/objects.tscn" % absolute_path)
-	var node_gridmap: GridMap = scene_gridmap.instantiate()
 	var node_objects: Node3D = scene_objects.instantiate()
 	var metadata_file = FileAccess.open("%s/metadata.bytes" % absolute_path, FileAccess.READ)
 	var metadata = metadata_file.get_var(false)
-	
-	#get Saved GridMap Size
+	var gridmap_file = FileAccess.open("%s/gridmap.bytes" % absolute_path, FileAccess.READ)
+	var gridmap: Dictionary = gridmap_file.get_var(false)
 	
 	print_rich("[INFO] Loaded GridMap size: [b]" + str(metadata.gridmap_size))
 	
 	node_objects.name = "Objects"
-	node_gridmap.name = "GridMap"
 	
 	#Remove Old Nodes
-	grid_map.queue_free()
 	objects.queue_free()
 	if get_node_or_null("0"):
 		get_node_or_null("0").queue_free()
 	await get_tree().process_frame
 	
 	#add nodes
-	add_child(node_gridmap, true)
 	if node_objects:
 		add_child(node_objects, true)
 	
@@ -227,15 +228,22 @@ func load_level_from_file(filename: String):
 	objects = get_node("Objects")
 	
 	#GridMap
+	grid_map.setup_cell_data(int(metadata.gridmap_size))
 	grid_map.size = int(metadata.gridmap_size)
+	
+	for i in int(metadata.gridmap_size):
+		grid_map.set_data_of_x(i, gridmap.get(i))
+	
+	grid_map.create_gridmap_chunks(true)
+	grid_map.render_all_cells()
+	grid_map.objects = get_node("Objects")
+	grid_map.match_border_to_size()
+	
+	#Player
 	if global.is_multiplayer:
 		grid_map.move_player(1)
 	else:
 		grid_map.move_player()
-	grid_map.create_gridmap_chunks(true)
-	grid_map.render_gridmap()
-	grid_map.objects = get_node("Objects")
-	grid_map.match_border_to_size()
 	
 	#Sand Block Fix 5000
 	for node in objects.get_children():

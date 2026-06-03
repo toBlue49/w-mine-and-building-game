@@ -62,6 +62,14 @@ func run_command(cmd_string: String):
 		else:
 			global.get_node("Scene/World").player.fly = !global.get_node("Scene/World").grid_map.player.fly
 			add_message("serverplayer", "Toggled flight!")
+	
+	if cmd[0] == "!noclip":
+		if global.is_multiplayer:
+			add_message("serverplayer", "Only allowed in singleplayer!")
+		else:
+			global.get_node("Scene/World").player.toggle_disabled_collision_shape_3d()
+			add_message("serverplayer", "Toggled NoClip state!")
+	
 	if cmd[0] == "!give":
 		#syntax
 		if cmd.size() != 4 or !(cmd[1] == "BLOCK" or cmd[1] == "ITEM") or !cmd[2].is_valid_int() or !cmd[3].is_valid_int():
@@ -83,9 +91,12 @@ func run_command(cmd_string: String):
 		if cmd[1] == "ITEM":
 			global.get_node("Scene/World").grid_map.player.add_multiple_items([cmd[2].to_int(), global.itmType.ITEM, cmd[3].to_int()])
 		add_message("serverplayer", "Gave %s ID:%s x%s" % [cmd[1], cmd[2], cmd[3]])
-		
+	
 	if cmd[0] == "!clearinv":
 		for i in global.get_node("Scene/World").grid_map.player.inventory: 
 			i[2] = 0
 		global.get_node("Scene/World").grid_map.player.update_hotbar()
 		add_message("serverplayer", "Cleared Inventory!")
+	
+	if cmd[0] == "!gridmap_cell_data":
+		add_message("serverplayer", str(global.get_node("Scene/World").player.get_data_of_looking_at_cell()))
