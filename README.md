@@ -3,7 +3,7 @@ An original Mining and Building Sandbox game.
 
 ## IMPORTANT
 
-**In progress rewrite of the GridMap Node for optimization of RAM for the 0.12 release. For an current comparison see _spamming blocks test comp.png_. After completion, this branch will be copied to main and deleted.**
+**This branch was created for the GridMap Rewrite for the 0.12 release and is no longer updated. It will not be deleted for archival purposes.**
 
 ## Screenshots
 (Screenshots made in an old version from December 3rd, 2025)
