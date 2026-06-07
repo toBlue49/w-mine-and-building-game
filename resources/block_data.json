@@ -2,116 +2,139 @@
 	"0": {
 		"type": "DIRT",
 		"mining_time": 0.4,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"1": {
 		"type": "STONE",
 		"mining_time": 1.2,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"2": {
 		"type": "DIRT",
 		"mining_time": 0.3,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"3": {
 		"type": "WOOD",
 		"mining_time": 1.0,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"4": {
 		"type": "DIRT",
 		"mining_time": 0.4,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": true
 	},
 	"5": {
 		"type": "WOOD",
 		"mining_time": 0.75,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"6": {
 		"type": "DEFAULT",
 		"mining_time": 0.3,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": true
 	},
 	"7": {
 		"type": "DEFAULT",
 		"mining_time": 1.0,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"8": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"9": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"10": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"11": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"12": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"13": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"14": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"15": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"16": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"17": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"18": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"19": {
 		"type": "DIRT",
 		"mining_time": 0.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"20": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"21": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	},
 	"22": {
 		"type": "STONE",
 		"mining_time": 1.5,
-		"stack_limit": 99
+		"stack_limit": 99,
+		"transparent": false
 	}
 }

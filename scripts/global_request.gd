@@ -11,7 +11,7 @@ var requested_value = []
 func return_value(goal_peer: int, value, index: int, do_log = false):
 	if multiplayer.get_unique_id() != goal_peer: return
 	if do_log: print_rich("[INFO] Request Returned[%s] -> %s" % [index, value])
-
+	
 	self.requested_value[index] = value
 
 
@@ -19,12 +19,15 @@ func return_value(goal_peer: int, value, index: int, do_log = false):
 func send(get_peer:int, goal_peer: int, call_node: NodePath, args: Array, index: int):
 	print("%s / %s" % [get_peer, multiplayer.get_unique_id()])
 	if multiplayer.get_unique_id() != get_peer: return
-	if args[0] == "get_block_slice": #[1] = slice_count
+	if args[0] == "get_data_of_x": #[1] = x_slice
 		await get_tree().process_frame
-		var result: Array = get_node(call_node).level_to_array(args[1])
+		var result: Array = get_node(call_node).get_data_of_x(args[1])
 		return_value.rpc(goal_peer, result, index)
 	if args[0] == "compare_protocol":#[1] = client protocol version
 		var result: int = args[1] - global.PROTOCOL_VERSION
+		return_value.rpc(goal_peer, result, index, true)
+	if args[0] == "get_spawn_position":
+		var result: Vector3 = get_node(call_node).spawn_position
 		return_value.rpc(goal_peer, result, index, true)
 
 func get_var(get_peer: int, get_nodepath: NodePath, args: Array, timeout_sec: float = 5.0) -> Variant:

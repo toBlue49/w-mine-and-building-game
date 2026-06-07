@@ -4,7 +4,7 @@ var map_pos: Vector3i
 var tick_counter = 0
 var gridmap
 
-func init(map_pos_args: Vector3i, gridmap_args: GridMap):
+func init(map_pos_args: Vector3i, gridmap_args: GridMapRewrite):
 	map_pos = map_pos_args
 	gridmap = gridmap_args
 	name = str(map_pos) + "b19"
@@ -25,8 +25,3 @@ func move_down():
 		position.y -= 2
 		map_pos.y -= 1
 		name = str(map_pos) + "b19"
-
-		#update chunk
-		var chunk = str("x", floor(map_pos.x/gridmap.chunk_size), "z", floor(map_pos.z/gridmap.chunk_size))
-		var chunk_node = gridmap.chunks.get_node(chunk)
-		gridmap.update_single_chunk(chunk_node, floor(map_pos.x/gridmap.chunk_size), floor(map_pos.z/gridmap.chunk_size), map_pos)

@@ -5,7 +5,6 @@ const WALK_SPEED = 7.0
 const SPRINT_SPEED = WALK_SPEED * 1.44
 const JUMP_VELOCITY = 11
 var hit_damage = 5
-var spawn_position = Vector3(0, 0, 0)
 var sensitivity = 0.002
 var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
@@ -16,6 +15,7 @@ var breaking_timer_default = 0.0
 var hovering_block: int
 var hovering_block_data: Dictionary
 var held_item_data: Dictionary
+var gridmap_raycast_collision: Vector3
 enum itmType{
 	BLOCK, ITEM
 }#  0      1
@@ -24,9 +24,10 @@ enum itmType{
 @onready var camera_3d: Camera3D = $Camera3D
 @onready var raycast3d: RayCast3D = $Camera3D/RayCast3D
 @onready var raycast3dGridmap: RayCast3D = $Camera3D/RayCast3DGridmapOnly
-@onready var grid_map: GridMap = $"../GridMap"
+@onready var grid_map: GridMapRewrite = $"../GridMap"
 @onready var label3d: Label3D = $Label3D
 @onready var label3d_nodepth: Label3D = $Label3DNoDepth
+@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 ##UI
 @onready var control: Control = $CanvasLayer/Control
 @onready var get_save_name: VBoxContainer = $CanvasLayer/Control/Menu/GetSaveName
@@ -216,7 +217,7 @@ func _process(_delta: float) -> void:
 		use_item(selected_block[0])
 	
 func _physics_process(delta: float) -> void:
-	var gridmap_raycast_collision = raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal()
+	gridmap_raycast_collision = raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal()
 	
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
@@ -261,30 +262,28 @@ func _physics_process(delta: float) -> void:
 				raycast3d.get_collider().player_hit.rpc(hit_damage)
 		
 		#GridMap
-		if Input.is_action_pressed("world_destroy"):
-			if raycast3d.get_collider() == null:
-				return
+		if Input.is_action_pressed("world_destroy") and raycast3d.get_collider() != null:
 			
-			if raycast3d.get_collider().has_method("destroy_block"):
+			if raycast3d.get_collider() is GridMap:
 				breaking_timer -= delta
 				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/breaking_timer_default)*0.6)
 				
 				if breaking_timer <= 0:
-					raycast3d.get_collider().destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
+					grid_map.destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
 					update_breaking_timer()
 		else:
 			if hovering_block_data != {}:
 				update_breaking_timer()
 				grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 		if Input.is_action_just_pressed("world_place"):
-			if raycast3d.get_collider().has_method("place_block"):
+			if raycast3d.get_collider() is GridMap:
 				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
 				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
 				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
 				if distancey == 1:
 					if distancex == 0 and distancez == 0: return
 				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
-					raycast3d.get_collider().place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
+					grid_map.place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
 					if global.gamemode == global.SURVIVAL:
 						inventory[selected_hotbar_item][2] -= 1
 					update_hotbar()
@@ -298,6 +297,12 @@ func _physics_process(delta: float) -> void:
 		#No Block Selection
 		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
 		grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
+
+func get_data_of_looking_at_cell() -> Dictionary:
+	if raycast3dGridmap.is_colliding():
+		return grid_map.get_cell_data(grid_map.local_to_map(gridmap_raycast_collision))
+	else:
+		return {}
 
 func collect_item(new_item: Array, test_only = false, test_count = 1) -> Error:
 	for item_count in inventory.size():
@@ -337,7 +342,7 @@ func add_multiple_items(new_item: Array):
 @rpc("any_peer", "call_local")
 func respawn():
 	health = 100
-	position = spawn_position
+	position = grid_map.spawn_position
 	if not is_multiplayer_authority() and global.is_multiplayer:
 		return
 	rpc_set_visibility.rpc(true)
@@ -440,10 +445,10 @@ func update_breaking_timer():
 					breaking_timer = hovering_block_data.mining_time
 					breaking_timer_default = hovering_block_data.mining_time
 
-######## UI Control
+func toggle_disabled_collision_shape_3d():
+	collision_shape_3d.disabled = not collision_shape_3d.disabled
 
-func update_chunk_updates(count: int):
-	control.get_node("chunk_updates").text = "%s Chunk Updates" % [str(count)]
+######## UI Control
 
 func update_hotbar():
 	for item_count in inventory.size():

@@ -1,9 +1,6 @@
-extends GridMap
+extends GridMapRewrite
 
 var size := -1
-const chunk_size := 8
-var chunk_updates: int = 0
-var get_level_array = []
 var height_generated = {}
 var protocol_version_diff = -32676
 var block_nodes = [
@@ -14,7 +11,8 @@ enum itmType{
 	BLOCK, ITEM
 }
 var peer_id_name = {}
-@onready var chunks: Node3D = $"../Chunks"
+var spawn_position = Vector3.ZERO
+#chunks is in gridmap_rewrite
 @onready var world: Node3D = $".."
 @onready var player: CharacterBody3D
 @onready var objects: Node3D = $"../Objects"
@@ -62,53 +60,12 @@ func update_gridmap():
 			for i in 3:
 				set_cell_item(Vector3i(x, y_level-i-1, z), 2)
 		height_generated.clear()
-		
-func render_gridmap():
-	@warning_ignore("integer_division")
-	for xpos in size/chunk_size:
-		@warning_ignore("integer_division")
-		for zpos in size/chunk_size:
-			update_single_chunk(chunks.get_node("x" + str(xpos) + "z" + str(zpos)), xpos, zpos, Vector3i(0, 0, 0))
-
-func render_chunk(gridmap, x, z):
-	@warning_ignore("integer_division")
-	if x >= size/chunk_size or z >= size/chunk_size or x < 0 or z < 0: return
-	if gridmap == null: return
-	for y in 128:
-		for lx in chunk_size:
-			for lz in chunk_size:
-				var i = Vector3i(lx+chunk_size*x, y, lz+chunk_size*z)
-				if get_cell_item(i + Vector3i(0, 1, 0)) == -1 or get_cell_item(i + Vector3i(0, -1, 0)) == -1 or get_cell_item(i + Vector3i(1, 0, 0)) == -1 or get_cell_item(i + Vector3i(-1, 0, 0)) == -1 or get_cell_item(i + Vector3i(0, 0, 1)) == -1 or get_cell_item(i + Vector3i(0, 0, -1)) == -1:
-					#if air
-					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
-				elif get_cell_item(i + Vector3i(0, 1, 0)) == 3 or get_cell_item(i + Vector3i(0, -1, 0)) == 3 or get_cell_item(i + Vector3i(1, 0, 0)) == 3 or get_cell_item(i + Vector3i(-1, 0, 0)) == 3 or get_cell_item(i + Vector3i(0, 0, 1)) == 3 or get_cell_item(i + Vector3i(0, 0, -1)) == 3:
-					#if leaves
-					gridmap.set_cell_item(Vector3i(i.x%chunk_size, i.y, i.z%chunk_size), get_cell_item(i))
-
-func update_single_chunk(gridmap: GridMap, x , z, global_map_pos):
-	var map_pos = global_map_pos%chunk_size
-
-	render_chunk(gridmap, x, z)
-
-	#update neighbor chunks
-	if map_pos.x == 0 and x > 0:
-		render_chunk(chunks.get_node(str("x", x-1, "z", z)), x-1, z)
-	@warning_ignore("integer_division")
-	if map_pos.x == chunk_size-1 and x < size/chunk_size-1:
-		render_chunk(chunks.get_node(str("x", x+1, "z", z)), x+1, z)
-	if map_pos.z == 0 and z > 0:
-		render_chunk(chunks.get_node(str("x", x, "z", z-1)), x, z-1)
-	@warning_ignore("integer_division")
-	if map_pos.z == chunk_size-1 and z < size/chunk_size-1:
-		render_chunk(chunks.get_node(str("x", x, "z", z+1)), x, z+1)
-	
-	chunk_updates += 1
 
 func create_gridmap_chunks(do_delete = false):
 	if do_delete:
 		for i in chunks.get_children():
 			i.free()
-		
+	
 	@warning_ignore("integer_division")
 	for i in size/chunk_size:
 		@warning_ignore("integer_division")
@@ -118,6 +75,12 @@ func create_gridmap_chunks(do_delete = false):
 			node.position = Vector3(i*chunk_size*2, 0, j*chunk_size*2)
 			node.name = str("x", i, "z", j)
 			chunks.add_child(node)
+
+func render_all_cells():
+	for x in size:
+		for y in cell_data_height:
+			for z in size:
+				update_exposed_state_of_cell(Vector3i(x, y, z))
 
 func move_player(peer_id = 0): #singleplayer / hosting player
 	for i in world.get_children():
@@ -134,11 +97,13 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 	#Move Player Up if in ground.
 	await get_tree().physics_frame
 	await get_tree().physics_frame
+	await get_tree().physics_frame
 	var counting_the_player_moving_ups = 0
 	while player.get_slide_collision_count() > 0:
 		counting_the_player_moving_ups += 1
 		print_rich("[INFO] Player collision at spawn #%s! Moving up." % [counting_the_player_moving_ups])
 		player.position.y += 2
+		spawn_position.y += 2
 		await get_tree().physics_frame
 
 func generate_features():
@@ -200,7 +165,7 @@ func match_border_to_size():
 	border.get_node("movable").position.z = size*2+256
 	border.get_node("MeshInstance3Dmovable2").position.x = size*2+256
 
-func spawn_entity(amount: int, id: int):
+func spawn_entitys(amount: int, id: int):
 	for i in amount:
 		var x = randi_range(0, size*2)
 		var z = randi_range(0, size*2)
@@ -210,19 +175,29 @@ func spawn_entity(amount: int, id: int):
 		entity.init(Vector3(x*2, y*2, z*2))
 		entities.add_child(entity, true)
 
+func test():
+	set_cell_item(Vector3i(5, 60, 5), 0)
+
 func GENERATE():
 	#set seed
 	noise.set_seed(randi_range(-2147483646, 2147483646))
 	rand_noise.seed = noise.seed
 	
+	#setup cell data
+	setup_cell_data(size, 128)
+	create_gridmap_chunks()
+	await get_tree().process_frame
+	
 	#generation
 	print_rich("[INFO] [b]Generating Gridmap")
 	update_gridmap()
 	generate_features()
-	create_gridmap_chunks()
-	render_gridmap()
+	#render_gridmap()
 	match_border_to_size()
-	@warning_ignore("integer_division") spawn_entity((size*size)/16, global.ENTITY.PIG) 
+	
+	do_neighbor_updates = true
+	render_all_cells()
+	
 	await get_tree().process_frame
 	print_rich("[color=green][SUCCESS] [b]Done!")
 
@@ -247,7 +222,7 @@ func init_host():
 			print_rich("[color=yellow][WARNING] server level NOT found! Generating new level.")
 			global.show_loading_screen(true, "Generating Level...")
 			await get_tree().process_frame
-			GENERATE()
+			await GENERATE()
 			move_player(multiplayer.get_unique_id())
 			await get_tree().process_frame
 			global.did_generate_level = true
@@ -288,30 +263,37 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	var pos = Vector3(half_size, 0, half_size)
 
 	#Get GridMap
+	setup_cell_data(size)
+	
 	for i in size:
 		global.show_loading_screen(true, "Requesting Slice %s" % i)
-		get_level_array.append_array(await global.request.get_var(1, self.get_path(), ["get_block_slice", i]))
-		if get_level_array[-1] is int: if get_level_array[-1] == -32676:
+		var x_data = await global.request.get_var(1, self.get_path(), ["get_data_of_x", i])
+		if x_data is int: if x_data == -32676:
 			global.show_popup("ServerError", "Connection Timeout")
 			return
+		
+		set_data_of_x(i, x_data)
+	do_neighbor_updates = true
 	
 	global.show_loading_screen(true, "Loading Level...")
 	await get_tree().process_frame
 	
 	#Render GridMap
-	array_to_level(get_level_array)
 	create_gridmap_chunks()
-	render_gridmap()
+	render_all_cells()
 	
 	#Chat
 	chat.add_message.rpc("serverplayer", "%s connected." % global.player_name)
 	set_peer_id_name.rpc(multiplayer.get_unique_id(), global.player_name)
 	
 	#Create Player
-	print_rich("[INFO] Init Join Peer ID: [b]", peer_id)
-	pos.y = get_height(pos.x, pos.z)*2 + 8
-	print_rich("[INFO] Player Y Position: [b]" + str(pos.y))
-	world.add_player_multiplayer.rpc(peer_id, pos)
+	var req_spawn_position = await global.request.get_var(1, self.get_path(), ["get_spawn_position"])
+	if req_spawn_position is int: if req_spawn_position == -32676:
+			global.show_popup("ServerError", "Connection Timeout")
+			return
+	spawn_position = req_spawn_position
+	
+	world.add_player_multiplayer.rpc(peer_id, spawn_position)
 	player = world.get_node(str(multiplayer.get_unique_id()))
 	
 	#Music
@@ -321,9 +303,6 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 	match_border_to_size()
 	global.show_loading_screen(false)
 
-func _ready():
-	second_routine()
-
 ##At Runtime:
 
 @rpc("any_peer", "call_remote")
@@ -331,18 +310,9 @@ func set_peer_id_name(id: int, player_name: String):
 	if multiplayer.is_server():
 		peer_id_name.set(id, player_name)
 
-func second_routine():
-	await get_tree().create_timer(1.0).timeout
-	if player:
-		player.update_chunk_updates(chunk_updates)
-	chunk_updates = 0
-	second_routine()
-
 @rpc("call_local", "any_peer")
 func destroy_block(world_coord, drop: bool):
 	var map_pos = local_to_map(world_coord)
-	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
-	var chunk_node = chunks.get_node(chunk)
 	var block_id = get_cell_item(map_pos)
 
 	#Handle Block Objects
@@ -352,7 +322,7 @@ func destroy_block(world_coord, drop: bool):
 			object.queue_free()
 	
 	set_cell_item(map_pos, -1)
-	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
+	#update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
 	#Play Sound
 	world.sound.play("block.break.default", world_coord, -2.0)
@@ -382,10 +352,8 @@ func destroy_block(world_coord, drop: bool):
 @rpc("call_local", "any_peer")
 func place_block(world_coord, index):
 	var map_pos = local_to_map(world_coord)
-	var chunk = str("x", floor(map_pos.x/chunk_size), "z", floor(map_pos.z/chunk_size))
-	var chunk_node = chunks.get_node(chunk)
 	set_cell_item(map_pos, index)
-	update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
+	#update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 	
 	#Handle Block Objects
 	place_block_object(map_pos, index)
@@ -405,19 +373,6 @@ func place_block_object(map_pos, index):
 		sand_object.name = str(map_pos) + "b19"
 		sand_object.init(map_pos, self)
 		objects.add_child(sand_object)
-
-func level_to_array(slice: int) -> Array:
-	var save_gridmap: GridMap = self
-	var return_array: Array
-	for i in save_gridmap.get_used_cells():
-		if i.x == slice:
-			return_array.append([i, get_cell_item(i)])
-			
-			#Handle Objects
-			if get_cell_item(i) == 7 or get_cell_item(i) == 19:
-				return_array.append(["OBJECT", i , get_cell_item(i)])
-	
-	return return_array
 
 func array_to_level(array: Array):
 	for cell in array:
