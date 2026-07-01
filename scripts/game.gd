@@ -24,6 +24,7 @@ var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("re
 var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
 var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/drops.json"))
 @onready var SceneContainer = $Scene
+@onready var active_scene = SceneContainer.get_child(0)
 @onready var GlobalControl = $GlobalControl
 @onready var request: Node = $request
 
@@ -192,6 +193,7 @@ func load_scene(scene_path: String):
 	print_rich("[INFO] Loading Scene with name [b]'" + scene_node.name + "'[/b]")
 	SceneContainer.add_child(scene_node)
 	
+	active_scene = SceneContainer.get_child(0)
 	loaded_scene = scene_path
 
 func show_loading_screen(state: bool, text: String = "Loading..."):

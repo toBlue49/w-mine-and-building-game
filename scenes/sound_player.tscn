@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvjwp14kcvnoo"]
+[gd_scene format=3 uid="uid://bvjwp14kcvnoo"]
 
 [ext_resource type="Script" uid="uid://1kprchdthtqv" path="res://scripts/sound_player.gd" id="1_1pp08"]
+[ext_resource type="AudioStream" uid="uid://bikgq3gj48s5f" path="res://sound/entity.hit.ogg" id="1_76865"]
 
-[node name="SoundPlayer" type="AudioStreamPlayer3D"]
+[node name="SoundPlayer" type="AudioStreamPlayer3D" unique_id=198285371]
+stream = ExtResource("1_76865")
+unit_size = 32.0
+panning_strength = 1.5
 script = ExtResource("1_1pp08")

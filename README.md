@@ -1,10 +1,6 @@
 # W Mine and Building Game
 An original Mining and Building Sandbox game.
 
-## IMPORTANT
-
-**In progress rewrite of the GridMap Node for optimization of RAM for the 0.12 release. For an current comparison see _spamming blocks test comp.png_. After completion, this branch will be copied to main and deleted.**
-
 ## Screenshots
 (Screenshots made in an old version from December 3rd, 2025)
 <img width="639" height="359" alt="Screenshot1" src="https://github.com/user-attachments/assets/1d6ce4a1-21b4-4658-b446-1877de8d1664" />
@@ -32,7 +28,6 @@ Sprint              Shift*
 Quit                Alt+Q (or OS default)
 Fly down            V* (only in singleplayer)
 Crafting            C*
-
 ```
 
 ## Commands
@@ -43,6 +38,8 @@ These commands can be used in the in-game chat:
 !give [BLOCK/ITEM]  Gives an Item or Block with given ID and Count.
  [ID] [COUNT]
 !clearinv           Clears your inventory.
+!noclip             Toggles Collision of the player.
+!gridmap_cell_data  Prints the data of the hovering block in the gridmap.
 ```
 
 ## Multiplayer Help
@@ -55,12 +52,12 @@ To make it easier to copy your IP, open the *Console Version* of the game.
 
 **Note:** You have to enable *UPNP* on your router settings, or else nobody can join your server. Just look for an setting with "UPNP enable" or similar. You don't need to port forward, since we use UPNP. (I may swap out UPNP for just port forwarding in the near future)
 
-Then in the game, *choose an Playername and world size*. After that click on *"Multiplayer Host"*. This will *open an server and print the IP in the chat* and the console. If you don't see one, *look for some errors* in the console.
+Then in the game, *choose an Playername and world size* (Try to choose an small world size for now). After that click on *"Multiplayer Host"*. This will *open an server and print the IP in the chat* and the console. If you don't see one, *look for some errors* in the console.
 
 The server closes, when the host leaves.
 
 ### Joining
-To join your server you need to *enter your IP*, there is no port needed (The game **always** uses port 9555). Then after *choosing an playername*, you can join to the server. *Due to the new join pipeline, the hosting player will experience some lag.*
+To join your server you need to *enter your IP*, there is no port needed (The game **always** uses port 9555). Then after *choosing an playername*, you can join to the server. *This will take an long time, but it will be fixed in an future update in 0.12*
 
 ### Connection to Server Lost
 If the GridMap (the blocks of the world) is to big, it takes to long to send the data to the players. You know this happend if you get the error "The mutliplayer instance isn't currently active." after joining. This has improved since 0.9d, but it still isn't perfect.

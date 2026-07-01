@@ -360,6 +360,7 @@ func respawn():
 func player_hit(damage: int):
 	if health != 32676: #ignore when death condition
 		health -= damage
+		grid_map.world.sound.play("entity.hit", global_position, -10.0, 35.0, 0.5)
 
 @rpc("any_peer", "call_local")
 func rpc_set_visibility(state: bool):
@@ -428,6 +429,9 @@ func update_held_item_data():
 	update_hovering_block(raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal())
 
 func update_breaking_timer():
+	if hovering_block_data.size() == 0:
+		return
+	
 	if selected_block[1] != itmType.ITEM:
 		breaking_timer = hovering_block_data.mining_time
 		breaking_timer_default = hovering_block_data.mining_time

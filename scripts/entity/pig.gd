@@ -2,7 +2,7 @@ extends LivingEntity
 
 var change_direction_tick = 120
 var should_move = true
-var health = 30
+var health = 3000
 var player: Node3D
 @onready var material: StandardMaterial3D = load("res://scenes/entity/pig.tscn::StandardMaterial3D_sj77l")
 @onready var should_jump_area: Area3D
@@ -62,16 +62,13 @@ func player_hit(damage):
 		return
 	
 	health -= damage
+	global.active_scene.sound.play("entity.hit", global_position, -10.0, 35.0, 0.5)
 	
 	if health <= 0:
-		tint_model(Color.LIGHT_CORAL)
 		animation_tree.set("parameters/conditions/death", true)
 	else:
-		#tint
-		tint_model(Color.LIGHT_CORAL)
 		is_invincible = true
 		await get_tree().create_timer(0.2).timeout
-		tint_model(Color.WHITE)
 		is_invincible = false
 
 func drop_item():
@@ -91,5 +88,4 @@ func drop_item():
 			dropped_item.position = global_position + Vector3(0, 0.5, 0)
 			dropped_item.name = str(global_position)
 			get_parent().add_child(dropped_item, true)
-			dropped_item.set_item([item_data[0], item_data[1]])
-	
+			dropped_item.set_item([item_data[0], item_data[1]])	

@@ -1,11 +1,11 @@
 extends AudioStreamPlayer3D
 
-func play_sound(sound: String, rng_pitch:int = 0, pos: Vector3 = Vector3(0,0,0), vol: float = 0.0, max_dist = 20.0, despawn: bool = true):
+func play_sound(sound: String, rng_pitch:float = 0, pos: Vector3 = Vector3(0,0,0), vol: float = 0.0, max_dist = 20.0, despawn: bool = true):
 	if despawn:
 		connect("finished", remove)
 	
 	stream = load("res://sound/" + sound + ".ogg")
-	pitch_scale = randf_range(1-rng_pitch, 1+rng_pitch)
+	pitch_scale = randf_range(1.0-rng_pitch, 1.0+rng_pitch)
 	position = pos
 	volume_db = vol
 	max_distance = max_dist

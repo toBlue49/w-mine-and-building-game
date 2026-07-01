@@ -1,2 +1,3 @@
+VisualShader
 Resource
 StandardMaterial3D

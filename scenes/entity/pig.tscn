@@ -7,7 +7,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_4a2ds"]
 size = Vector3(1, 1.5, 1.7)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sj77l"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4a2ds"]
 resource_name = "material_0"
 transparency = 2
 alpha_scissor_threshold = 0.05
@@ -17,20 +17,6 @@ albedo_texture = ExtResource("2_vgmde")
 texture_filter = 0
 texture_repeat = false
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vgmde"]
-_surfaces = [{
-"aabb": AABB(-0.25, 0, -0.25, 0.5625, 0.5, 0.75),
-"format": 34896613377,
-"index_count": 36,
-"index_data": PackedByteArray("AAABAAIAAwAAAAIAAgABAAQABQAAAAMABQABAAAAAwACAAYABgAFAAMABgACAAQABwABAAUABwAFAAYAAQAHAAQABAAHAAYA"),
-"name": "material_0",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 8,
-"vertex_data": PackedByteArray("////////AAD/////AAAAAP//AAD//wAAAAAAAP//AAD//wAAAAAAAAAA/////wAAAAAAAAAAAAAAAP//AAAAAA==")
-}]
-blend_shape_mode = 0
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_4a2ds"]
 resource_name = "blockbench_export_mesh"
 _surfaces = [{
@@ -39,15 +25,23 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMAFAAVABYAFgAVABcA"),
-"material": SubResource("StandardMaterial3D_sj77l"),
+"material": SubResource("StandardMaterial3D_4a2ds"),
 "name": "material_0",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 24,
 "vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
 }]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_vgmde")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vguhk"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_vgmde")
+texture_filter = 0
+texture_repeat = false
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vguhk"]
 _surfaces = [{
@@ -71,7 +65,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMAFAAVABYAFgAVABcA"),
-"material": SubResource("StandardMaterial3D_sj77l"),
+"material": SubResource("StandardMaterial3D_vguhk"),
 "name": "material_0",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -80,6 +74,16 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_vguhk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sj77l"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_vgmde")
+texture_filter = 0
+texture_repeat = false
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_s0qkh"]
 _surfaces = [{

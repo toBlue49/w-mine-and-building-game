@@ -167,9 +167,9 @@ func match_border_to_size():
 
 func spawn_entitys(amount: int, id: int):
 	for i in amount:
-		var x = randi_range(0, size*2)
-		var z = randi_range(0, size*2)
-		var y = get_height(x, z) + 8
+		var x = randi_range(0, size)
+		var z = randi_range(0, size)
+		var y = get_height(x, z)+8
 		
 		var entity = global.ENTITY_LIST[id].instantiate()
 		entity.init(Vector3(x*2, y*2, z*2))
@@ -194,6 +194,7 @@ func GENERATE():
 	generate_features()
 	#render_gridmap()
 	match_border_to_size()
+	spawn_entitys(6, global.ENTITY.PIG)
 	
 	do_neighbor_updates = true
 	render_all_cells()
@@ -272,6 +273,9 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 			global.show_popup("ServerError", "Connection Timeout")
 			return
 		
+		print(x_data)
+		breakpoint
+		
 		set_data_of_x(i, x_data)
 	do_neighbor_updates = true
 	
@@ -325,7 +329,7 @@ func destroy_block(world_coord, drop: bool):
 	#update_single_chunk(chunk_node, floor(map_pos.x/chunk_size), floor(map_pos.z/chunk_size), map_pos)
 
 	#Play Sound
-	world.sound.play("block.break.default", world_coord, -2.0)
+	world.sound.play("block.break.default", world_coord, 0)
 	
 	#Drop Item
 	if drop:
@@ -359,7 +363,7 @@ func place_block(world_coord, index):
 	place_block_object(map_pos, index)
 	
 	#Play Sound
-	world.sound.play("block.place.default", world_coord, -2.0)
+	world.sound.play("block.place.default", world_coord, 0)
 
 func place_block_object(map_pos, index):
 	if index == 7:

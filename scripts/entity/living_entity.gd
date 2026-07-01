@@ -14,8 +14,6 @@ func _ready() -> void:
 	if spawn_pos != Vector3(-1, -1, -1):
 		position = spawn_pos
 	
-	make_mesh_unique_recursive()
-	
 	override_ready()
 
 func override_ready():

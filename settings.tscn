@@ -58,10 +58,9 @@ grow_vertical = 2
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer" unique_id=1800962687]
 layout_mode = 2
-current_tab = 2
+current_tab = 0
 
 [node name="Graphics" type="TabBar" parent="MarginContainer/TabContainer" unique_id=779160278]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -225,6 +224,7 @@ text = "Fly Down"
 input = "move_fly_down"
 
 [node name="Audio" type="TabBar" parent="MarginContainer/TabContainer" unique_id=1710396437]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

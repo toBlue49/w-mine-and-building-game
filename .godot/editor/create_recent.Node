@@ -1,3 +1,6 @@
+CanvasLayer
+MeshInstance3D
+ImporterMeshInstance3D
 GridMapRewrite
 AudioStreamPlayer
 Timer
@@ -10,6 +13,3 @@ VBoxContainer
 ScrollContainer
 AnimationTree
 AnimationPlayer
-LimitAngularVelocityModifier3D
-MeshInstance3D
-Node3D

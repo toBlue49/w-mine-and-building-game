@@ -17,10 +17,8 @@ func return_value(goal_peer: int, value, index: int, do_log = false):
 
 @rpc("any_peer", "call_remote")
 func send(get_peer:int, goal_peer: int, call_node: NodePath, args: Array, index: int):
-	print("%s / %s" % [get_peer, multiplayer.get_unique_id()])
 	if multiplayer.get_unique_id() != get_peer: return
 	if args[0] == "get_data_of_x": #[1] = x_slice
-		await get_tree().process_frame
 		var result: Array = get_node(call_node).get_data_of_x(args[1])
 		return_value.rpc(goal_peer, result, index)
 	if args[0] == "compare_protocol":#[1] = client protocol version
@@ -31,9 +29,7 @@ func send(get_peer:int, goal_peer: int, call_node: NodePath, args: Array, index:
 		return_value.rpc(goal_peer, result, index, true)
 
 func get_var(get_peer: int, get_nodepath: NodePath, args: Array, timeout_sec: float = 5.0) -> Variant:
-	print(get_peer)
-	print(get_nodepath)
-	print(args)
+	print_rich("[INFO] get_var reqeust to [b]%s[/b] with [b]%s[/b]" % [get_nodepath, args])
 	
 	var index = requested_value.size()
 	requested_value.append(null)
