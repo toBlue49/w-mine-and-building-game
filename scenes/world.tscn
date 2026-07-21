@@ -144,7 +144,7 @@ _spawnable_scenes = PackedStringArray("uid://cv0klkobsceiv")
 spawn_path = NodePath("..")
 
 [node name="MultiplayerSpawnerEntity" type="MultiplayerSpawner" parent="." unique_id=8436456]
-_spawnable_scenes = PackedStringArray("uid://bgso16d84cgvt")
+_spawnable_scenes = PackedStringArray("uid://thjbfjlp70pd")
 spawn_path = NodePath("../Entities")
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=366671978]

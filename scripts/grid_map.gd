@@ -273,9 +273,6 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 			global.show_popup("ServerError", "Connection Timeout")
 			return
 		
-		print(x_data)
-		breakpoint
-		
 		set_data_of_x(i, x_data)
 	do_neighbor_updates = true
 	

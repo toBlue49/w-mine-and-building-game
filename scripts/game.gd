@@ -1,6 +1,6 @@
 extends Node
 
-const PORT = 9555
+var PORT: int = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 6
 const SAVE_VERSION = 0
@@ -10,6 +10,7 @@ const ENTITY_LIST: Array = [
 	preload("res://scenes/entity/dropped_item.tscn")
 ]
 
+var ipv4_address = ""
 var gamemode = SURVIVAL
 var show_debug = false
 var config = ConfigFile.new()
@@ -27,6 +28,7 @@ var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://r
 @onready var active_scene = SceneContainer.get_child(0)
 @onready var GlobalControl = $GlobalControl
 @onready var request: Node = $request
+@onready var http: HTTPRequest = $HTTP
 
 var settings: Dictionary = {
 	"graphics": {

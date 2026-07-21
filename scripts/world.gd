@@ -57,27 +57,27 @@ func _process(_delta: float) -> void:
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
 		grid_map.size = mainmenu.size_box.value
+		global.PORT = mainmenu.ip_port_host.text
 		
 		#Host Game
-		global.enet_peer.create_server(global.PORT)
-		multiplayer.multiplayer_peer = global.enet_peer
-		grid_map.init_host()
 		await get_tree().process_frame
-		upnp_start()
+		server_start(16)
+		grid_map.init_host()
 		
-		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
+		global.change_title_extension("Multiplayer (%s) at %s" % [multiplayer.get_unique_id(), global.ipv4_address])
 		global.in_mainmenu = false
 		
 	if mainmenu.button_pressed == "mult_join":
 		global.show_loading_screen(true, "Joining Server...")
 		mainmenu.button_pressed = ""
 		mainmenu.hide()
+		global.PORT = mainmenu.ip_port_join.text
 		
 		#Join Game
-		global.enet_peer.create_client(mainmenu.ip_address.text, global.PORT)
+		client_start(mainmenu.ip_address.text, global.PORT)
 		multiplayer.multiplayer_peer = global.enet_peer
 		
-		global.change_title_extension("Multiplayer (%s)" % multiplayer.get_unique_id())
+		global.change_title_extension("Multiplayer (%s) at %s" % [multiplayer.get_unique_id(), global.ipv4_address])
 		global.in_mainmenu = false
 
 func _physics_process(_delta: float) -> void:
@@ -109,21 +109,40 @@ func move_block_selection(exact_local_pos: Vector3):
 	blockSelect.position = local_pos
 	return OK
 
+#Legacy Link to server_start()
 func upnp_start():
-	var upnp = UPNP.new()
-	var discover_result = upnp.discover()
-	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \
-	"UPNP Discover failed! Error %s" % discover_result)
-	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
-	"UPNP Invalid Gateway!")
+	server_start(16)
+
+func server_start(MAX_CLIENTS: int):
+	global.enet_peer = ENetMultiplayerPeer.new()
+	var server_creation_error = global.enet_peer.create_server(global.PORT, MAX_CLIENTS)
+	multiplayer.multiplayer_peer = global.enet_peer
 	
-	var map_result = upnp.add_port_mapping(global.PORT)
-	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
-	"UPNP Port Mapping Failed! Error %s" % map_result)
+	if server_creation_error != 0:
+		print_rich("[color=red][ERROR] Could not create Server. Errorlevel: %s (%s)" % [server_creation_error, error_string(server_creation_error)])
+		return
+	else:
+		print_rich("[INFO] Server created! Errorlevel: %s" % [error_string(server_creation_error)])
 	
-	print_rich("[color=green][SUCCESS] UPNP SETUP SUCCESS![/color] IP Address: [b]%s" % upnp.query_external_address())
+	var ip_return = await global.http.curl_url("https://ipinfo.io/ip")
+	global.ipv4_address = ip_return.body.get_string_from_ascii()
 	
-	chat.add_message("serverplayer", "Use this IP to join to your server: %s" % upnp.query_external_address())
+	print_rich("[color=green][SUCCESS] SERVER SETUP SUCCESS![/color] Public IP Address: [b]%s" % global.ipv4_address)
+	
+	chat.add_message("serverplayer", "Use the following IPs to join your Server.")
+	chat.add_message("serverplayer", "Public IP (needs to be port forwarded): %s" % global.ipv4_address)
+	chat.add_message("serverplayer", "Local IP: %s" % get_local_ip())
+
+func client_start(ipv4, port):
+	global.enet_peer = ENetMultiplayerPeer.new()
+	var client_creation_error = global.enet_peer.create_client(ipv4, port)
+	multiplayer.multiplayer_peer = global.enet_peer
+	
+	if client_creation_error != 0:
+		print_rich("[color=red][ERROR] Could not create Client. Errorlevel: %s (%s)" % [client_creation_error, error_string(client_creation_error)])
+		return
+	else:
+		print_rich("[INFO] Client created! Errorlevel: %s" % [error_string(client_creation_error)])
 
 func start_music_timer():
 	music_timer.wait_time = randi_range(40, 180)
@@ -138,6 +157,13 @@ func spawn_entity(pos: Vector3, id: int):
 	var entity = global.ENTITY_LIST[id].instantiate()
 	entity.init(pos)
 	entities.add_child(entity, true)
+
+func get_local_ip() -> String:
+	for ip in IP.get_local_addresses():
+		if ip.begins_with("192.168."):
+			return ip
+	
+	return "0.0.0.0"
 
 #Save and Load
 func save_level_to_file(filename: String):

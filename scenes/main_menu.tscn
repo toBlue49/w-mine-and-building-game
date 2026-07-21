@@ -56,6 +56,12 @@ texture = ExtResource("3_bqqt6")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="NameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1811396949]
+texture_filter = 1
+layout_mode = 2
+placeholder_text = "Enter your Player Name here"
+alignment = 1
+
 [node name="Singleplayer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1592281490]
 layout_mode = 2
 theme_override_constants/separation = 20
@@ -76,25 +82,44 @@ rounded = true
 alignment = 3
 prefix = "Size"
 
-[node name="NameLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1811396949]
-texture_filter = 1
+[node name="HostMult" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=651189727]
 layout_mode = 2
-placeholder_text = "Enter your Player Name here"
-alignment = 1
+theme_override_constants/separation = 20
 
-[node name="HostMultButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1584142739]
-custom_minimum_size = Vector2(603, 0)
+[node name="HostMultButton" type="Button" parent="MarginContainer/VBoxContainer/HostMult" unique_id=1512035227]
+custom_minimum_size = Vector2(646, 0)
 layout_mode = 2
 text = "Multiplayer Host	"
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HostMult" unique_id=943787387]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "9555"
+placeholder_text = "Port"
+alignment = 1
+drag_and_drop_selection_enabled = false
 
 [node name="JustMultButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2054072950]
 layout_mode = 2
 text = "Multiplayer Join"
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1656632807]
+[node name="IP" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1851374645]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LineEditIP" type="LineEdit" parent="MarginContainer/VBoxContainer/IP" unique_id=1656632807]
+custom_minimum_size = Vector2(646, 0)
 layout_mode = 2
 placeholder_text = "Enter IP Adress to join"
 alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/IP" unique_id=874065934]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "9555"
+placeholder_text = "Port"
+alignment = 1
+drag_and_drop_selection_enabled = false
 
 [node name="Label" type="Label" parent="." unique_id=1241833296]
 layout_mode = 0
@@ -105,5 +130,5 @@ theme_override_font_sizes/font_size = 16
 text = "Font: SMW Font by wye"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Singleplayer/SingleplayerButton" to="." method="_singleplayer_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HostMultButton" to="." method="_host_mult_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HostMult/HostMultButton" to="." method="_host_mult_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/JustMultButton" to="." method="_join_mult_pressed"]

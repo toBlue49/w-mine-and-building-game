@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b2ndcm1u8rfsx" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="2_yqjtg"]
 [ext_resource type="Script" uid="uid://c5r5fwl55e71e" path="res://scripts/global_request.gd" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://b18ogbbxfb6fw" path="res://scripts/http_request.gd" id="4_lbhrr"]
 
 [node name="game" type="Node" unique_id=1815734649]
 script = ExtResource("1_uwrxv")
@@ -47,7 +48,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.12b"
+text = "0.12c"
 
 [node name="frames" type="Label" parent="GlobalControl" unique_id=1457041356]
 layout_mode = 0
@@ -178,3 +179,6 @@ text = "Back to Main Menu"
 
 [node name="request" type="Node" parent="." unique_id=1939780136]
 script = ExtResource("3_lnu2h")
+
+[node name="HTTP" type="HTTPRequest" parent="." unique_id=1923189122]
+script = ExtResource("4_lbhrr")

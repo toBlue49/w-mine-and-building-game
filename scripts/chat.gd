@@ -1,6 +1,7 @@
 extends Control
 
 var chat = [] # [NAME, MESSAGE]
+var messages_created = 0
 @onready var messages: VBoxContainer = $Messages
 @onready var line_edit: LineEdit = $LineEdit
 
@@ -8,7 +9,8 @@ func create_node(text: String):
 	var RichMessage = RichTextLabel.new()
 	var id: String
 
-	id = str(Engine.get_frames_drawn())
+	id = str(Engine.get_frames_drawn() + messages_created)
+	messages_created += 1
 	
 	RichMessage.bbcode_enabled = true
 	RichMessage.fit_content = true
@@ -28,12 +30,12 @@ func add_message(player_name: String, message: String):
 		text = "[color=yellow]%s: [/color]%s" % [player_name, message]
 	var id = create_node(text)
 	
-	await get_tree().create_timer(8.0).timeout
+	await get_tree().create_timer(10.0).timeout
 	print_rich("[INFO] Removing Chat Message: [b]" + id)
 	for i in 30:
 		messages.get_node(str(id)).modulate.a = lerp(1.0, 0.0, i/30.0)
 		await get_tree().create_timer(0.02).timeout
-	messages.get_node(id).free()
+	messages.get_node_or_null(id).free()
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_open_chat") and !line_edit.visible and !global.in_mainmenu and !global.do_not_allow_input:

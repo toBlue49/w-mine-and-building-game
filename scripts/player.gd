@@ -210,6 +210,9 @@ func _process(_delta: float) -> void:
 		global.do_not_allow_input = true
 		game_over_menu.visible = true
 		background.visible = true
+		pause_menu.visible = false
+		get_save_name.visible = false
+		get_load_name.visible = false
 		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
 	
 	#Use Item

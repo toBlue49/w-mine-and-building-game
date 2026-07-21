@@ -1,6 +1,8 @@
 extends Control
 
-@onready var ip_address: LineEdit = $MarginContainer/VBoxContainer/LineEdit
+@onready var ip_address: LineEdit = $MarginContainer/VBoxContainer/IP/LineEditIP
+@onready var ip_port_host: LineEdit = $MarginContainer/VBoxContainer/HostMult/LineEdit
+@onready var ip_port_join: LineEdit = $MarginContainer/VBoxContainer/IP/LineEdit
 @onready var name_edit: LineEdit = $MarginContainer/VBoxContainer/NameLineEdit
 @onready var size_box: SpinBox = $MarginContainer/VBoxContainer/Singleplayer/SizeBox
 
