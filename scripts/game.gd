@@ -25,7 +25,7 @@ var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("re
 var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
 var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/drops.json"))
 @onready var SceneContainer = $Scene
-@onready var active_scene = SceneContainer.get_child(0)
+@onready var active_scene: Node
 @onready var GlobalControl = $GlobalControl
 @onready var request: Node = $request
 @onready var http: HTTPRequest = $HTTP
@@ -92,6 +92,9 @@ func _ready():
 	else:
 		dir.make_dir(dir_path)
 		print_rich("[INFO] [b]Creating levels folder!")
+	
+	#set Active Scene
+	active_scene = SceneContainer.get_child(0)
 
 func load_settings():
 	config.load("user://data.cfg")

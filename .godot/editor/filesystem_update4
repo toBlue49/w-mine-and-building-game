@@ -1,14 +1,4 @@
 res://scenes/game.tscn
 res://resources/theme.tres
-res://scripts/world.gd
+res://scripts/entity/dropped_item.gd
 res://scripts/game.gd
-res://scripts/http_request.gd
-res://scripts/chat.gd
-res://scenes/main_menu.tscn
-res://scripts/main_menu.gd
-res://scripts/grid_map.gd
-res://scenes/player.tscn
-res://scripts/player.gd
-res://scenes/world.tscn
-res://scenes/entity/pig.tscn
-res://scripts/entity/pig.gd
