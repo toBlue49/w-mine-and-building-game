@@ -5,7 +5,7 @@ res://resources/blocks.tres::26fcf89ca21645d1005a7b34334c3e5a::1780470040::res:/
 res://resources/cube.tres::85db10c7e78021b811a18efa4ae4c341::1780470040::res://.godot/exported/133200997/export-df88727b50ad4ee7bddb315b4c7ebd6d-cube.res
 res://scenes/blocks.tscn::b68babbfcd84e7f1c1d402e4af0fd581::1780470040::res://.godot/exported/133200997/export-58e3e3ea28be796874e0bae76be0d851-blocks.scn
 res://scenes/empty.tscn::d72763e6a5331ac112578fc9ce52e7b6::1780470040::res://.godot/exported/133200997/export-d46d9ca14bb3b79150d604746b0eab88-empty.scn
-res://scenes/game.tscn::db5e7bcf7b568c6e7d726ba6458fea94::1784654335::res://.godot/exported/133200997/export-c2a7af834e91ff64325daddf58e45dc0-game.scn
+res://scenes/game.tscn::4bea0794c6faa8f3c401e61d34726731::1784655274::res://.godot/exported/133200997/export-c2a7af834e91ff64325daddf58e45dc0-game.scn
 res://scenes/grid_map_render.tscn::344c57d83d520bbb45c7455a84670679::1780470040::res://.godot/exported/133200997/export-2d03dbcde521bdbf68d7cca72b2ca537-grid_map_render.scn
 res://scenes/load_level_button.tscn::7211ba691db17e7395f06cd26f07dc3e::1780470040::res://.godot/exported/133200997/export-2c115498474853b7d2a83288c68a1818-load_level_button.scn
 res://scenes/player.tscn::99d645c92a705874d4dc13663c916b36::1784651558::res://.godot/exported/133200997/export-234fb6894ec6226e856ab7f825500d3d-player.scn

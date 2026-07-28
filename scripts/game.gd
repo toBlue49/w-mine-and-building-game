@@ -3,12 +3,16 @@ extends Node
 var PORT: int = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 6
-const SAVE_VERSION = 0
+const SAVE_VERSION = 1
 const ENTITY_LIST: Array = [
 	preload("res://scenes/entity/test_entity.tscn"),
 	preload("res://scenes/entity/pig.tscn"),
 	preload("res://scenes/entity/dropped_item.tscn")
 ]
+
+##SAVE VERSION CHANGELOG
+#0 = Initial verison
+#1 = entity.tscn, 0.12e
 
 var ipv4_address = ""
 var gamemode = SURVIVAL
@@ -21,6 +25,7 @@ var is_multiplayer = false
 var loaded_scene = ""
 var did_generate_level = false
 var in_mainmenu = true
+var popup_error_button_pressed = ""
 var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/block_data.json"))
 var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
 var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/drops.json"))
@@ -68,7 +73,8 @@ enum ITEM{
 }#  0         1             2         3            4              5          6             7             8         9            10               11           12              13            14        15           16            17
 enum ENTITY{
 	TEST_ENTITY, PIG, ITEM
-}
+}#  0            1    2
+
 enum itmType{BLOCK, ITEM}#  0      1
 
 func _ready():
@@ -222,17 +228,46 @@ func set_new_enet_peer(online: bool):
 
 ##Popup:
 
-func show_popup(node: String, message: String):
+##Returns boolean. true = skipped, continue, false = stop
+func show_popup(title: String, message: String, allow_skip: bool = false) -> bool:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$PopupMessage.show()
-	var popup = $PopupMessage.get_node(node)
+	var popup = $PopupMessage.get_node("Error")
+	popup.get_node("Label").text = title
 	popup.show()
 	popup.get_node("Message").text = message
 	popup.get_node("Button").connect("pressed", mainmenu_btn_pressed)
+	popup.get_node("ButtonSkip").visible = false
+	
+	if allow_skip:
+		popup.get_node("ButtonSkip").connect("pressed", skip_btn_pressed)
+		popup.get_node("ButtonSkip").visible = true
+		
+		while (popup.visible):
+			await get_tree().process_frame
+		
+		if popup_error_button_pressed == "mainmenu":
+			popup_error_button_pressed = ""
+			return false
+		
+		if popup_error_button_pressed == "skip":
+			popup_error_button_pressed = ""
+			return true
+		
+		print_rich("[color=red][ERROR] Unreachable code executed in show_popup()[/color]")
+		assert(false, "Unreachable code executed in show_popup()")
+		return false
+	else:
+		return false
 
 func hide_popup():
 	$PopupMessage.visible = false
-	$PopupMessage/ServerError.visible = false
+	$PopupMessage/Error.visible = false
+
+func skip_btn_pressed():
+	global.do_not_allow_input = false
+	hide_popup()
+	popup_error_button_pressed = "skip"
 
 func mainmenu_btn_pressed():
 	hide_popup()
@@ -240,7 +275,9 @@ func mainmenu_btn_pressed():
 	await get_tree().process_frame
 	global.did_generate_level = false
 	global.is_multiplayer = false
+	global.do_not_allow_input = false
 	reload_scene()
+	popup_error_button_pressed = "mainmenu"
 
 @rpc("any_peer", "call_remote")
 func disconnect_peer(id: int):

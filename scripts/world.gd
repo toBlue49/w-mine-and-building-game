@@ -130,7 +130,7 @@ func server_start(MAX_CLIENTS: int):
 	print_rich("[color=green][SUCCESS] SERVER SETUP SUCCESS![/color] Public IP Address: [b]%s" % global.ipv4_address)
 	
 	chat.add_message("serverplayer", "Use the following IPs to join your Server.")
-	chat.add_message("serverplayer", "Public IP (needs to be port forwarded): %s" % global.ipv4_address)
+	chat.add_message("serverplayer", "Public IP (port forward needed): %s" % global.ipv4_address)
 	chat.add_message("serverplayer", "Local IP: %s" % get_local_ip())
 
 func client_start(ipv4, port):
@@ -171,8 +171,10 @@ func save_level_to_file(filename: String):
 	var save_gridmap: GridMapRewrite = grid_map
 	var save_gridmap_data: Dictionary = {}
 	var save_objects = Node3D.new()
+	var save_entities = Node3D.new()
 	var save_metadata: Dictionary
 	save_objects = objects
+	save_entities = entities
 	
 	#Setup Folder
 	if !DirAccess.dir_exists_absolute(absolute_path):
@@ -200,46 +202,65 @@ func save_level_to_file(filename: String):
 	var scene = PackedScene.new()
 	for i in objects.get_children():
 		i.owner = objects
-	scene.pack(save_gridmap)
-	print_rich("[INFO] Saving following scene: [b]", scene)
 	var result_obj = scene.pack(save_objects)
 	if result_obj == OK:
 		var error = ResourceSaver.save(scene, ("%s/objects.tscn" % absolute_path))
-		print_rich("[INFO] Errorlevel Save Level Gridmap: " + str(error))
+		print_rich("[INFO] Errorlevel Save Objects: " + str(error))
 	
+	#ENTITIES
+	var scene_entity = PackedScene.new()
+	for i in entities.get_children():
+		i.owner = entities
+	var result_obj_entity = scene_entity.pack(save_entities)
+	if result_obj_entity == OK:
+		var error = ResourceSaver.save(scene_entity, ("%s/entity.tscn" % absolute_path))
+		print_rich("[INFO] Errorlevel Save Entity: " + str(error))
+
 func load_level_from_file(filename: String):
 	global.show_loading_screen(true, "Loading Map...")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await get_tree().process_frame
 	var absolute_path = "user://levels/%s" % filename
 	
-	#Error
+	#Load files
+	
 	if !DirAccess.dir_exists_absolute(absolute_path):
 		global.show_popup("LoadError", "Directory does not exist!")
 		return
-	if !FileAccess.file_exists("%s/gridmap.bytes" % absolute_path):
-		global.show_popup("LoadError", "Gridmap.tscn does not exist!")
-		return
-	if !FileAccess.file_exists("%s/objects.tscn" % absolute_path):
-		global.show_popup("LoadError", "Objects.tscn does not exist. Try copying from another world.")
-		return
-	if !FileAccess.file_exists("%s/metadata.bytes" % absolute_path):
-		global.show_popup("LoadError", "Metadata.bytes does not exist!")
-		return
 	
-	var scene_objects = load("%s/objects.tscn" % absolute_path)
-	var node_objects: Node3D = scene_objects.instantiate()
+	if !FileAccess.file_exists("%s/metadata.bytes" % absolute_path):
+		global.show_popup("Load Error", "Metadata.bytes does not exist!")
+		return
 	var metadata_file = FileAccess.open("%s/metadata.bytes" % absolute_path, FileAccess.READ)
 	var metadata = metadata_file.get_var(false)
+	
+	if !FileAccess.file_exists("%s/gridmap.bytes" % absolute_path):
+		global.show_popup("Load Error", "Gridmap.tscn does not exist!")
+		return
 	var gridmap_file = FileAccess.open("%s/gridmap.bytes" % absolute_path, FileAccess.READ)
 	var gridmap: Dictionary = gridmap_file.get_var(false)
+	
+	if !FileAccess.file_exists("%s/objects.tscn" % absolute_path):
+		var do_continue: bool = await global.show_popup("Load Error", "Objects.tscn does not exist. Skipping will create a new file.", true)
+		if !do_continue: return
+	var scene_objects = load("%s/objects.tscn" % absolute_path)
+	var node_objects: Node3D = scene_objects.instantiate() if scene_objects else Node3D.new()
+	
+	if metadata.save_version <= 0:
+		if !FileAccess.file_exists("%s/entity.tscn" % absolute_path):
+			var do_continue: bool = await global.show_popup("Load Error", "Entity.tscn does not exist. Skipping will create a new file.", true)
+			if !do_continue: return
+	var scene_entities = load("%s/entity.tscn" % absolute_path)
+	var node_entities: Node3D = scene_entities.instantiate() if scene_entities else Node3D.new()
 	
 	print_rich("[INFO] Loaded GridMap size: [b]" + str(metadata.gridmap_size))
 	
 	node_objects.name = "Objects"
+	node_entities.name = "Entities"
 	
 	#Remove Old Nodes
 	objects.queue_free()
+	entities.queue_free()
 	if get_node_or_null("0"):
 		get_node_or_null("0").queue_free()
 	await get_tree().process_frame
@@ -247,10 +268,13 @@ func load_level_from_file(filename: String):
 	#add nodes
 	if node_objects:
 		add_child(node_objects, true)
+	if node_entities:
+		add_child(node_entities, true)
 	
 	#Update Variables
 	grid_map = get_node("GridMap")
 	objects = get_node("Objects")
+	entities = get_node("Entities")
 	
 	#GridMap
 	grid_map.setup_cell_data(int(metadata.gridmap_size))

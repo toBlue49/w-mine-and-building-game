@@ -48,7 +48,7 @@ offset_left = 8.0
 offset_right = 66.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 24
-text = "0.12d"
+text = "0.12e"
 
 [node name="frames" type="Label" parent="GlobalControl" unique_id=1457041356]
 layout_mode = 0
@@ -79,7 +79,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.47058824)
 
-[node name="ServerError" type="Panel" parent="PopupMessage" unique_id=294504155]
+[node name="Error" type="Panel" parent="PopupMessage" unique_id=294504155]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -88,18 +88,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -256.0
-offset_top = -160.0
+offset_top = -184.0
 offset_right = 256.0
-offset_bottom = 160.0
+offset_bottom = 184.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="PopupMessage/ServerError" unique_id=1251808094]
+[node name="Label" type="Label" parent="PopupMessage/Error" unique_id=1251808094]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.05
+anchor_top = 0.021739146
 anchor_right = 1.0
-anchor_bottom = 0.225
+anchor_bottom = 0.16739134
 theme_override_colors/font_color = Color(1, 0.2478047, 0, 1)
 theme_override_font_sizes/font_size = 26
 text = "Connection to Server Lost"
@@ -107,12 +107,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Message" type="Label" parent="PopupMessage/ServerError" unique_id=1426248446]
+[node name="Message" type="Label" parent="PopupMessage/Error" unique_id=1426248446]
+custom_maximum_size = Vector2(512, 184)
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.225
+anchor_top = 0.17391306
 anchor_right = 1.0
-anchor_bottom = 0.775
+anchor_bottom = 0.674
+offset_bottom = 10.477997
 theme_override_font_sizes/font_size = 20
 text = "ERRORMESSAGE"
 horizontal_alignment = 1
@@ -120,62 +122,24 @@ vertical_alignment = 1
 autowrap_mode = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="PopupMessage/ServerError" unique_id=2081314857]
+[node name="Button" type="Button" parent="PopupMessage/Error" unique_id=2081314857]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 256.0
-offset_right = 448.0
-offset_bottom = 312.0
+anchor_left = 0.125
+anchor_top = 0.6956522
+anchor_right = 0.875
+anchor_bottom = 0.84782606
 text = "Back to Main Menu"
+metadata/_edit_use_anchors_ = true
 
-[node name="LoadError" type="Panel" parent="PopupMessage" unique_id=2110023375]
+[node name="ButtonSkip" type="Button" parent="PopupMessage/Error" unique_id=78695558]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -256.0
-offset_top = -160.0
-offset_right = 256.0
-offset_bottom = 160.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="PopupMessage/LoadError" unique_id=177303556]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.05
-anchor_right = 1.0
-anchor_bottom = 0.225
-theme_override_colors/font_color = Color(1, 0.2478047, 0, 1)
-theme_override_font_sizes/font_size = 26
-text = "Map Loading Error..."
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Message" type="Label" parent="PopupMessage/LoadError" unique_id=51728712]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.225
-anchor_right = 1.0
-anchor_bottom = 0.775
-theme_override_font_sizes/font_size = 20
-text = "ERRORMESSAGE"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-metadata/_edit_use_anchors_ = true
-
-[node name="Button" type="Button" parent="PopupMessage/LoadError" unique_id=1063495735]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 256.0
-offset_right = 448.0
-offset_bottom = 312.0
-text = "Back to Main Menu"
+anchor_left = 0.25
+anchor_top = 0.8695652
+anchor_right = 0.75
+anchor_bottom = 0.9782609
+text = "Skip"
+metadata/_edit_use_anchors_ = true
 
 [node name="request" type="Node" parent="." unique_id=1939780136]
 script = ExtResource("3_lnu2h")

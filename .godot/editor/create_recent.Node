@@ -1,3 +1,4 @@
+RichTextLabel
 LivingEntity
 MultiplayerSynchronizer
 HTTPRequest
@@ -12,4 +13,3 @@ CollisionShape3D
 Area3D
 Label
 HBoxContainer
-VBoxContainer

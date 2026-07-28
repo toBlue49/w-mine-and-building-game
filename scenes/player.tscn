@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://j4uglu2w8jpi" path="res://textures/gui/hotbar.png" id="5_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://c14iidkoauie5" path="res://textures/gui/selection.png" id="6_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://datlte86g2bce" path="res://textures/icon/1.png" id="7_jej6c"]
-[ext_resource type="PackedScene" uid="uid://3ng3do7pi2ci" path="res://settings.tscn" id="7_ujl30"]
+[ext_resource type="PackedScene" uid="uid://3ng3do7pi2ci" path="res://scenes/settings.tscn" id="7_ujl30"]
 [ext_resource type="Texture2D" uid="uid://ck61hs5eqedq2" path="res://textures/icon/2.png" id="8_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://5bkwwurww76p" path="res://textures/icon/3.png" id="9_oprun"]
 [ext_resource type="Texture2D" uid="uid://b3fa2qu1hqcv8" path="res://textures/icon/4.png" id="10_a8ls1"]
