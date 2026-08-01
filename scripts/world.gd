@@ -1,6 +1,11 @@
 extends Node3D
 
 const player_scene = preload("res://scenes/player.tscn")
+const music = [
+	"res://sound/music.untitled_main_theme.ogg",
+	"res://sound/music.similar_beginnings.ogg",
+	"res://sound/music.differences.ogg"
+]
 var physics_tick_counter = 0
 var tick_counter = 0
 
@@ -150,7 +155,7 @@ func start_music_timer():
 	
 	await music_timer.timeout
 	
-	music_player.stream = load("res://sound/music.untitled_main_theme.ogg")
+	music_player.stream = load(music[randi_range(0, music.size()-1)])
 	music_player.play()
 
 func spawn_entity(pos: Vector3, id: int):
