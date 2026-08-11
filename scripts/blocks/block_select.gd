@@ -5,6 +5,6 @@ extends Node3D
 
 func _ready():
 	AnimPlayer.play("idle")
-	
+
 func update_breaking_mesh_alpha(alpha: float):
 	breaking_mesh.mesh.surface_get_material(0).albedo_color.a = alpha

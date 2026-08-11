@@ -1,4 +1,5 @@
-res://scenes/chat.tscn
-res://resources/theme.tres
-res://scripts/world.gd
 res://scenes/game.tscn
+res://resources/theme.tres
+res://scripts/blocks/block_select.gd
+res://TODO.txt
+res://scripts/grid_map.gd

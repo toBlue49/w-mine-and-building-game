@@ -32,7 +32,10 @@ var spawn_position = Vector3.ZERO
 
 ##Generation:
 
-func get_rand_noise(x:int, y:int) -> int:
+func get_rand_noise(x:int, y:int) -> float:
+	return (rand_noise.get_noise_2d(x, y) + 1) * 0.5
+
+func get_rand_noise_scaled(x:int, y:int) -> int:
 	return floori(rand_noise.get_noise_2d(x, y) * 500) + 500
 
 func get_height(x: int, y: int) -> int:
@@ -107,31 +110,34 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 		await get_tree().physics_frame
 
 func generate_features():
+	## Trees
 	for x in size:
 		for z in size:
-			##Trees
-			var rand = get_rand_noise(x, z)
+			var rand = get_rand_noise_scaled(x, z)
 			if rand >= 975:
 				place_tree(x, get_height(x, z), z)
-			
-			##Ores
-			for y in int():
-				var y_rand = get_rand_noise(x, z+y)
-				if y_rand >= 950 and y_rand <= 1000:
-					generate_ore(x, y, z)
-
-func generate_ore(x, y, z) -> void:
-	if get_cell_item(Vector3i(x, y, z)) != global.BLOCK.STONE:
-		return
 	
-	##Choose ore type
-	var rand_type = get_rand_noise(x+256, z+y)
-	if rand_type >= 0 and rand_type <= 450:
-		set_cell_item(Vector3i(x, y, z), global.BLOCK.IRON_ORE)
-	if rand_type >= 451 and 800:
-		set_cell_item(Vector3i(x, y , z), global.BLOCK.DIAMOND_ORE)
-	if rand_type >= 801 and 1000:
-		set_cell_item(Vector3i(x, y, z), global.BLOCK.RUBY_ORE)
+	## Ores
+	for i in 90: #Ore Count per chunk
+		@warning_ignore("integer_division")
+		for cy in size/chunk_size: for cx in size/chunk_size: #Chunk X / Y
+			var cindex: int = cx + (cy*4) #Chunk Index
+			
+			var x: int = roundi(get_rand_noise(size + cindex*4 + 0, i) * chunk_size) # X Pos in Chunk
+			var z: int = roundi(get_rand_noise(size + cindex*4 + 1, i) * chunk_size) # Z Pos in Chunk
+			var y: int = roundi(get_rand_noise(size + cindex*4 + 2, i) * get_height(x, z)) # Y Pos
+			var t: int = get_rand_noise_scaled(size + cindex*4 + 3, i) # Ore Type
+			
+			var map_x: int = x + cx*chunk_size # X Pos on map
+			var map_z: int = z + cy*chunk_size # Z Pos on map
+			
+			if get_cell_item(Vector3i(map_x, y, map_z)) == global.BLOCK.STONE:
+				if t <= 500: #50% for Iron Ore
+					set_cell_item(Vector3i(map_x, y, map_z), global.BLOCK.IRON_ORE)
+				elif t >= 501 and t <= 800: #30% for Diamond Ore
+					set_cell_item(Vector3i(map_x, y, map_z), global.BLOCK.DIAMOND_ORE)
+				elif t >= 801 and t <= 1000: #20% for Ruby Ore
+					set_cell_item(Vector3i(map_x, y, map_z), global.BLOCK.RUBY_ORE)
 
 func place_tree(x, y, z):
 	##Detect near generated trees
@@ -143,7 +149,7 @@ func place_tree(x, y, z):
 	
 	##Randomized Tree Height
 	var tree_height:int
-	if get_rand_noise(x, z+5) >= 800:
+	if get_rand_noise_scaled(x, z+5) >= 800:
 		tree_height = 4
 	else:
 		tree_height = 5
@@ -259,9 +265,6 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 		return
 	
 	size = gridmap_size
-	@warning_ignore("integer_division")
-	var half_size = size/2
-	var pos = Vector3(half_size, 0, half_size)
 
 	#Get GridMap
 	setup_cell_data(size)
