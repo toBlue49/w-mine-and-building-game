@@ -241,7 +241,7 @@ func init_host():
 	#Host Init
 	multiplayer.peer_connected.connect(
 		func(new_peer_id):
-			await get_tree().create_timer(0.75).timeout
+			await get_tree().create_timer(1.0).timeout
 			init_join.rpc(new_peer_id, [], size)
 	)
 	multiplayer.peer_disconnected.connect(

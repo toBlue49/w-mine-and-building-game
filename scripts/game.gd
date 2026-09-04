@@ -3,7 +3,7 @@ extends Node
 var PORT: int = 9555
 const MAIN_TITLE = "W Mine and Building Game"
 const PROTOCOL_VERSION = 6
-const SAVE_VERSION = 1
+const SAVE_VERSION = 2
 const ENTITY_LIST: Array = [
 	preload("res://scenes/entity/test_entity.tscn"),
 	preload("res://scenes/entity/pig.tscn"),
@@ -13,6 +13,7 @@ const ENTITY_LIST: Array = [
 ##SAVE VERSION CHANGELOG
 #0 = Initial verison
 #1 = entity.tscn, 0.12e
+#2 = inventory size changed, 0.13b
 
 var ipv4_address = ""
 var gamemode = SURVIVAL

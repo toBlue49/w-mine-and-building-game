@@ -18,7 +18,13 @@ func tick(): #40 tic/sec
 		move_down()
 		tick_counter = 0
 
+func get_new_gridmap():
+	gridmap = get_node("../..").grid_map
+
 func move_down():
+	if gridmap == null:
+		get_new_gridmap()
+	
 	if gridmap.get_cell_item(map_pos - Vector3i(0, 1, 0)) == -1:
 		gridmap.set_cell_item(map_pos, -1)
 		gridmap.set_cell_item(map_pos - Vector3i(0, 1, 0), 19)

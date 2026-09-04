@@ -31,6 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://dpygi8rq0qkpn" path="res://textures/icon/20.png" id="26_pf23h"]
 [ext_resource type="Texture2D" uid="uid://downmebm620d1" path="res://textures/icon/21.png" id="27_dt7fs"]
 [ext_resource type="Texture2D" uid="uid://cj4nvfqeuh7o5" path="res://textures/icon/22.png" id="28_wqfne"]
+[ext_resource type="PackedScene" uid="uid://co4nixeftq8a0" path="res://scenes/ui/inventory.tscn" id="30_mx1m4"]
 [ext_resource type="Texture2D" uid="uid://bu1676mkh3o72" path="res://textures/item/1.png" id="31_gl8cc"]
 [ext_resource type="Texture2D" uid="uid://cyn5p4hmiebff" path="res://textures/item/2.png" id="32_md1ol"]
 [ext_resource type="Texture2D" uid="uid://d3hq5m3vkj87i" path="res://textures/item/3.png" id="33_bj30b"]
@@ -70,13 +71,13 @@ bg_color = Color(0.49, 0, 0, 0.54901963)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt7fs"]
 bg_color = Color(0.7715464, 0.18788382, 0.18788382, 1)
 
-[sub_resource type="Gradient" id="Gradient_3vyb7"]
+[sub_resource type="Gradient" id="Gradient_holxr"]
 interpolation_color_space = 2
 offsets = PackedFloat32Array(0, 0.65591395)
 colors = PackedColorArray(0.24319999, 0.6135733, 0.76, 0.7019608, 0.1254, 0.40161002, 0.66, 0.37254903)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_g2els"]
-gradient = SubResource("Gradient_3vyb7")
+gradient = SubResource("Gradient_holxr")
 width = 2
 height = 256
 fill_from = Vector2(0, 1)
@@ -741,6 +742,11 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("28_wqfne")
 stretch_mode = 0
+
+[node name="Inventory" parent="CanvasLayer/Control" unique_id=155451495 node_paths=PackedStringArray("player") instance=ExtResource("30_mx1m4")]
+visible = false
+layout_mode = 1
+player = NodePath("../../..")
 
 [node name="Crafting" type="Control" parent="CanvasLayer/Control" unique_id=1516419227]
 visible = false

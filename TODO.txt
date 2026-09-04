@@ -1,6 +1,7 @@
 0.13:
 	O rework ore generation
-	- inventory
+	O inventory
+	- inventory delete slot
 	- concrete craftable
 	- color workstation block
 	- random block ticks

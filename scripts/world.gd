@@ -98,6 +98,10 @@ func tick(): #40 tic/sec
 		print_rich("[color=yellow][WARNING] Objects or entities is null. Skipping tick.")
 		return
 	
+	if grid_map == null:
+		print_rich("[color=yellow][WARNING] GridMap is null. Skipping tick.")
+		return
+	
 	#objects
 	for node in objects.get_children():
 		if node.has_method("tick"):
@@ -227,7 +231,7 @@ func load_level_from_file(filename: String):
 	await get_tree().process_frame
 	var absolute_path = "user://levels/%s" % filename
 	
-	#Load files
+	## Load files
 	
 	if !DirAccess.dir_exists_absolute(absolute_path):
 		global.show_popup("LoadError", "Directory does not exist!")
@@ -251,10 +255,16 @@ func load_level_from_file(filename: String):
 	var scene_objects = load("%s/objects.tscn" % absolute_path)
 	var node_objects: Node3D = scene_objects.instantiate() if scene_objects else Node3D.new()
 	
+	## Save Version <= 0
 	if metadata.save_version <= 0:
 		if !FileAccess.file_exists("%s/entity.tscn" % absolute_path):
 			var do_continue: bool = await global.show_popup("Load Error", "Entity.tscn does not exist. Skipping will create a new file.", true)
 			if !do_continue: return
+	
+	## Save Version <= 1
+	if metadata.save_version <= 1:
+		metadata.player.inventory.append_array([[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []])
+	
 	var scene_entities = load("%s/entity.tscn" % absolute_path)
 	var node_entities: Node3D = scene_entities.instantiate() if scene_entities else Node3D.new()
 	
@@ -280,6 +290,7 @@ func load_level_from_file(filename: String):
 	grid_map = get_node("GridMap")
 	objects = get_node("Objects")
 	entities = get_node("Entities")
+	grid_map.entities = get_node("Entities")
 	
 	#GridMap
 	grid_map.setup_cell_data(int(metadata.gridmap_size))
@@ -319,7 +330,7 @@ func load_level_from_file(filename: String):
 		player.position = metadata.player.pos
 		player.inventory = metadata.player.inventory
 		player.rotation = metadata.player.rotation
-
+		player.update_hotbar()
 	
 	global.show_loading_screen(false)
 	global.do_not_allow_input = false

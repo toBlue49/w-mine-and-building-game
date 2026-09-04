@@ -8,7 +8,7 @@ var hit_damage = 5
 var sensitivity = 0.002
 var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
-var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [global.ITEM.DIAMOND_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1]]
+var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [global.ITEM.DIAMOND_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 var fall_timer = 0
 var breaking_timer = 0.0 
 var breaking_timer_default = 0.0
@@ -43,6 +43,7 @@ enum itmType{
 @onready var chat: Control = $"../UI/Chat"
 @onready var healthbar: ProgressBar = $CanvasLayer/Control/HealthBar
 @onready var healthbar_label: Label = $CanvasLayer/Control/HealthBar/Label
+@onready var inventory_ui: Control = $CanvasLayer/Control/Inventory
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
@@ -60,6 +61,9 @@ func _ready():
 	
 	control.visible = true
 	camera_3d.current = true
+	
+	#Update Inventory and Hotbar
+	inventory_ui.update_inventory()
 	update_hotbar()
 	
 	#Connect BlockMenu Buttons
@@ -78,38 +82,42 @@ func _input(event: InputEvent) -> void:
 	
 	#Esc to hide UI
 	if Input.is_action_just_pressed("ui_cancel"):
-		if game_over_menu.visible == true:
-			return
-		if settings.visible:
+		if inventory_ui.visible == true:
+			inventory_ui.close()
+		elif game_over_menu.visible == true:
+			pass
+		elif settings.visible:
 			settings.visible = false
-			return
-		if crafting.visible:
+		elif crafting.visible:
 			crafting.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			global.do_not_allow_input = false
-			return
-		if block_menu.visible:
+		elif block_menu.visible:
 			block_menu.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			global.do_not_allow_input = false
-			return
-		if chat.get_node("LineEdit").visible:
+		elif chat.get_node("LineEdit").visible:
 			chat.get_node("LineEdit").visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			global.do_not_allow_input = false
-			return
-		get_load_name.visible = false
-		get_save_name.visible = false
-		pause_menu.visible = not pause_menu.visible
-		if pause_menu.visible:
-			background.visible = true
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			global.do_not_allow_input = true
-		else:
+		elif get_save_name.visible == true:
+			get_save_name.visible = false
+			pause_menu.visible = true
+		elif get_load_name.visible == true:
+			get_load_name.visible = false
+			pause_menu.visible = true
+		elif pause_menu.visible:
+			pause_menu.visible = false
 			background.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			global.do_not_allow_input = false
+		else:
+			pause_menu.visible = true
+			background.visible = true
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			global.do_not_allow_input = true
 	
+	## DO NOT ALLOW INPUT
 	if global.do_not_allow_input: return
 	
 	#Mouse
@@ -161,6 +169,8 @@ func _input(event: InputEvent) -> void:
 		crafting.show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		global.do_not_allow_input = true
+	
+	#Inventory handling in inventory.gd
 
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority() and global.is_multiplayer:
@@ -298,8 +308,9 @@ func _physics_process(delta: float) -> void:
 			update_hovering_block(gridmap_raycast_collision)
 	else:
 		#No Block Selection
-		grid_map.world.move_block_selection(Vector3(-1, -1, -1))
-		grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
+		if grid_map != null:
+			grid_map.world.move_block_selection(Vector3(-1, -1, -1))
+			grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 
 func get_data_of_looking_at_cell() -> Dictionary:
 	if raycast3dGridmap.is_colliding():
@@ -458,7 +469,7 @@ func toggle_disabled_collision_shape_3d():
 ######## UI Control
 
 func update_hotbar():
-	for item_count in inventory.size():
+	for item_count in 10:
 		var item = inventory[item_count]
 		if item == [] or (item[2] == 0 and item[0] != -1):
 			inventory[item_count] = [-1, itmType.BLOCK, 0]
