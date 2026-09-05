@@ -828,6 +828,12 @@ texture_normal = ExtResource("12_fulsm")
 crafting_id = "glass"
 player = NodePath("../../../../../../..")
 
+[node name="Concrete" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks/GridContainer" unique_id=1238830040 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("14_l71n6")
+crafting_id = "white_concrete"
+player = NodePath("../../../../../../..")
+
 [node name="Tools" type="TabBar" parent="CanvasLayer/Control/Crafting/TabContainer" unique_id=1836006411]
 visible = false
 layout_mode = 2

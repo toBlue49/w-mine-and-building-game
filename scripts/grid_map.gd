@@ -110,12 +110,19 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 		await get_tree().physics_frame
 
 func generate_features():
-	## Trees
+	## First pass (Trees)
 	for x in size:
 		for z in size:
 			var rand = get_rand_noise_scaled(x, z)
 			if rand >= 975:
 				place_tree(x, get_height(x, z), z)
+	
+	## Second pass (Sand patches)
+	for x in size:
+		for z in size:
+			var rand = get_rand_noise_scaled(x, z)
+			if rand == 974 or rand == 973:
+				place_sand_patch(x, z)
 	
 	## Ores
 	for i in 90: #Ore Count per chunk
@@ -138,6 +145,21 @@ func generate_features():
 					set_cell_item(Vector3i(map_x, y, map_z), global.BLOCK.DIAMOND_ORE)
 				elif t >= 801 and t <= 1000: #20% for Ruby Ore
 					set_cell_item(Vector3i(map_x, y, map_z), global.BLOCK.RUBY_ORE)
+
+func place_sand_patch(x: int, z: int):
+	for dx in range(-3, 3):
+		for dz in range(-3, 3):
+			var dist = Vector2i(0, 0).distance_to(Vector2i(dx, dz))
+			if dist <= 2.5: #creates an circle like shape
+				var y: int = get_height(x+dx, z+dz)
+				
+				if get_cell_item(Vector3i(x+dx, y+1, z+dz)) == -1 and get_cell_item(Vector3i(x+dx, y+1, z+dz)) != global.BLOCK.SAND: #exposed to air
+					set_cell_item(Vector3i(x+dx, y, z+dz), global.BLOCK.SAND)
+					place_block_object(Vector3i(x+dx, y, z+dz), global.BLOCK.SAND)
+					
+					if dist <= 1.5: #2 block deep in the center
+						set_cell_item(Vector3i(x+dx, y-1, z+dz), global.BLOCK.SAND)
+						place_block_object(Vector3i(x+dx, y-1, z+dz), global.BLOCK.SAND)
 
 func place_tree(x, y, z):
 	##Detect near generated trees
@@ -166,6 +188,9 @@ func place_tree(x, y, z):
 
 	for i in tree_height:
 		set_cell_item(Vector3i(x, y+i+1, z), 3)
+	
+	##Dirt Block
+	set_cell_item(Vector3i(x, y, z), global.BLOCK.DIRT)
 
 func match_border_to_size():
 	border.get_node("movable").position.z = size*2+256

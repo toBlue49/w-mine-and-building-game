@@ -8,7 +8,7 @@ var hit_damage = 5
 var sensitivity = 0.002
 var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
-var inventory = [[19, itmType.BLOCK, 10], [], [], [], [], [], [], [global.ITEM.DIAMOND_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+var inventory = [[global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_AXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 var fall_timer = 0
 var breaking_timer = 0.0 
 var breaking_timer_default = 0.0
@@ -122,7 +122,7 @@ func _input(event: InputEvent) -> void:
 	
 	#Mouse
 	if event is InputEventMouseMotion:
-		sensitivity = global.settings.input_other.sensitivity
+		sensitivity = global.settings.input_other.sensitivity * (get_window().size.y / 720.0) #720p is the default size.
 		
 		rotation.y = rotation.y - event.relative.x * sensitivity
 		camera_3d.rotation.x = camera_3d.rotation.x - event.relative.y * sensitivity

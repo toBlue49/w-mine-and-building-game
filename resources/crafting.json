@@ -38,5 +38,7 @@
 	"ruby_axe":
 		{ "needed": [[5, 0, 2], [20, 0, 3]], "result": [14, 1, 1]},
 	"ruby_shovel":
-		{ "needed": [[5, 0, 2], [20, 0, 2]], "result": [15, 1, 1]}
+		{ "needed": [[5, 0, 2], [20, 0, 2]], "result": [15, 1, 1]},
+	"white_concrete":
+		{ "needed": [[19, 0, 1], [1, 0, 2]], "result": [8, 0, 3]}
 }

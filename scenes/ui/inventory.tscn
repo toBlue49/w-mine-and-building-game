@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_s6ek7"]
 [ext_resource type="Texture2D" uid="uid://c4xkxay1kd854" path="res://textures/gui/inventory_10.png" id="2_avmd0"]
 [ext_resource type="Script" uid="uid://cm76368r467u4" path="res://scripts/ui/inventory.gd" id="2_xeaml"]
+[ext_resource type="Texture2D" uid="uid://d2t4xfvt3gx1o" path="res://textures/gui/inventory_selection.png" id="4_5yy05"]
 
 [sub_resource type="Gradient" id="Gradient_3vyb7"]
 interpolation_color_space = 2
@@ -1295,7 +1296,16 @@ offset_right = 920.0
 offset_bottom = 264.0
 
 [node name="HoldingItem" type="TextureRect" parent="." unique_id=1681287550]
+z_index = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
+
+[node name="InventorySelection" type="Sprite2D" parent="." unique_id=992702205]
+z_index = 1
+texture_filter = 1
+position = Vector2(-64, -64)
+scale = Vector2(3.105, 3.095)
+texture = ExtResource("4_5yy05")
+offset = Vector2(10, 10.5)
