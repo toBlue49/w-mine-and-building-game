@@ -282,7 +282,13 @@ func _physics_process(delta: float) -> void:
 				grid_map.world.blockSelect.update_breaking_mesh_alpha((1-breaking_timer/breaking_timer_default)*0.6)
 				
 				if breaking_timer <= 0:
-					grid_map.destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), true if global.gamemode == global.SURVIVAL else false)
+					var do_drop: bool = false if hovering_block_data.tags.has("drop_needs_tool") else true
+					if held_item_data.type == "TOOL" and selected_block[0] != -1 and selected_block[1] == itmType.ITEM and do_drop == false:
+						for block_type in held_item_data.tool_data.block_type:
+							if block_type == hovering_block_data.type:
+								do_drop = true
+					
+					grid_map.destroy_block.rpc(raycast3d.get_collision_point() - raycast3d.get_collision_normal(), do_drop if global.gamemode == global.SURVIVAL else false)
 					update_breaking_timer()
 		else:
 			if hovering_block_data != {}:

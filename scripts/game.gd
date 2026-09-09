@@ -30,6 +30,8 @@ var popup_error_button_pressed = ""
 var block_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/block_data.json"))
 var item_data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/item_data.json"))
 var drops: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://resources/drops.json"))
+var DO_FLAT_WORLD = false
+var DO_NO_FEATURES = false
 @onready var SceneContainer = $Scene
 @onready var active_scene: Node
 @onready var GlobalControl = $GlobalControl
@@ -84,12 +86,18 @@ func _ready():
 	load_scene("res://scenes/world.tscn")
 	
 	for argument in OS.get_cmdline_args():
-		if argument == "--force-survival":
-			print_rich("[INFO] force-survival")
+		if argument == "--force_survival":
+			print_rich("[INFO] Args: force_survival")
 			global.gamemode = SURVIVAL
-		if argument == "--force-creative":
-			print_rich("[INFO] force-creative")
+		if argument == "--force_creative":
+			print_rich("[INFO] Args: force_creative")
 			global.gamemode = CREATIVE
+		if argument == "--flat_world":
+			print_rich("[INFO] Args: flat_world")
+			DO_FLAT_WORLD = true
+		if argument == "--no_features":
+			print_rich("[INFO] Args: no_features")
+			DO_NO_FEATURES = true
 	
 	#Create Folder
 	var dir: DirAccess = DirAccess.open("user://")

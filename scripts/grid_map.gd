@@ -110,6 +110,9 @@ func move_player(peer_id = 0): #singleplayer / hosting player
 		await get_tree().physics_frame
 
 func generate_features():
+	if global.DO_NO_FEATURES:
+		return
+	
 	## First pass (Trees)
 	for x in size:
 		for z in size:
@@ -213,6 +216,10 @@ func GENERATE():
 	#set seed
 	noise.set_seed(randi_range(-2147483646, 2147483646))
 	rand_noise.seed = noise.seed
+	
+	#do flat world
+	if global.DO_FLAT_WORLD:
+		height = 0
 	
 	#setup cell data
 	setup_cell_data(size, 128)

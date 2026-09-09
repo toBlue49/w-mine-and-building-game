@@ -3,138 +3,161 @@
 		"type": "DIRT",
 		"mining_time": 0.4,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"1": {
 		"type": "STONE",
 		"mining_time": 1.2,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"2": {
 		"type": "DIRT",
 		"mining_time": 0.3,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"3": {
 		"type": "WOOD",
 		"mining_time": 1.0,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"4": {
 		"type": "DIRT",
 		"mining_time": 0.4,
 		"stack_limit": 99,
-		"transparent": true
+		"transparent": true,
+		"tags": []
 	},
 	"5": {
 		"type": "WOOD",
 		"mining_time": 0.75,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"6": {
 		"type": "DEFAULT",
 		"mining_time": 0.3,
 		"stack_limit": 99,
-		"transparent": true
+		"transparent": true,
+		"tags": []
 	},
 	"7": {
 		"type": "DEFAULT",
 		"mining_time": 1.0,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"8": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"9": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"10": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"11": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"12": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"13": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"14": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"15": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"16": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"17": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"18": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"19": {
 		"type": "DIRT",
 		"mining_time": 0.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": []
 	},
 	"20": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"21": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	},
 	"22": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
-		"transparent": false
+		"transparent": false,
+		"tags": ["drop_needs_tool"]
 	}
 }

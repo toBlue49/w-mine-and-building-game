@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c4xkxay1kd854" path="res://textures/gui/inventory_10.png" id="2_avmd0"]
 [ext_resource type="Script" uid="uid://cm76368r467u4" path="res://scripts/ui/inventory.gd" id="2_xeaml"]
 [ext_resource type="Texture2D" uid="uid://d2t4xfvt3gx1o" path="res://textures/gui/inventory_selection.png" id="4_5yy05"]
+[ext_resource type="Texture2D" uid="uid://cd5ddj37fniq4" path="res://textures/gui/inventory_delete.png" id="4_ulvp7"]
 
 [sub_resource type="Gradient" id="Gradient_3vyb7"]
 interpolation_color_space = 2
@@ -40,9 +41,9 @@ texture = SubResource("GradientTexture2D_avmd0")
 [node name="Panel" type="Panel" parent="." unique_id=1124195139]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.24375
+anchor_left = 0.221875
 anchor_top = 0.2
-anchor_right = 0.75625
+anchor_right = 0.778125
 anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
@@ -52,60 +53,91 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.7407407
-anchor_right = 1.0000001
-anchor_bottom = 0.8917824
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -369.0
+offset_top = 104.0
+offset_right = 287.00006
+offset_bottom = 169.25
 texture = ExtResource("2_avmd0")
 expand_mode = 1
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="Inventory2" type="TextureRect" parent="Panel" unique_id=1016892510]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.46296299
-anchor_right = 1.0000001
-anchor_bottom = 0.6140046
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -369.0
+offset_top = -15.999985
+offset_right = 287.00006
+offset_bottom = 49.25
 texture = ExtResource("2_avmd0")
 expand_mode = 1
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="Inventory3" type="TextureRect" parent="Panel" unique_id=1889505710]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.2962963
-anchor_right = 1.0000001
-anchor_bottom = 0.44733796
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -369.0
+offset_top = -88.0
+offset_right = 287.00006
+offset_bottom = -22.75
 texture = ExtResource("2_avmd0")
 expand_mode = 1
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="Inventory4" type="TextureRect" parent="Panel" unique_id=1481240869]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.12962964
-anchor_right = 1.0000001
-anchor_bottom = 0.28067133
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -369.0
+offset_top = -160.0
+offset_right = 287.00006
+offset_bottom = -94.749985
 texture = ExtResource("2_avmd0")
 expand_mode = 1
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="Panel" unique_id=1079334793]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 648.0
-offset_bottom = 53.0
+anchor_left = 0.0121951215
+anchor_top = 0.018518519
+anchor_right = 0.9878049
+anchor_bottom = 0.12268519
 theme_override_font_sizes/font_size = 20
 text = "Inventory"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="InventoryDelete" type="TextureRect" parent="Panel" unique_id=1339006149]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 261.0
+offset_top = 104.0
+offset_right = 323.0
+offset_bottom = 169.09998
+texture = ExtResource("4_ulvp7")
 
 [node name="Hotbar" type="Control" parent="." unique_id=619615307]
 layout_mode = 1
@@ -131,9 +163,9 @@ grow_vertical = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.075
+anchor_left = 0.0109375
 anchor_top = 0.78125
-anchor_right = 0.1375
+anchor_right = 0.0734375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -153,9 +185,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1625
+anchor_left = 0.0984375
 anchor_top = 0.78125
-anchor_right = 0.225
+anchor_right = 0.1609375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -175,9 +207,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
+anchor_left = 0.1859375
 anchor_top = 0.78125
-anchor_right = 0.3125
+anchor_right = 0.2484375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -197,9 +229,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3375
+anchor_left = 0.2734375
 anchor_top = 0.78125
-anchor_right = 0.4
+anchor_right = 0.3359375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -219,9 +251,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.425
+anchor_left = 0.3609375
 anchor_top = 0.78125
-anchor_right = 0.4875
+anchor_right = 0.4234375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -241,9 +273,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5125
+anchor_left = 0.4484375
 anchor_top = 0.78125
-anchor_right = 0.575
+anchor_right = 0.5109375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -263,9 +295,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6
+anchor_left = 0.5359375
 anchor_top = 0.78125
-anchor_right = 0.6625
+anchor_right = 0.5984375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -285,9 +317,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6875
+anchor_left = 0.6234375
 anchor_top = 0.78125
-anchor_right = 0.75
+anchor_right = 0.6859375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -307,9 +339,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.775
+anchor_left = 0.7109375
 anchor_top = 0.78125
-anchor_right = 0.8375
+anchor_right = 0.7734375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -329,9 +361,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.8625
+anchor_left = 0.7984375
 anchor_top = 0.78125
-anchor_right = 0.925
+anchor_right = 0.8609375
 anchor_bottom = 0.87740386
 metadata/_edit_use_anchors_ = true
 
@@ -351,9 +383,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.075
+anchor_left = 0.0109375
 anchor_top = 0.49278846
-anchor_right = 0.1375
+anchor_right = 0.0734375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -373,9 +405,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1625
+anchor_left = 0.0984375
 anchor_top = 0.49278846
-anchor_right = 0.225
+anchor_right = 0.1609375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -395,9 +427,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
+anchor_left = 0.1859375
 anchor_top = 0.49278846
-anchor_right = 0.3125
+anchor_right = 0.2484375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -417,9 +449,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3375
+anchor_left = 0.2734375
 anchor_top = 0.49278846
-anchor_right = 0.4
+anchor_right = 0.3359375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -439,9 +471,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.425
+anchor_left = 0.3609375
 anchor_top = 0.49278846
-anchor_right = 0.4875
+anchor_right = 0.4234375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -461,9 +493,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5125
+anchor_left = 0.4484375
 anchor_top = 0.49278846
-anchor_right = 0.575
+anchor_right = 0.5109375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -483,9 +515,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6
+anchor_left = 0.5359375
 anchor_top = 0.49278846
-anchor_right = 0.6625
+anchor_right = 0.5984375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -505,9 +537,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6875
+anchor_left = 0.6234375
 anchor_top = 0.49278846
-anchor_right = 0.75
+anchor_right = 0.6859375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -527,9 +559,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.775
+anchor_left = 0.7109375
 anchor_top = 0.49278846
-anchor_right = 0.8375
+anchor_right = 0.7734375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -549,9 +581,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.8625
+anchor_left = 0.7984375
 anchor_top = 0.49278846
-anchor_right = 0.925
+anchor_right = 0.8609375
 anchor_bottom = 0.5889423
 metadata/_edit_use_anchors_ = true
 
@@ -571,9 +603,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.075
+anchor_left = 0.0109375
 anchor_top = 0.31971154
-anchor_right = 0.1375
+anchor_right = 0.0734375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -593,9 +625,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1625
+anchor_left = 0.0984375
 anchor_top = 0.31971154
-anchor_right = 0.225
+anchor_right = 0.1609375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -615,9 +647,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
+anchor_left = 0.1859375
 anchor_top = 0.31971154
-anchor_right = 0.3125
+anchor_right = 0.2484375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -637,9 +669,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3375
+anchor_left = 0.2734375
 anchor_top = 0.31971154
-anchor_right = 0.4
+anchor_right = 0.3359375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -659,9 +691,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.425
+anchor_left = 0.3609375
 anchor_top = 0.31971154
-anchor_right = 0.4875
+anchor_right = 0.4234375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -681,9 +713,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5125
+anchor_left = 0.4484375
 anchor_top = 0.31971154
-anchor_right = 0.575
+anchor_right = 0.5109375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -703,9 +735,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6
+anchor_left = 0.5359375
 anchor_top = 0.31971154
-anchor_right = 0.6625
+anchor_right = 0.5984375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -725,9 +757,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6875
+anchor_left = 0.6234375
 anchor_top = 0.31971154
-anchor_right = 0.75
+anchor_right = 0.6859375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -747,9 +779,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.775
+anchor_left = 0.7109375
 anchor_top = 0.31971154
-anchor_right = 0.8375
+anchor_right = 0.7734375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -769,9 +801,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.8625
+anchor_left = 0.7984375
 anchor_top = 0.31971154
-anchor_right = 0.925
+anchor_right = 0.8609375
 anchor_bottom = 0.4158654
 metadata/_edit_use_anchors_ = true
 
@@ -791,9 +823,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.075
+anchor_left = 0.0109375
 anchor_top = 0.14663461
-anchor_right = 0.1375
+anchor_right = 0.0734375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -813,9 +845,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1625
+anchor_left = 0.0984375
 anchor_top = 0.14663461
-anchor_right = 0.225
+anchor_right = 0.1609375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -835,9 +867,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
+anchor_left = 0.1859375
 anchor_top = 0.14663461
-anchor_right = 0.3125
+anchor_right = 0.2484375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -857,9 +889,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3375
+anchor_left = 0.2734375
 anchor_top = 0.14663461
-anchor_right = 0.4
+anchor_right = 0.3359375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -879,9 +911,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.425
+anchor_left = 0.3609375
 anchor_top = 0.14663461
-anchor_right = 0.4875
+anchor_right = 0.4234375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -901,9 +933,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5125
+anchor_left = 0.4484375
 anchor_top = 0.14663461
-anchor_right = 0.575
+anchor_right = 0.5109375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -923,9 +955,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6
+anchor_left = 0.5359375
 anchor_top = 0.14663461
-anchor_right = 0.6625
+anchor_right = 0.5984375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -945,9 +977,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6875
+anchor_left = 0.6234375
 anchor_top = 0.14663461
-anchor_right = 0.75
+anchor_right = 0.6859375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -967,9 +999,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.775
+anchor_left = 0.7109375
 anchor_top = 0.14663461
-anchor_right = 0.8375
+anchor_right = 0.7734375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -989,9 +1021,9 @@ vertical_alignment = 2
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.8625
+anchor_left = 0.7984375
 anchor_top = 0.14663461
-anchor_right = 0.925
+anchor_right = 0.8609375
 anchor_bottom = 0.24278846
 metadata/_edit_use_anchors_ = true
 
@@ -1017,283 +1049,290 @@ grow_vertical = 2
 
 [node name="0" type="Control" parent="Collision" unique_id=155653318]
 anchors_preset = 0
-offset_left = 360.0
+offset_left = 319.0
 offset_top = 464.0
-offset_right = 416.0
+offset_right = 375.0
 offset_bottom = 528.0
 
 [node name="1" type="Control" parent="Collision" unique_id=324779752]
 anchors_preset = 0
-offset_left = 416.0
+offset_left = 375.0
 offset_top = 464.0
-offset_right = 472.0
+offset_right = 431.0
 offset_bottom = 528.0
 
 [node name="2" type="Control" parent="Collision" unique_id=2118520305]
 anchors_preset = 0
-offset_left = 472.0
+offset_left = 431.0
 offset_top = 464.0
-offset_right = 528.0
+offset_right = 487.0
 offset_bottom = 528.0
 
 [node name="3" type="Control" parent="Collision" unique_id=478659818]
 anchors_preset = 0
-offset_left = 528.0
+offset_left = 487.0
 offset_top = 464.0
-offset_right = 584.0
+offset_right = 543.0
 offset_bottom = 528.0
 
 [node name="4" type="Control" parent="Collision" unique_id=148203837]
 anchors_preset = 0
-offset_left = 584.0
+offset_left = 543.0
 offset_top = 464.0
-offset_right = 640.0
+offset_right = 599.0
 offset_bottom = 528.0
 
 [node name="5" type="Control" parent="Collision" unique_id=1990572889]
 anchors_preset = 0
-offset_left = 640.0
+offset_left = 599.0
 offset_top = 464.0
-offset_right = 696.0
+offset_right = 655.0
 offset_bottom = 528.0
 
 [node name="6" type="Control" parent="Collision" unique_id=407440401]
 anchors_preset = 0
-offset_left = 696.0
+offset_left = 655.0
 offset_top = 464.0
-offset_right = 752.0
+offset_right = 711.0
 offset_bottom = 528.0
 
 [node name="7" type="Control" parent="Collision" unique_id=1817368648]
 anchors_preset = 0
-offset_left = 752.0
+offset_left = 711.0
 offset_top = 464.0
-offset_right = 808.0
+offset_right = 767.0
 offset_bottom = 528.0
 
 [node name="8" type="Control" parent="Collision" unique_id=327727746]
 anchors_preset = 0
-offset_left = 808.0
+offset_left = 767.0
 offset_top = 464.0
-offset_right = 864.0
+offset_right = 823.0
 offset_bottom = 528.0
 
 [node name="9" type="Control" parent="Collision" unique_id=625992902]
 anchors_preset = 0
-offset_left = 864.0
+offset_left = 823.0
 offset_top = 464.0
-offset_right = 920.0
+offset_right = 879.0
 offset_bottom = 528.0
 
 [node name="10" type="Control" parent="Collision" unique_id=1107603523]
 anchors_preset = 0
-offset_left = 360.0
+offset_left = 319.0
 offset_top = 344.0
-offset_right = 416.0
+offset_right = 375.0
 offset_bottom = 408.0
 
 [node name="11" type="Control" parent="Collision" unique_id=1591909707]
 anchors_preset = 0
-offset_left = 416.0
+offset_left = 375.0
 offset_top = 344.0
-offset_right = 472.0
+offset_right = 431.0
 offset_bottom = 408.0
 
 [node name="12" type="Control" parent="Collision" unique_id=2081606693]
 anchors_preset = 0
-offset_left = 472.0
+offset_left = 431.0
 offset_top = 344.0
-offset_right = 528.0
+offset_right = 487.0
 offset_bottom = 408.0
 
 [node name="13" type="Control" parent="Collision" unique_id=201122666]
 anchors_preset = 0
-offset_left = 528.0
+offset_left = 487.0
 offset_top = 344.0
-offset_right = 584.0
+offset_right = 543.0
 offset_bottom = 408.0
 
 [node name="14" type="Control" parent="Collision" unique_id=996879272]
 anchors_preset = 0
-offset_left = 584.0
+offset_left = 543.0
 offset_top = 344.0
-offset_right = 640.0
+offset_right = 599.0
 offset_bottom = 408.0
 
 [node name="15" type="Control" parent="Collision" unique_id=1227489706]
 anchors_preset = 0
-offset_left = 640.0
+offset_left = 599.0
 offset_top = 344.0
-offset_right = 696.0
+offset_right = 655.0
 offset_bottom = 408.0
 
 [node name="16" type="Control" parent="Collision" unique_id=1817171364]
 anchors_preset = 0
-offset_left = 696.0
+offset_left = 655.0
 offset_top = 344.0
-offset_right = 752.0
+offset_right = 711.0
 offset_bottom = 408.0
 
 [node name="17" type="Control" parent="Collision" unique_id=34836894]
 anchors_preset = 0
-offset_left = 752.0
+offset_left = 711.0
 offset_top = 344.0
-offset_right = 808.0
+offset_right = 767.0
 offset_bottom = 408.0
 
 [node name="18" type="Control" parent="Collision" unique_id=168385514]
 anchors_preset = 0
-offset_left = 808.0
+offset_left = 767.0
 offset_top = 344.0
-offset_right = 864.0
+offset_right = 823.0
 offset_bottom = 408.0
 
 [node name="19" type="Control" parent="Collision" unique_id=621533274]
 anchors_preset = 0
-offset_left = 864.0
+offset_left = 823.0
 offset_top = 344.0
-offset_right = 920.0
+offset_right = 879.0
 offset_bottom = 408.0
 
 [node name="20" type="Control" parent="Collision" unique_id=1235562358]
 anchors_preset = 0
-offset_left = 360.0
+offset_left = 319.0
 offset_top = 272.0
-offset_right = 416.0
+offset_right = 375.0
 offset_bottom = 336.0
 
 [node name="21" type="Control" parent="Collision" unique_id=305043732]
 anchors_preset = 0
-offset_left = 416.0
+offset_left = 375.0
 offset_top = 272.0
-offset_right = 472.0
+offset_right = 431.0
 offset_bottom = 336.0
 
 [node name="22" type="Control" parent="Collision" unique_id=464755080]
 anchors_preset = 0
-offset_left = 472.0
+offset_left = 431.0
 offset_top = 272.0
-offset_right = 528.0
+offset_right = 487.0
 offset_bottom = 336.0
 
 [node name="23" type="Control" parent="Collision" unique_id=1683807814]
 anchors_preset = 0
-offset_left = 528.0
+offset_left = 487.0
 offset_top = 272.0
-offset_right = 584.0
+offset_right = 543.0
 offset_bottom = 336.0
 
 [node name="24" type="Control" parent="Collision" unique_id=1539166928]
 anchors_preset = 0
-offset_left = 584.0
+offset_left = 543.0
 offset_top = 272.0
-offset_right = 640.0
+offset_right = 599.0
 offset_bottom = 336.0
 
 [node name="25" type="Control" parent="Collision" unique_id=1018896579]
 anchors_preset = 0
-offset_left = 640.0
+offset_left = 599.0
 offset_top = 272.0
-offset_right = 696.0
+offset_right = 655.0
 offset_bottom = 336.0
 
 [node name="26" type="Control" parent="Collision" unique_id=523424970]
 anchors_preset = 0
-offset_left = 696.0
+offset_left = 655.0
 offset_top = 272.0
-offset_right = 752.0
+offset_right = 711.0
 offset_bottom = 336.0
 
 [node name="27" type="Control" parent="Collision" unique_id=812057200]
 anchors_preset = 0
-offset_left = 752.0
+offset_left = 711.0
 offset_top = 272.0
-offset_right = 808.0
+offset_right = 767.0
 offset_bottom = 336.0
 
 [node name="28" type="Control" parent="Collision" unique_id=1223992516]
 anchors_preset = 0
-offset_left = 808.0
+offset_left = 767.0
 offset_top = 272.0
-offset_right = 864.0
+offset_right = 823.0
 offset_bottom = 336.0
 
 [node name="29" type="Control" parent="Collision" unique_id=420781975]
 anchors_preset = 0
-offset_left = 864.0
+offset_left = 823.0
 offset_top = 272.0
-offset_right = 920.0
+offset_right = 879.0
 offset_bottom = 336.0
 
 [node name="30" type="Control" parent="Collision" unique_id=571768710]
 anchors_preset = 0
-offset_left = 360.0
+offset_left = 319.0
 offset_top = 200.0
-offset_right = 416.0
+offset_right = 375.0
 offset_bottom = 264.0
 
 [node name="31" type="Control" parent="Collision" unique_id=516882134]
 anchors_preset = 0
-offset_left = 416.0
+offset_left = 375.0
 offset_top = 200.0
-offset_right = 472.0
+offset_right = 431.0
 offset_bottom = 264.0
 
 [node name="32" type="Control" parent="Collision" unique_id=148410821]
 anchors_preset = 0
-offset_left = 472.0
+offset_left = 431.0
 offset_top = 200.0
-offset_right = 528.0
+offset_right = 487.0
 offset_bottom = 264.0
 
 [node name="33" type="Control" parent="Collision" unique_id=53657956]
 anchors_preset = 0
-offset_left = 528.0
+offset_left = 487.0
 offset_top = 200.0
-offset_right = 584.0
+offset_right = 543.0
 offset_bottom = 264.0
 
 [node name="34" type="Control" parent="Collision" unique_id=324075783]
 anchors_preset = 0
-offset_left = 584.0
+offset_left = 543.0
 offset_top = 200.0
-offset_right = 640.0
+offset_right = 599.0
 offset_bottom = 264.0
 
 [node name="35" type="Control" parent="Collision" unique_id=469799133]
 anchors_preset = 0
-offset_left = 640.0
+offset_left = 599.0
 offset_top = 200.0
-offset_right = 696.0
+offset_right = 655.0
 offset_bottom = 264.0
 
 [node name="36" type="Control" parent="Collision" unique_id=719987233]
 anchors_preset = 0
-offset_left = 696.0
+offset_left = 655.0
 offset_top = 200.0
-offset_right = 752.0
+offset_right = 711.0
 offset_bottom = 264.0
 
 [node name="37" type="Control" parent="Collision" unique_id=1182248862]
 anchors_preset = 0
-offset_left = 752.0
+offset_left = 711.0
 offset_top = 200.0
-offset_right = 808.0
+offset_right = 767.0
 offset_bottom = 264.0
 
 [node name="38" type="Control" parent="Collision" unique_id=204279360]
 anchors_preset = 0
-offset_left = 808.0
+offset_left = 767.0
 offset_top = 200.0
-offset_right = 864.0
+offset_right = 823.0
 offset_bottom = 264.0
 
 [node name="39" type="Control" parent="Collision" unique_id=505100924]
 anchors_preset = 0
-offset_left = 864.0
+offset_left = 823.0
 offset_top = 200.0
-offset_right = 920.0
+offset_right = 879.0
 offset_bottom = 264.0
+
+[node name="40" type="Control" parent="Collision" unique_id=215258657]
+anchors_preset = 0
+offset_left = 905.0
+offset_top = 464.0
+offset_right = 961.0
+offset_bottom = 528.0
 
 [node name="HoldingItem" type="TextureRect" parent="." unique_id=1681287550]
 z_index = 2

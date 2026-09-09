@@ -1,6 +1,6 @@
 extends Control
 
-const selection_position_x: Array[float] = [357.5, 413.38, 469.18, 525.06, 580.94, 636.82, 692.77, 748.65, 804.53, 860.41]
+const selection_position_x: Array[float] = [316.5, 372.38, 428.18, 484.06, 539.94, 595.82, 651.77, 707.65, 763.53, 819.41]
 const selection_position_y: Array[float] = [464.12, 344.12, 272.125, 200.12]
 @export var player: CharacterBody3D
 @onready var items: Control = $Items
@@ -35,7 +35,7 @@ func _process(_delta: float) -> void:
 	
 	holding_item_ui.position = get_local_mouse_position()
 	
-	if hovering_slot != -1:
+	if hovering_slot >= 0 and hovering_slot <= 39:
 		inventory_selection.position.x = selection_position_x[hovering_slot % 10]
 		inventory_selection.position.y = selection_position_y[floori(hovering_slot/10.0)]
 	else:
@@ -62,9 +62,15 @@ func item_slot_clicked(slot: int):
 	player.update_hotbar()
 
 func get_item(slot: int) -> Array:
-	return player.inventory[slot]
+	if slot == 40:
+		return [-1, global.itmType.BLOCK, 0]
+	else:
+		return player.inventory[slot]
 
 func set_item(slot: int, item: Array):
+	if slot == 40:
+		return
+	
 	player.inventory[slot] = item
 
 func item_slot_mouse_enter(slot: int):

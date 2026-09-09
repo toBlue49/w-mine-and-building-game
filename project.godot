@@ -42,6 +42,7 @@ window/vsync/vsync_mode=0
 
 movie_writer/disable_vsync=true
 movie_writer/fps=300
+run/main_run_args="--flat_world --no_features"
 
 [input]
 

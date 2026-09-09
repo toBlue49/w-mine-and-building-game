@@ -1,9 +1,10 @@
-res://scenes/game.tscn
+res://scenes/world.tscn
 res://resources/theme.tres
-res://scripts/grid_map.gd
-res://scripts/ui/inventory.gd
-res://scripts/player.gd
-res://TODO.txt
-res://resources/crafting.json
-res://scenes/player.tscn
+res://scenes/game.tscn
 res://scenes/ui/inventory.tscn
+res://scripts/ui/inventory.gd
+res://TODO.txt
+res://resources/block_data.json
+res://scripts/player.gd
+res://scripts/main_menu.gd
+res://scenes/main_menu.tscn
