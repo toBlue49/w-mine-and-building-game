@@ -1,10 +1,10 @@
 res://scenes/world.tscn
 res://resources/theme.tres
-res://scenes/game.tscn
-res://scenes/ui/inventory.tscn
-res://scripts/ui/inventory.gd
-res://TODO.txt
+res://scenes/blocks.tscn
+res://materials/dirt.tres
+res://resources/blocks.tres
+res://scripts/game.gd
 res://resources/block_data.json
 res://scripts/player.gd
-res://scripts/main_menu.gd
-res://scenes/main_menu.tscn
+res://scenes/player.tscn
+res://scenes/game.tscn

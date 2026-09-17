@@ -6,7 +6,7 @@
 	O sand patch generation
 	O concrete craftable
 	O new run args
-	- block tags (drop_needs_tool)
+	O block tags (drop_needs_tool)
 	- color workstation block
 	- random block ticks
 	- rework internal LivingEntity and Pig code (ticks -> PhysicsProcess)

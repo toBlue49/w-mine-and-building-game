@@ -159,5 +159,12 @@
 		"stack_limit": 99,
 		"transparent": false,
 		"tags": ["drop_needs_tool"]
+	},
+	"23": {
+		"type": "STONE",
+		"mining_time": 1.5,
+		"stack_limit": 99,
+		"transparent": false,
+		"tags": ["interactable"]
 	}
 }

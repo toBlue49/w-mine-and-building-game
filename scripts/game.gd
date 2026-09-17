@@ -69,8 +69,8 @@ var settings: Dictionary = {
 
 enum {CREATIVE, SURVIVAL}
 enum BLOCK{
-	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND, RUBY_ORE, IRON_ORE, DIAMOND_ORE
-}#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19    20        21        22
+	GRASS, STONE, DIRT, LOG, LEAVES, PLANKS, GLASS, LIGHT, CONCRETE_WHITE, CONCRETE_GRAY, CONCRETE_YELLOW, CONCRETE_ORANGE, CONCRETE_GREEN_YELLOW, CONCRETE_LIME, CONCRETE_CYAN, CONCRETE_BLUE, CONCRETE_VIOLET, CONCRETE_MAGENTA, CONCRETE_PINK, SAND, RUBY_ORE, IRON_ORE, DIAMOND_ORE, COLOR_WORKSTATION
+}#  0      1      2     3    4       5       6      7      8               9              10               11               12                     13             14             15             16               17                18             19    20        21        22           23
 enum ITEM{
 	TESTITEM, WOOD_PICKAXE, WOOD_AXE, WOOD_SHOVEL, STONE_PICKAXE, STONE_AXE, STONE_SHOVEL, IRON_PICKAXE, IRON_AXE, IRON_SHOVEL, DIAMOND_PICKAXE, DIAMOND_AXE, DIAMOND_SHOVEL, RUBY_PICKAXE, RUBY_AXE, RUBY_SHOVEL, RAW_PORKCHOP, COOKED_PORKCHOP
 }#  0         1             2         3            4              5          6             7             8         9            10               11           12              13            14        15           16            17

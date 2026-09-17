@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://deyd74v8vh2rj" path="res://textures/ruby_ore.png" id="21_m64mq"]
 [ext_resource type="Texture2D" uid="uid://0cpvudkjv75f" path="res://textures/iron_ore.png" id="22_03jfd"]
 [ext_resource type="Texture2D" uid="uid://c3njxwxd8fvyk" path="res://textures/diamond_ore.png" id="23_wrnuw"]
+[ext_resource type="Texture2D" uid="uid://bkgqfrve4f4ct" path="res://textures/color_workstation.png" id="24_gl5s0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irvtj"]
 material = ExtResource("1_giubl")
@@ -341,6 +342,21 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_cny3s")
 size = Vector3(2, 2, 2)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4134y"]
+load_path = "res://.godot/imported/grass.png-c637977c146fec1b1e97e5c999cb4594.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_keoep"]
+depth_draw_mode = 1
+albedo_texture = ExtResource("24_gl5s0")
+normal_texture = SubResource("CompressedTexture2D_4134y")
+uv2_world_triplanar = true
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_xputf"]
+material = SubResource("StandardMaterial3D_keoep")
+size = Vector3(2, 2, 2)
+
 [node name="blocks" type="Node3D" unique_id=726535322]
 
 [node name="Grass" type="MeshInstance3D" parent="." unique_id=859118434]
@@ -547,4 +563,13 @@ mesh = SubResource("BoxMesh_4134y")
 [node name="StaticBody3D" type="StaticBody3D" parent="DiamondOre" unique_id=1133002546]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DiamondOre/StaticBody3D" unique_id=1902999610]
+shape = SubResource("BoxShape3D_irvtj")
+
+[node name="ColorWorkstation" type="MeshInstance3D" parent="." unique_id=1559900839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92, 0, 0)
+mesh = SubResource("BoxMesh_xputf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ColorWorkstation" unique_id=1054228984]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ColorWorkstation/StaticBody3D" unique_id=1493158187]
 shape = SubResource("BoxShape3D_irvtj")

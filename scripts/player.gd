@@ -224,11 +224,7 @@ func _process(_delta: float) -> void:
 		get_save_name.visible = false
 		get_load_name.visible = false
 		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
-	
-	#Use Item
-	if Input.is_action_just_pressed("world_place") and selected_block[1] == itmType.ITEM:
-		use_item(selected_block[0])
-	
+
 func _physics_process(delta: float) -> void:
 	gridmap_raycast_collision = raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal()
 	
@@ -296,17 +292,28 @@ func _physics_process(delta: float) -> void:
 				grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 		if Input.is_action_just_pressed("world_place"):
 			if raycast3d.get_collider() is GridMap:
-				var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
-				var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
-				var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
-				if distancey == 1:
-					if distancex == 0 and distancez == 0: return
-				if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
-					grid_map.place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
-					if global.gamemode == global.SURVIVAL:
-						inventory[selected_hotbar_item][2] -= 1
-					update_hotbar()
-	
+				#Interactable Blocks > Item Use > Place Block IF looking at GridMap.
+				#IF NOT looking at GridMap, allways run Item Use Logic
+				if hovering_block_data.tags.has("interactable"):
+					use_interactable_cell(hovering_block)
+				elif selected_block[1] == itmType.ITEM:
+					use_item(selected_block[0])
+				else:
+					var distancex = grid_map.local_to_map(raycast3d.global_transform.origin).x - grid_map.local_to_map(raycast3d.get_collision_point()).x
+					var distancey = grid_map.local_to_map(raycast3d.global_transform.origin).y - grid_map.local_to_map(raycast3d.get_collision_point()).y
+					var distancez = grid_map.local_to_map(raycast3d.global_transform.origin).z - grid_map.local_to_map(raycast3d.get_collision_point()).z
+					if distancey == 1:
+						if distancex == 0 and distancez == 0: return
+					if selected_block[1] == itmType.BLOCK and selected_block[0] != -1:
+						grid_map.place_block.rpc((raycast3d.get_collision_point() + raycast3d.get_collision_normal()), selected_block[0])
+						if global.gamemode == global.SURVIVAL:
+							inventory[selected_hotbar_item][2] -= 1
+						update_hotbar()
+			elif selected_block[1] == itmType.ITEM: #Raycast colliding
+				use_item(selected_block[0])
+	elif selected_block[1] == itmType.ITEM and Input.is_action_just_pressed("world_place"): #Raycast not colliding
+		use_item(selected_block[0])
+		
 	if raycast3dGridmap.is_colliding():
 		# Block Selection
 		if grid_map.local_to_map(grid_map.world.blockSelect.position) != grid_map.local_to_map(gridmap_raycast_collision):
@@ -318,12 +325,19 @@ func _physics_process(delta: float) -> void:
 			grid_map.world.move_block_selection(Vector3(-1, -1, -1))
 			grid_map.world.blockSelect.update_breaking_mesh_alpha(0.0)
 
+## Returns data stored in the GridMapRewrite node of the block the player is looking at.
 func get_data_of_looking_at_cell() -> Dictionary:
 	if raycast3dGridmap.is_colliding():
 		return grid_map.get_cell_data(grid_map.local_to_map(gridmap_raycast_collision))
 	else:
 		return {}
 
+## Collecting Items Function:
+## Use test_only and test_count to test if the item (new_item) can be stored in the
+## inventory. If not, the functions returns FAILED, if the inventory has space, it
+## returns OK.
+## If test_only is false. The Item will run through the same testing algorythm, but
+## the item is actually collected to the inventory.
 func collect_item(new_item: Array, test_only = false, test_count = 1) -> Error:
 	for item_count in inventory.size():
 		var item = inventory[item_count]
@@ -353,12 +367,15 @@ func collect_item(new_item: Array, test_only = false, test_count = 1) -> Error:
 			return OK
 	return FAILED
 
+## Collects multiple items at the same time, if possible.
+## Uses the collect_item function. See that for more info
 func add_multiple_items(new_item: Array):
 	if collect_item(new_item, true, new_item[2]) != OK:
 		return
 	for i in new_item[2]:
 		collect_item(new_item)
 
+## Respawns Player
 @rpc("any_peer", "call_local")
 func respawn():
 	health = 100
@@ -376,16 +393,19 @@ func respawn():
 	#	i[2] = 0
 	update_hotbar()
 
+## Called if hit my an player
 @rpc("any_peer", "call_local")
 func player_hit(damage: int):
 	if health != 32676: #ignore when death condition
 		health -= damage
 		grid_map.world.sound.play("entity.hit", global_position, -10.0, 35.0, 0.5)
 
+## Sets Visibility on all peers
 @rpc("any_peer", "call_local")
 func rpc_set_visibility(state: bool):
 	visible = state
 
+## if world_place is pressed, use_item will be called if no other interaction are more important.
 func use_item(id: int):
 	if global.do_not_allow_input: return
 	
@@ -401,6 +421,14 @@ func use_item(id: int):
 		update_held_item_data()
 		update_hotbar()
 
+## Run code based on Block ID.
+## Called if world_place is pressed and the block has the interactable tag
+func use_interactable_cell(id: int):
+	print(id)
+	if id == global.BLOCK.COLOR_WORKSTATION:
+		print("open le UI")
+
+## Craft Item
 func craft_item(needed: Array, result: Array):
 	var inventory_old: Array = inventory.duplicate(true)
 	var needed_size = needed.size()
@@ -427,6 +455,7 @@ func craft_item(needed: Array, result: Array):
 	
 	update_hotbar()
 
+## Updates hovering_block variable and also calles update_breaking_timer()
 func update_hovering_block(hover_position: Vector3):
 	hovering_block = grid_map.get_cell_item(grid_map.local_to_map(hover_position))
 	if hovering_block == -1: return
@@ -436,6 +465,7 @@ func update_hovering_block(hover_position: Vector3):
 	
 	update_breaking_timer()
 
+## Updates held_item_data variable and also calls update_hovering_block()
 func update_held_item_data():
 	#selected item
 	hotbar_selection.position.x = selected_hotbar_item * 56
@@ -448,6 +478,7 @@ func update_held_item_data():
 	#wichtig
 	update_hovering_block(raycast3dGridmap.get_collision_point() - raycast3dGridmap.get_collision_normal())
 
+## Updates Breaking Timer based on the block and holding item and data in block/item_data
 func update_breaking_timer():
 	if hovering_block_data.size() == 0:
 		return
@@ -469,6 +500,7 @@ func update_breaking_timer():
 					breaking_timer = hovering_block_data.mining_time
 					breaking_timer_default = hovering_block_data.mining_time
 
+## Toggles Collision. Used Noclip command.
 func toggle_disabled_collision_shape_3d():
 	collision_shape_3d.disabled = not collision_shape_3d.disabled
 
