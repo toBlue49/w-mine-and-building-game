@@ -60,77 +60,77 @@
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"9": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"10": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"11": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"12": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"13": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"14": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"15": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"16": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"17": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"18": {
 		"type": "STONE",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,
-		"tags": ["drop_needs_tool"]
+		"tags": ["drop_needs_tool", "is_concrete"]
 	},
 	"19": {
 		"type": "DIRT",

@@ -1,12 +1,12 @@
 extends Control
 
-const selection_position_x: Array[float] = [316.5, 372.38, 428.18, 484.06, 539.94, 595.82, 651.77, 707.65, 763.53, 819.41]
-const selection_position_y: Array[float] = [464.12, 344.12, 272.125, 200.12]
 @export var player: CharacterBody3D
-@onready var items: Control = $Items
-@onready var collision: Control = $Collision
 @onready var holding_item_ui: TextureRect = $HoldingItem
 @onready var inventory_selection: Sprite2D = $InventorySelection
+
+@onready var player_inventory: Control = $Container/PlayerInventory
+@onready var color_workstation: Control = $Container/ColorWorkstation
+
 var holding_item: Array = [-1, global.itmType.BLOCK, 0]
 var hovering_slot: int = -1
 
@@ -14,9 +14,19 @@ func _ready() -> void:
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
-	for node: Control in collision.get_children():
-		node.connect("mouse_entered", func(): item_slot_mouse_enter(int(node.name)))
-		node.connect("mouse_exited", func(): item_slot_mouse_exit(int(node.name)))
+	player_inventory.connect("slot_selection", item_slot_selected)
+	player_inventory.connect("reset_selection", item_slot_deselected)
+	color_workstation.connect("slot_selection", item_slot_selected)
+	color_workstation.connect("reset_selection", item_slot_deselected)
+
+func item_slot_selected(id: int, pos: Vector2):
+	hovering_slot = id
+	inventory_selection.global_position = pos
+
+func item_slot_deselected(id: int):
+	if hovering_slot == id:
+		hovering_slot = -1
+		inventory_selection.global_position = Vector2(-64, -64)
 
 func _process(_delta: float) -> void:
 	if global.is_multiplayer:
@@ -34,16 +44,10 @@ func _process(_delta: float) -> void:
 		item_slot_clicked(hovering_slot)
 	
 	holding_item_ui.position = get_local_mouse_position()
-	
-	if hovering_slot >= 0 and hovering_slot <= 39:
-		inventory_selection.position.x = selection_position_x[hovering_slot % 10]
-		inventory_selection.position.y = selection_position_y[floori(hovering_slot/10.0)]
-	else:
-		inventory_selection.position = Vector2(-64, -64)
 
 func item_slot_clicked(slot: int):
 	var item: Array = get_item(slot)
-	
+
 	if holding_item == [-1, global.itmType.BLOCK, 0]: #Not holding an item
 		if item[0] != -1: #only if slot has item
 			holding_item = item
@@ -62,23 +66,20 @@ func item_slot_clicked(slot: int):
 	player.update_hotbar()
 
 func get_item(slot: int) -> Array:
-	if slot == 40:
-		return [-1, global.itmType.BLOCK, 0]
-	else:
-		return player.inventory[slot]
+	if player_inventory.is_my_slot_id(slot): #Player Inventory
+		return player_inventory.get_item(slot)
+	elif color_workstation.is_my_slot_id(slot): #Color Workstation
+		return color_workstation.get_item(slot)
+	
+	breakpoint
+	print_rich("[color=yellow][WARNING] get_item() got no result. Returning air block!")
+	return [-1, global.itmType.BLOCK, 0]
 
 func set_item(slot: int, item: Array):
-	if slot == 40:
-		return
-	
-	player.inventory[slot] = item
-
-func item_slot_mouse_enter(slot: int):
-	hovering_slot = slot
-
-func item_slot_mouse_exit(slot: int):
-	if hovering_slot == slot:
-		hovering_slot = -1
+	if player_inventory.is_my_slot_id(slot): #Player Inventory
+		player_inventory.set_item(slot, item)
+	elif color_workstation.is_my_slot_id(slot):
+		color_workstation.set_item(slot, item)
 
 func update_holding_item():
 	if global.is_multiplayer:
@@ -93,22 +94,23 @@ func update_inventory():
 	if global.is_multiplayer:
 		if not is_multiplayer_authority(): return
 	
-	for item_count in player.inventory.size():
-		var item = player.inventory[item_count]
-		
-		#Texture
-		if item == [] or (item[2] == 0 and item[0] != -1):
-			player.inventory[item_count] = [-1, global.itmType.BLOCK, 0]
-			item = [-1, global.itmType.BLOCK, 0]
-		if item[1] == global.itmType.BLOCK:
-			items.get_node(str(item_count)).texture = load("res://textures/icon/" + str(item[0]) + ".png")
-		if item[1] == global.itmType.ITEM:
-			items.get_node(str(item_count)).texture = load("res://textures/item/" + str(item[0]) + ".png")
-		
-		#Label
-		items.get_node(str(item_count)).get_node("Count").text = str(item[2])
-		if item[0] == -1:
-			items.get_node(str(item_count)).get_node("Count").text = ""
+	for inv in [player_inventory, color_workstation]:
+		for item_index in range(inv.slot_id_range[0], inv.slot_id_range[1]+1):
+			var item = inv.get_item(item_index)
+			
+			#Texture
+			if item == [] or (item[2] == 0 and item[0] != -1):
+				inv.set_item(item_index, [-1, global.itmType.BLOCK, 0])
+				item = [-1, global.itmType.BLOCK, 0]
+			if item[1] == global.itmType.BLOCK:
+				inv.items.get_node(str(item_index)).texture = load("res://textures/icon/" + str(item[0]) + ".png")
+			if item[1] == global.itmType.ITEM:
+				inv.items.get_node(str(item_index)).texture = load("res://textures/item/" + str(item[0]) + ".png")
+			
+			#Label
+			inv.items.get_node(str(item_index)).get_node("Count").text = str(item[2])
+			if item[0] == -1:
+				inv.items.get_node(str(item_index)).get_node("Count").text = ""
 
 func open():
 	show()

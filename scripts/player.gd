@@ -266,7 +266,7 @@ func _physics_process(delta: float) -> void:
 	
 	## World changes by player
 	if raycast3d.is_colliding() and global.do_not_allow_input == false:
-		if Input.is_action_just_pressed("world_destroy"):
+		if Input.is_action_just_pressed("world_destroy") and raycast3d.get_collider() != null:
 			if raycast3d.get_collider().has_method("player_hit"):
 				raycast3d.get_collider().player_hit.rpc(hit_damage)
 		
