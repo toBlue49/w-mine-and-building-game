@@ -1412,12 +1412,13 @@ offset_top = 319.0
 offset_right = 664.0
 offset_bottom = 382.0
 
-[node name="ColorWorkstation" type="Control" parent="Container" unique_id=892006895]
+[node name="ColorWorkstation" type="Control" parent="Container" unique_id=892006895 node_paths=PackedStringArray("main_inv")]
 texture_filter = 1
 custom_minimum_size = Vector2(368, 432)
 custom_maximum_size = Vector2(368, 432)
 layout_mode = 2
 script = ExtResource("7_i8fht")
+main_inv = NodePath("../..")
 
 [node name="Panel" type="Panel" parent="Container/ColorWorkstation" unique_id=2035867130]
 custom_minimum_size = Vector2(368, 432)

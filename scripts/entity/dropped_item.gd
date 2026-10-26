@@ -13,8 +13,11 @@ enum itmType{
 	BLOCK, ITEM
 }
 
+func init(pos: Vector3):
+	self.global_position = pos
+
 func set_item(item: Array):
-	if item[1] == itmType.BLOCK: #TODO: Item implementation
+	if item[1] == itmType.BLOCK:
 		sprite_3d.set_texture(load("res://textures/icon/" + str(item[0]) + ".png"))
 	if item[1] == itmType.ITEM:
 		sprite_3d.set_texture(load("res://textures/item/" + str(item[0]) + ".png"))

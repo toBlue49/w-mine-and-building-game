@@ -44,3 +44,9 @@ func set_item(slot: int, item: Array):
 		return
 	
 	main_inv.player.inventory[slot] = item
+
+func open():
+	show()
+
+func close():
+	hide()

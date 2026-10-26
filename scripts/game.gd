@@ -78,6 +78,11 @@ enum ENTITY{
 	TEST_ENTITY, PIG, ITEM
 }#  0            1    2
 
+enum SUB_INV{
+	PLAYER_INVENTORY = 0,
+	COLOR_WORKSTATION = 1
+}
+
 enum itmType{BLOCK, ITEM}#  0      1
 
 func _ready():

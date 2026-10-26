@@ -8,7 +8,7 @@ var hit_damage = 5
 var sensitivity = 0.002
 var selected_block = [-1, itmType.BLOCK]
 var selected_hotbar_item = 0
-var inventory = [[global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_AXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+var inventory = [[global.ITEM.RUBY_PICKAXE, itmType.ITEM, 1], [global.ITEM.RUBY_AXE, itmType.ITEM, 1], [global.ITEM.RUBY_SHOVEL, itmType.ITEM, 1], [global.BLOCK.COLOR_WORKSTATION, itmType.BLOCK, 1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 var fall_timer = 0
 var breaking_timer = 0.0 
 var breaking_timer_default = 0.0
@@ -424,9 +424,8 @@ func use_item(id: int):
 ## Run code based on Block ID.
 ## Called if world_place is pressed and the block has the interactable tag
 func use_interactable_cell(id: int):
-	print(id)
 	if id == global.BLOCK.COLOR_WORKSTATION:
-		print("open le UI")
+		inventory_ui.open([global.SUB_INV.PLAYER_INVENTORY, global.SUB_INV.COLOR_WORKSTATION])
 
 ## Craft Item
 func craft_item(needed: Array, result: Array):

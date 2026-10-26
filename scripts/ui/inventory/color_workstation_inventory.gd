@@ -3,6 +3,8 @@ extends Control
 const slot_id_range = [100, 101]
 const reset_inventory = [[-1, global.itmType.BLOCK, 0], [-1, global.itmType.BLOCK, 0]]
 
+@export var main_inv: Control
+
 @onready var items: Control = $Items
 @onready var collision: Control = $Collision
 @onready var apply: Button = $apply
@@ -49,11 +51,30 @@ func set_item(slot: int, item: Array):
 	inventory[slot-100] = item
 
 func apply_pressed():
-	pass
+	if inventory[0][0] == -1 or inventory[1][0] != -1 or inventory[0][1] != global.itmType.BLOCK:
+		return
+	
+	if !global.block_data.get(str(inventory[0][0])).tags.has("is_concrete"):
+		return
+	
+	inventory[1] = inventory[0]
+	inventory[0] = [-1, global.itmType.BLOCK, 0]
+	
+	inventory[1][0] = global.BLOCK.CONCRETE_WHITE + option_button.get_selected_id()
+	
+	main_inv.update_inventory()
 
 func open():
 	self.show()
-	inventory = reset_inventory.duplicate_deep()
 
 func close():
 	self.hide()
+	
+	if inventory[0] != [-1, global.itmType.BLOCK, 0]:
+		var item = global.get_node("Scene/World").spawn_entity(main_inv.player.global_position + Vector3(0, 1, 0), global.ENTITY.ITEM)
+		item.set_item(inventory[0])
+	if inventory[1] != [-1, global.itmType.BLOCK, 0]:
+		var item = global.get_node("Scene/World").spawn_entity(main_inv.player.global_position + Vector3(0, 1, 0), global.ENTITY.ITEM)
+		item.set_item(inventory[1])
+	
+	inventory = reset_inventory.duplicate_deep()

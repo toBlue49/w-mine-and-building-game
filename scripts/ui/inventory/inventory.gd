@@ -6,6 +6,7 @@ extends Control
 
 @onready var player_inventory: Control = $Container/PlayerInventory
 @onready var color_workstation: Control = $Container/ColorWorkstation
+@onready var sub_inventory_list = [player_inventory, color_workstation]
 
 var holding_item: Array = [-1, global.itmType.BLOCK, 0]
 var hovering_slot: int = -1
@@ -18,6 +19,8 @@ func _ready() -> void:
 	player_inventory.connect("reset_selection", item_slot_deselected)
 	color_workstation.connect("slot_selection", item_slot_selected)
 	color_workstation.connect("reset_selection", item_slot_deselected)
+	
+	close_all_sub_inventories()
 
 func item_slot_selected(id: int, pos: Vector2):
 	hovering_slot = id
@@ -36,7 +39,7 @@ func _process(_delta: float) -> void:
 		if visible:
 			close()
 		elif !global.do_not_allow_input:
-			open()
+			open([global.SUB_INV.PLAYER_INVENTORY])
 	
 	if !visible: return #don't run code after this, if inventory is not open
 	
@@ -112,13 +115,29 @@ func update_inventory():
 			if item[0] == -1:
 				inv.items.get_node(str(item_index)).get_node("Count").text = ""
 
-func open():
+func open_sub_inventory(id: int):
+	sub_inventory_list[id].open()
+
+func close_sub_inventory(id: int):
+	sub_inventory_list[id].close()
+
+func open(sub_invs: Array):
 	show()
+	
+	##open the provided inventories
+	for inv_id in sub_invs:
+		open_sub_inventory(inv_id)
+	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	global.do_not_allow_input = true
 	update_inventory()
 
+func close_all_sub_inventories():
+	for inv in sub_inventory_list:
+		inv.close()
+
 func close():
 	hide()
+	close_all_sub_inventories()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	global.do_not_allow_input = false

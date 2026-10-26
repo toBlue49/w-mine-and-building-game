@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://cj4nvfqeuh7o5" path="res://textures/icon/22.png" id="28_wqfne"]
 [ext_resource type="PackedScene" uid="uid://co4nixeftq8a0" path="res://scenes/ui/inventory.tscn" id="30_mx1m4"]
 [ext_resource type="Texture2D" uid="uid://bu1676mkh3o72" path="res://textures/item/1.png" id="31_gl8cc"]
+[ext_resource type="Texture2D" uid="uid://3hdnlorvhw3l" path="res://textures/icon/23.png" id="32_4gjji"]
 [ext_resource type="Texture2D" uid="uid://cyn5p4hmiebff" path="res://textures/item/2.png" id="32_md1ol"]
 [ext_resource type="Texture2D" uid="uid://d3hq5m3vkj87i" path="res://textures/item/3.png" id="33_bj30b"]
 [ext_resource type="Texture2D" uid="uid://dnhopve6b3r1x" path="res://textures/item/4.png" id="34_bj30b"]
@@ -832,6 +833,12 @@ player = NodePath("../../../../../../..")
 layout_mode = 2
 texture_normal = ExtResource("14_l71n6")
 crafting_id = "white_concrete"
+player = NodePath("../../../../../../..")
+
+[node name="ColorWorkstation" parent="CanvasLayer/Control/Crafting/TabContainer/Blocks/GridContainer" unique_id=974563279 node_paths=PackedStringArray("player") instance=ExtResource("26_31cv2")]
+layout_mode = 2
+texture_normal = ExtResource("32_4gjji")
+crafting_id = "color_workstation"
 player = NodePath("../../../../../../..")
 
 [node name="Tools" type="TabBar" parent="CanvasLayer/Control/Crafting/TabContainer" unique_id=1836006411]

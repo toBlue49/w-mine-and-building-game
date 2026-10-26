@@ -161,7 +161,7 @@
 		"tags": ["drop_needs_tool"]
 	},
 	"23": {
-		"type": "STONE",
+		"type": "WOOD",
 		"mining_time": 1.5,
 		"stack_limit": 99,
 		"transparent": false,

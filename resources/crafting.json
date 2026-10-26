@@ -40,5 +40,7 @@
 	"ruby_shovel":
 		{ "needed": [[5, 0, 2], [20, 0, 2]], "result": [15, 1, 1]},
 	"white_concrete":
-		{ "needed": [[19, 0, 1], [1, 0, 2]], "result": [8, 0, 3]}
+		{ "needed": [[19, 0, 1], [1, 0, 2]], "result": [8, 0, 3]},
+	"color_workstation":
+		{ "needed": [[21, 0, 2], [20, 0, 1], [5, 0, 6]], "result": [23, 0, 1]}
 }

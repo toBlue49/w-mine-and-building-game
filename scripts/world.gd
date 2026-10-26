@@ -66,8 +66,8 @@ func _process(_delta: float) -> void:
 		
 		#Host Game
 		await get_tree().process_frame
-		server_start(16)
-		grid_map.init_host()
+		await server_start(16)
+		await grid_map.init_host()
 		
 		global.change_title_extension("Multiplayer (%s) at %s" % [multiplayer.get_unique_id(), global.ipv4_address])
 		global.in_mainmenu = false
@@ -79,7 +79,7 @@ func _process(_delta: float) -> void:
 		global.PORT = mainmenu.ip_port_join.text
 		
 		#Join Game
-		client_start(mainmenu.ip_address.text, global.PORT)
+		await client_start(mainmenu.ip_address.text, global.PORT)
 		multiplayer.multiplayer_peer = global.enet_peer
 		
 		global.change_title_extension("Multiplayer (%s) at %s" % [multiplayer.get_unique_id(), global.ipv4_address])
@@ -162,10 +162,13 @@ func start_music_timer():
 	music_player.stream = load(music[randi_range(0, music.size()-1)])
 	music_player.play()
 
-func spawn_entity(pos: Vector3, id: int):
+## Spawn the entity by id and return a reference to it.
+func spawn_entity(pos: Vector3, id: int) -> Node:
 	var entity = global.ENTITY_LIST[id].instantiate()
-	entity.init(pos)
 	entities.add_child(entity, true)
+	entity.init(pos)
+	
+	return entity
 
 func get_local_ip() -> String:
 	for ip in IP.get_local_addresses():
