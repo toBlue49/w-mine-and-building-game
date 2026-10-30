@@ -97,6 +97,16 @@ func local_to_map(local_position: Vector3) -> Vector3i:
 func map_to_local(map_position: Vector3i) -> Vector3:
 	return Vector3(map_position*2.0) + Vector3(1, 1, 1)
 
+##Converts chunk position into map position
+func chunk_to_map(chunk_local_position: Vector3i, chunk: Vector2i) -> Vector3i:
+	var result: Vector3i
+	
+	result.x = chunk_local_position.x + chunk_size*chunk.x
+	result.z = chunk_local_position.z + chunk_size*chunk.y
+	result.y = chunk_local_position.y
+	
+	return result
+
 ##Updates Exposed State of neighboring cells of an certain position.
 func update_neighboring_cells(pos_center: Vector3i) -> void:
 	update_exposed_state_of_cell((pos_center + Vector3i(1, 0, 0)))

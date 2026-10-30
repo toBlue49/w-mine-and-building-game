@@ -22,25 +22,18 @@ func override_ready():
 func override_physics_process(_delta: float):
 	pass
 
-func override_tick():
-	pass
-
 func _physics_process(delta: float) -> void:
 	override_physics_process(delta)
+	tick_counter += 1
 	
 	if do_gravity:
 		if not is_on_floor():
 			velocity += get_gravity() * gravity
 	
 	if velocity.x != 0 or velocity.z != 0:
-		look_at(Vector3(position.x + velocity.x, position.y, position.z + velocity.z,))
+		look_at(Vector3(position.x + velocity.x, position.y, position.z + velocity.z))
 	
 	move_and_slide()
-
-func tick(): #40 tic/sec
-	tick_counter += 1
-	
-	override_tick()
 
 func calc_velocity_with_direction(in_velocity: Vector3, in_direction: Vector3):
 	in_velocity.x = in_direction.x * speed

@@ -8,8 +8,8 @@
 	O new run args
 	O block tags (drop_needs_tool)
 	O color workstation block
-	- random block ticks
-	- rework internal LivingEntity and Pig code (ticks -> PhysicsProcess)
+	O random block ticks
+	/ rework internal LivingEntity and Pig code (ticks -> PhysicsProcess)
 
 0.14: server low level rewrite
 	- instead of x slices use chunks

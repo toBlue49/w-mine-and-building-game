@@ -1,6 +1,6 @@
 extends LivingEntity
 
-var change_direction_tick = 120
+var change_direction_tick = 180
 var should_move = true
 @export var health = 40
 var player: Node3D
@@ -17,7 +17,7 @@ func init(pos: Vector3):
 	spawn_pos = pos
 	direction = new_random_direction()
 
-func override_tick(): #40 t/s
+func override_physics_process(_delta: float):
 	if player == null:
 		for i in $"../..".get_children():
 			if (i.name == str(multiplayer.get_unique_id()) and global.is_multiplayer) or (i.name == "0" and !global.is_multiplayer):
@@ -48,8 +48,6 @@ func override_tick(): #40 t/s
 	if (should_jump_area.get_overlapping_bodies().size() > 0 and should_not_jump_area.get_overlapping_bodies().size() > 0):
 		direction = new_random_direction()
 	
-
-func override_physics_process(_delta: float):
 	if health <= 0:
 		velocity = Vector3.ZERO
 		return

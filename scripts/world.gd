@@ -106,10 +106,6 @@ func tick(): #40 tic/sec
 	for node in objects.get_children():
 		if node.has_method("tick"):
 			node.tick()
-	#entities
-	for node in entities.get_children():
-		if node.has_method("tick"):
-			node.tick()
 
 func move_block_selection(exact_local_pos: Vector3):
 	var map_pos: Vector3 = grid_map.local_to_map(exact_local_pos)

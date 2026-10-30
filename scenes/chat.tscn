@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cmvvuk1i6nypw" path="res://resources/theme.tres" id="1_paia3"]
 
 [node name="Chat" type="Control" unique_id=843762651]
+z_index = -1
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -16,6 +17,7 @@ theme = ExtResource("1_paia3")
 script = ExtResource("1_4o336")
 
 [node name="Messages" type="VBoxContainer" parent="." unique_id=2063224464]
+z_index = -10
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 0
 offset_right = 536.0

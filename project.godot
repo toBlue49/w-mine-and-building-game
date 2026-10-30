@@ -213,7 +213,6 @@ ui_left_click={
 
 [physics]
 
-common/physics_ticks_per_second=80
 3d/default_gravity=25.0
 
 [rendering]

@@ -341,6 +341,33 @@ func init_join(peer_id, _level_array: Array, gridmap_size: int):
 
 ##At Runtime:
 
+func _physics_process(_delta: float) -> void:
+	
+	##Random Block Ticks
+	if do_neighbor_updates: #if do_neighbor_updates is true, the gridmap is completly setup
+		@warning_ignore_start("integer_division")
+		for chunk_x in cell_data_size/chunk_size:
+			for chunk_y in cell_data_size/chunk_size:
+				var chunk_pos: Vector3i = Vector3i(randi_range(0, chunk_size-1), randi_range(0, cell_data_height-1), randi_range(0, chunk_size-1))
+				var pos: Vector3i = chunk_to_map(chunk_pos, Vector2i(chunk_x, chunk_y))
+				
+				handle_random_blocktick(pos)
+		
+		@warning_ignore_restore("integer_division")
+
+func handle_random_blocktick(cell_position: Vector3i):
+	var block = get_cell_item(cell_position)
+	if block == -1:
+		return
+	
+	if block == global.BLOCK.GRASS:
+		for x in range(-1, 2): for y in range(-1, 2): for z in range(-1, 2): #spread to neighboring blocks
+			if get_cell_item(cell_position + Vector3i(x, y, z)) == global.BLOCK.DIRT:
+				if get_cell_item(cell_position + Vector3i(x, y+1, z)) == -1:
+					set_cell_item(cell_position + Vector3i(x, y, z), global.BLOCK.GRASS)
+		
+		prints(cell_position, block)
+
 @rpc("any_peer", "call_remote")
 func set_peer_id_name(id: int, player_name: String):
 	if multiplayer.is_server():
